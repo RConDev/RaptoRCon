@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8EA866
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{15A27A75-FA8E-4A5F-B269-AA35DC51E78E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Dice", "RaptoRCon.Dice\RaptoRCon.Dice.csproj", "{D593EF35-E70E-474C-B477-0DEB23DB5EFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Dice.Tests", "RaptoRCon.Dice.Tests\RaptoRCon.Dice.Tests.csproj", "{2B13607C-3147-4BC3-B602-E245585FE218}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,11 +32,20 @@ Global
 		{E93784F5-14C8-4262-B3E8-86F293EB57AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E93784F5-14C8-4262-B3E8-86F293EB57AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E93784F5-14C8-4262-B3E8-86F293EB57AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D593EF35-E70E-474C-B477-0DEB23DB5EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D593EF35-E70E-474C-B477-0DEB23DB5EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D593EF35-E70E-474C-B477-0DEB23DB5EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D593EF35-E70E-474C-B477-0DEB23DB5EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B13607C-3147-4BC3-B602-E245585FE218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B13607C-3147-4BC3-B602-E245585FE218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B13607C-3147-4BC3-B602-E245585FE218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B13607C-3147-4BC3-B602-E245585FE218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E93784F5-14C8-4262-B3E8-86F293EB57AC} = {15A27A75-FA8E-4A5F-B269-AA35DC51E78E}
+		{2B13607C-3147-4BC3-B602-E245585FE218} = {15A27A75-FA8E-4A5F-B269-AA35DC51E78E}
 	EndGlobalSection
 EndGlobal
