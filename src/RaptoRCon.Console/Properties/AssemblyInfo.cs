@@ -1,16 +1,15 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RaptoRCon.Sockets")]
+[assembly: AssemblyTitle("RaptoRCon.Console")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RaptoRCon.Sockets")]
+[assembly: AssemblyProduct("RaptoRCon.Console")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,8 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d35ad24a-57ea-4f06-8d67-15de2a4575e2")]
-[assembly: CLSCompliant(true)]
+[assembly: Guid("62efdc11-6943-49ca-86f8-d05dc75ac107")]
 
 // Version information for an assembly consists of the following four values:
 //

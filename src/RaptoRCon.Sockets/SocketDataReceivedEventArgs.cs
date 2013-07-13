@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RaptoRCon.Sockets
 {
@@ -14,13 +15,13 @@ namespace RaptoRCon.Sockets
         /// <summary>
         /// Gets the data received from the remote host
         /// </summary>
-        public byte[] DataReceived { get; private set; }
+        public IEnumerable<byte> DataReceived { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="SocketDataReceivedEventArgs"/> instance
         /// </summary>
         /// <param name="dataReceived"></param>
-        public SocketDataReceivedEventArgs(byte[] dataReceived)
+        public SocketDataReceivedEventArgs(IEnumerable<byte> dataReceived)
         {
             #region Contracts 
             if (dataReceived == null)

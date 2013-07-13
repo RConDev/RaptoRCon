@@ -43,6 +43,7 @@
     <Compile Include="IPacket.cs" />
     <Compile Include="IPacketSequence.cs" />
     <Compile Include="IWord.cs" />
+    <Compile Include="Packet.cs" />
     <Compile Include="PacketOrigin.cs" />
     <Compile Include="PacketSequence.cs" />
     <Compile Include="PacketType.cs" />
