@@ -120,4 +120,7 @@
   <data name="EXC_MSG_UINT_BYTES_LENGTH" xml:space="preserve">
     <value>The required length of 4 bytes (uint) was not met.</value>
   </data>
+  <data name="EXC_MSG_PARAMETER_EXCEEDS_VALUE" xml:space="preserve">
+    <value>The value for the parameter exceeds the maximum value of {0}.</value>
+  </data>
 </root>

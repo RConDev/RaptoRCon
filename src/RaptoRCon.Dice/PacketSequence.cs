@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using RaptoRCon.Dice.Properties;
 
 namespace RaptoRCon.Dice
@@ -9,6 +11,18 @@ namespace RaptoRCon.Dice
     /// </summary>
     public class PacketSequence : IPacketSequence
     {
+        protected bool Equals(PacketSequence other)
+        {
+            return Id == other.Id && Type == other.Type && Origin == other.Origin;
+        }
+
+       
+
+        /// <summary>
+        /// The maximum value for the <see cref="Id"/>
+        /// </summary>
+        public const int MaxIdValue = 1073741823;
+
         /// <summary>
         /// Gets the Id of the <see cref="IPacketSequence"/> instance
         /// </summary>
@@ -37,60 +51,67 @@ namespace RaptoRCon.Dice
         /// <param name="origin"></param>
         public PacketSequence(uint id, PacketType type, PacketOrigin origin)
         {
+            #region Contracts
+            if (id > MaxIdValue)
+            {
+                var message = string.Format(Resources.EXC_MSG_PARAMETER_EXCEEDS_VALUE, MaxIdValue);
+                throw new ArgumentOutOfRangeException("id", id, message);
+            }
+            #endregion
+
             Id = id;
             Type = type;
             Origin = origin;
         }
 
         /// <summary>
-        /// Creates a new <see cref="PacketSequence"/> instance based on the sequence bytes 
-        /// of the <see cref="IPacket"/>
+        /// Creates a byte[] representation for the <see cref="IPacketSequence"/> instance to communicate 
         /// </summary>
-        /// <param name="bytes"></param>
-        public PacketSequence(byte[] bytes)
+        public IEnumerable<byte> ToBytes()
         {
-            #region Contracts
+            var idBytes = BitConverter.GetBytes(Id);
+            var bitArray = new BitArray(idBytes);
+            bitArray[30] = Type == PacketType.Response;
+            bitArray[31] = Origin == PacketOrigin.Client;
+            var sequenceBytes = new byte[4];
+            bitArray.CopyTo(sequenceBytes, 0);
+            return sequenceBytes;
+        }
 
-            if (bytes == null)
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(IPacketSequence other)
+        {
+            return Id == other.Id
+                   && Origin == other.Origin
+                   && Type == other.Type;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            
+            if (ReferenceEquals(this, obj)) return true;
+            
+            if (obj.GetType() != GetType()) return false;
+            
+            return Equals((PacketSequence) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
             {
-                throw new ArgumentNullException("bytes");
+                var hashCode = (int)Id;
+                hashCode = (hashCode * 397) ^ (int)Type;
+                hashCode = (hashCode * 397) ^ (int)Origin;
+                return hashCode;
             }
-
-            if (bytes.Length != 4)
-            {
-                throw new ArgumentOutOfRangeException("bytes", bytes.Length, Resources.EXC_MSG_UINT_BYTES_LENGTH);
-            }
-
-            #endregion
-
-            Id = GetIdFromBytes(bytes);
-            Type = GetTypeFromBytes(bytes);
-            Origin = GetOriginFromBytes(bytes);
         }
-        
-        #region Private Helpers
-
-        private uint GetIdFromBytes(byte[] bytes)
-        {
-            var bitArray = new BitArray(bytes);
-            bitArray[31] = false;
-            bitArray[30] = false;
-            var idBytes = new byte[4];
-            bitArray.CopyTo(idBytes, 0);
-            return BitConverter.ToUInt32(idBytes, 0);
-        }
-
-        private PacketType GetTypeFromBytes(byte[] bytes)
-        {
-            var bitArray = new BitArray(bytes);
-            return bitArray[30] ? PacketType.Response: PacketType.Request;
-        }
-
-        private PacketOrigin GetOriginFromBytes(byte[] bytes)
-        {
-            return new BitArray(bytes)[31] ? PacketOrigin.Client : PacketOrigin.Server;
-        }
-
-        #endregion
     }
 }

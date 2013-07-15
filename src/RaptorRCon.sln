@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Dice", "RaptoRCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Dice.Tests", "RaptoRCon.Dice.Tests\RaptoRCon.Dice.Tests.csproj", "{2B13607C-3147-4BC3-B602-E245585FE218}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Console", "RaptoRCon.Console\RaptoRCon.Console.csproj", "{23634519-A508-4D26-B7AE-B54C155F0F7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{2B13607C-3147-4BC3-B602-E245585FE218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B13607C-3147-4BC3-B602-E245585FE218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B13607C-3147-4BC3-B602-E245585FE218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23634519-A508-4D26-B7AE-B54C155F0F7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23634519-A508-4D26-B7AE-B54C155F0F7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23634519-A508-4D26-B7AE-B54C155F0F7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23634519-A508-4D26-B7AE-B54C155F0F7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

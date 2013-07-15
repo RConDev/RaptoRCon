@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -36,105 +37,66 @@ namespace RaptoRCon.Dice.Tests
         }
 
         [Fact]
-        public void ctorBytes_WithNull_ThrowsArgumentNullException()
+        public void ctorParameter_Id1073741823_ReturnsInstance()
         {
-            Assert.Throws<ArgumentNullException>(() => new PacketSequence(null));
+            var id = 1073741823u;
+            var packetSequence = new PacketSequence(id, PacketType.Request, PacketOrigin.Client);
+
+            Assert.Equal(id, packetSequence.Id);
         }
 
         [Fact]
-        public void ctorBytes_WithByteArrayLenth5_ThrowsArgumentNullException()
+        public void ctorParameter_Id1073741824_ReturnsInstance()
         {
-            var bytes = Encoding.Default.GetBytes("12345");
-            Assert.Equal(5, bytes.Length);
+            var id = 1073741824u;
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => new PacketSequence(id, PacketType.Request, PacketOrigin.Client));
+        }
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => new PacketSequence(bytes));
+        #endregion
+
+        #region ToBytes()
+
+        [Fact]
+        public void ToBytes_NewSequence_BytesLength4()
+        {
+            var sequence = new PacketSequence(1u, PacketType.Request, PacketOrigin.Client);
+
+            var bytes = sequence.ToBytes();
+            
+            Assert.Equal(4, bytes.Count());
         }
 
         [Fact]
-        public void ctorBytes_WithByteArrayLenth3_ThrowsArgumentNullException()
+        public void ToBytes_PacketRequestClient1_Equals()
         {
-            var bytes = Encoding.Default.GetBytes("123");
-            Assert.Equal(3, bytes.Length);
+            var expectedBytes = Convert.FromBase64String("AQAAgA==");
+            var sequence = new PacketSequence(1u, PacketType.Request, PacketOrigin.Client);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => new PacketSequence(bytes));
+            var bytes = sequence.ToBytes();
+            Assert.Equal(expectedBytes, bytes);
         }
 
         [Fact]
-        public void ctorBytes_ByteArrayAllBitsFalse_Id0()
+        public void ToBytes_PacketRequestClient1073741823_Equals()
         {
-            var bitArray = new BitArray(4 * 8, false);
-            var bytes = new byte[4];
-            bitArray.CopyTo(bytes, 0);
+            var expectedBytes = Convert.FromBase64String("////vw==");
+            var sequence = new PacketSequence(1073741823u, PacketType.Request, PacketOrigin.Client);
 
-            var instance = new PacketSequence(bytes);
-            Assert.NotNull(instance);
-
-            Assert.Equal((uint) 0, instance.Id);
+            var bytes = sequence.ToBytes();
+            Assert.Equal(expectedBytes, bytes);
         }
 
-        [Fact]
-        public void ctorBytes_ByteArrayAllBitsTrue_Id1073741823()
-        {
-            var bitArray = new BitArray(4 * 8, true);
-            var bytes = new byte[4];
-            bitArray.CopyTo(bytes, 0);
+        #endregion
 
-            var instance = new PacketSequence(bytes);
-            Assert.NotNull(instance);
-
-            Assert.Equal((uint)1073741823, instance.Id);
-        }
+        #region Equals() 
 
         [Fact]
-        public void ctorBytes_ByteArrayAllBitsTrue_TypeResponse()
+        public void Equals_Sequence123ClientRequest_True()
         {
-            var bitArray = new BitArray(4 * 8, true);
-            var bytes = new byte[4];
-            bitArray.CopyTo(bytes, 0);
-
-            var instance = new PacketSequence(bytes);
-            Assert.NotNull(instance);
-
-            Assert.Equal(PacketType.Response, instance.Type);
-        }
-
-        [Fact]
-        public void ctorBytes_ByteArrayAllBitsFalse_TypeRequest()
-        {
-            var bitArray = new BitArray(4 * 8, false);
-            var bytes = new byte[4];
-            bitArray.CopyTo(bytes, 0);
-
-            var instance = new PacketSequence(bytes);
-            Assert.NotNull(instance);
-
-            Assert.Equal(PacketType.Request, instance.Type);
-        }
-
-        [Fact]
-        public void ctorBytes_ByteArrayAllBitsFalse_OriginServer()
-        {
-            var bitArray = new BitArray(4 * 8, false);
-            var bytes = new byte[4];
-            bitArray.CopyTo(bytes, 0);
-
-            var instance = new PacketSequence(bytes);
-            Assert.NotNull(instance);
-
-            Assert.Equal(PacketOrigin.Server, instance.Origin);
-        }
-
-        [Fact]
-        public void ctorBytes_ByteArrayAllBitsTrue_OriginClient()
-        {
-            var bitArray = new BitArray(4 * 8, true);
-            var bytes = new byte[4];
-            bitArray.CopyTo(bytes, 0);
-
-            var instance = new PacketSequence(bytes);
-            Assert.NotNull(instance);
-
-            Assert.Equal(PacketOrigin.Client, instance.Origin);
+            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence2 = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            Assert.Equal(sequence, sequence2);
         }
 
         #endregion

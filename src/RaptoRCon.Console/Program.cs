@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RaptoRCon.Dice;
 using RaptoRCon.Sockets;
 
 namespace RaptoRCon.Console
@@ -11,10 +12,23 @@ namespace RaptoRCon.Console
     {
         static void Main(string[] args)
         {
+            var packetFactory = new PacketFactory();
             ISocketFactory factory = new SocketFactory();
-            factory.CreateAndConnect("127.0.0.1", 11000, (sender, e) => System.Console.WriteLine("Received {0} bytes", e.DataReceived.Length));
-            ISocket socket = new Socket();
-            
+            var socket = 
+                factory.CreateAndConnect("127.0.0.1", 11000, (sender, e) =>
+                                                                 {
+                                                                     var receivedPacket =
+                                                                         packetFactory.FromBytes(e.DataReceived.
+                                                                                                   ToArray()).ToArray()[
+                                                                                                       0];
+                                                                     System.Console.WriteLine("Received Packet: {0} ", receivedPacket);
+                                                                 }
+                    );
+
+            var packet = new Packet(new PacketSequence(1, PacketType.Request, PacketOrigin.Client),
+                                    new List<IWord>() {new Word("serverInfo")});
+            socket.SendAsync(new SocketData(packet.ToBytes()));
+
             System.Console.ReadLine();
         }
     }

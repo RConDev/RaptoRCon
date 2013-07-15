@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace RaptoRCon.Dice
@@ -6,7 +7,7 @@ namespace RaptoRCon.Dice
     /// This interface describes the structure used for communicating with 
     /// remote console servers for games published by DICE (http://dice.se/)
     /// </summary>
-    public interface IPacket
+    public interface IPacket : IDiceSerializableObject, IEquatable<IPacket>
     {
         /// <summary>
         /// Gets the <see cref="IPacketSequence"/> for the current <see cref="IPacket"/>

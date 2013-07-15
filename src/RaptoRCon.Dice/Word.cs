@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace RaptoRCon.Dice
 {
@@ -45,5 +48,59 @@ namespace RaptoRCon.Dice
         /// In the DICE specs this is a NULL-Byte
         /// </remarks>
         public char Terminator { get; private set; }
+
+        /// <summary>
+        /// Creates a byte[] representation for the <see cref="IDiceSerializableObject"/> instance to communicate 
+        /// </summary>
+        public IEnumerable<byte> ToBytes()
+        {
+            var content = Content + Terminator;
+            var sizeBytes = BitConverter.GetBytes(Size);
+            var contentBytes = Encoding.GetEncoding(1252).GetBytes(content);
+
+            return sizeBytes.Concat(contentBytes); ;
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(IWord other)
+        {
+            return Content == other.Content;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// true if the specified object  is equal to the current object; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The object to compare with the current object. </param><filterpriority>2</filterpriority>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Word) obj);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Content != null ? Content.GetHashCode() : 0) * 397);
+            }
+        }
     }
 }

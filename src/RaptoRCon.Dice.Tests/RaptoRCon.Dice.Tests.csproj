@@ -47,9 +47,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PacketFactoryTest.cs" />
+    <Compile Include="PacketSequenceFactoryTest.cs" />
     <Compile Include="PacketSequenceTest.cs" />
     <Compile Include="PacketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordFactoryTest.cs" />
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>

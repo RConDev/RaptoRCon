@@ -1,9 +1,11 @@
-﻿namespace RaptoRCon.Dice
+﻿using System;
+
+namespace RaptoRCon.Dice
 {
     /// <summary>
     /// The interface describes the Word-Type defined in the DICE protocol specs
     /// </summary>
-    public interface IWord
+    public interface IWord : IDiceSerializableObject, IEquatable<IWord>
     {
         /// <summary>
         /// Gets the number of bytes in the <see cref="IWord"/> instance

@@ -1,10 +1,12 @@
-﻿namespace RaptoRCon.Dice
+﻿using System;
+
+namespace RaptoRCon.Dice
 {
     /// <summary>
     /// This interface describes the first part of each <see cref="IPacket"/>.
     /// It informs about the function, origin and order of it.
     /// </summary>
-    public interface IPacketSequence
+    public interface IPacketSequence : IDiceSerializableObject, IEquatable<IPacketSequence>
     {
         /// <summary>
         /// Gets the Id of the <see cref="IPacketSequence"/> instance

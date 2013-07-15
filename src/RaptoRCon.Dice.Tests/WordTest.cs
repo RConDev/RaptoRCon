@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+using System.Linq;
+using Xunit;
 
 namespace RaptoRCon.Dice.Tests
 {
@@ -38,6 +40,40 @@ namespace RaptoRCon.Dice.Tests
         {
             var word = new Word("1");
             Assert.Equal('\0', word.Terminator);
+        }
+
+        #endregion
+
+        #region ToBytes()
+
+        [Fact]
+        public void ToBytes_WordTest_BytesLength9()
+        {
+            var word = new Word("Test");
+            var bytes = word.ToBytes();
+            Assert.Equal(9, bytes.Count());
+        }
+
+        [Fact]
+        public void ToBytes_WordTest_BytesEquals()
+        {
+            var word = new Word("Test");
+            var bytes = word.ToBytes();
+            byte[] expectedBytes = Convert.FromBase64String("BAAAAFRlc3QA");
+            Assert.Equal(expectedBytes, bytes);
+        }
+
+        #endregion
+
+        #region Equals() 
+
+        [Fact]
+        public void Equals_WordTest_True()
+        {
+            var word = new Word("Test");
+            var word2 = new Word("Test");
+
+            Assert.Equal(word, word2);
         }
 
         #endregion
