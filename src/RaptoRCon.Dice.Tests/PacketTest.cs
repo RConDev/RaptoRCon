@@ -20,6 +20,19 @@ namespace RaptoRCon.Dice.Tests
         #region ctor
 
         [Fact]
+        public void ctor_SequenceNull_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Packet(null, new List<IWord>{new Word("Test")}));
+        }
+
+        [Fact]
+        public void ctor_WordsNull_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => new Packet(new PacketSequence(123u, PacketType.Request, PacketOrigin.Client), null));
+        }
+
+        [Fact]
         public void ctor_ImplementsIPacket()
         {
             var instance = new Packet(packetSequenceMock.Object, wordsMock);

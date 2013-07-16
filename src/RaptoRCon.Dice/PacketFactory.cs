@@ -35,29 +35,35 @@ namespace RaptoRCon.Dice
 
         private static IEnumerable<IPacket> ExtractFromBytes(IEnumerable<byte> bytes)
         {
+            var packetOffset = 0;
             var bytesToExtract = bytes.ToArray();
 
             var packetSize = BitConverter.ToUInt32(bytesToExtract.Skip(4).Take(4).ToArray(), 0);
-
-            //while
-
-            var sequence = packetSequenceFactory.FromBytes(bytesToExtract.Take(4).ToArray());
-            var wordCount = BitConverter.ToUInt32(bytesToExtract.Skip(8).Take(4).ToArray(), 0);
-
-            var words = new List<IWord>();
-            var totalWordsLength = 0;
-            for (uint index = 0; index < wordCount; index++)
+            var packetBytes = bytesToExtract.Skip(packetOffset).Take(Convert.ToInt32(packetSize)).ToArray();
+            while (packetBytes.Length > 0)
             {
-                var offset = 12 + totalWordsLength;
-                var wordSize = BitConverter.ToUInt32(bytesToExtract.Skip(offset).ToArray(), 0);
-                var wordBytes = bytesToExtract.Skip(offset).Take(4 + (int) wordSize + 1).ToArray();
-                var word = wordFactory.FromBytes(wordBytes);
-                words.Add(word);
+                packetOffset += Convert.ToInt32(packetSize);
+                var sequence = packetSequenceFactory.FromBytes(packetBytes.Take(4).ToArray());
+                var wordCount = BitConverter.ToUInt32(packetBytes.Skip(8).Take(4).ToArray(), 0);
 
-                totalWordsLength += 4 + (int) wordSize + 1;
+                var words = new List<IWord>();
+                var totalWordsLength = 0;
+                for (uint index = 0; index < wordCount; index++)
+                {
+                    var offset = 12 + totalWordsLength;
+                    var wordSize = BitConverter.ToUInt32(packetBytes.Skip(offset).ToArray(), 0);
+                    var wordBytes = packetBytes.Skip(offset).Take(4 + (int)wordSize + 1).ToArray();
+                    var word = wordFactory.FromBytes(wordBytes);
+                    words.Add(word);
+
+                    totalWordsLength += 4 + (int) wordSize + 1;
+                }
+
+                yield return new Packet(sequence, words);
+
+                packetSize = BitConverter.ToUInt32(bytesToExtract.Skip(4).Take(4).ToArray(), 0);
+                packetBytes = bytesToExtract.Skip(packetOffset).Take(Convert.ToInt32(packetSize)).ToArray();
             }
-
-            yield return new Packet(sequence, words);
         }
     }
 }

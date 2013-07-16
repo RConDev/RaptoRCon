@@ -29,7 +29,7 @@ namespace RaptoRCon.Dice
                 throw new ArgumentNullException("bytes");
             }
 
-            var bytesArray = bytes as byte[] ?? bytes.ToArray();
+            var bytesArray = bytes.ToArray();
             if (bytesArray.Length != 4)
             {
                 throw new ArgumentOutOfRangeException("bytes", bytesArray.Length, Resources.EXC_MSG_UINT_BYTES_LENGTH);

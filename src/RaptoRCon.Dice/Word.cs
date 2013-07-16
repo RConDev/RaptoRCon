@@ -16,6 +16,13 @@ namespace RaptoRCon.Dice
         /// <param name="content"></param>
         public Word(string content)
         {
+            #region Contracts
+            if (content == null)
+            {
+                throw new ArgumentNullException("content");
+            }
+            #endregion
+
             Content = content;
         }
 
@@ -82,9 +89,7 @@ namespace RaptoRCon.Dice
         /// <param name="obj">The object to compare with the current object. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Word) obj);
         }
 
@@ -99,7 +104,7 @@ namespace RaptoRCon.Dice
         {
             unchecked
             {
-                return ((Content != null ? Content.GetHashCode() : 0) * 397);
+                return Content.GetHashCode() * 397;
             }
         }
     }

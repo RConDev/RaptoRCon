@@ -52,7 +52,7 @@ namespace RaptoRCon.Dice.Tests
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => new PacketSequence(id, PacketType.Request, PacketOrigin.Client));
         }
-
+        
         #endregion
 
         #region ToBytes()
@@ -97,6 +97,39 @@ namespace RaptoRCon.Dice.Tests
             var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
             var sequence2 = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
             Assert.Equal(sequence, sequence2);
+        }
+
+        [Fact]
+        public void Equals_StringTest_NotEqual()
+        {
+            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            Assert.False(Equals(sequence, "Test"));
+        }
+
+        [Fact]
+        public void Equals_DifferentPackets_False()
+        {
+            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence2 = new PacketSequence(124, PacketType.Request, PacketOrigin.Client);
+            Assert.False(Equals(sequence, sequence2));
+        }
+
+        [Fact]
+        public void Equals_OneSequenceNull_False()
+        {
+            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            Assert.False(Equals(sequence, null));
+        }
+
+        #endregion
+
+        #region GetHashCode()
+
+        [Fact]
+        public void GetHashCode_WithSameInstance_IsEqual()
+        {
+            var instance = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            Assert.Equal(instance.GetHashCode(), instance.GetHashCode());
         }
 
         #endregion

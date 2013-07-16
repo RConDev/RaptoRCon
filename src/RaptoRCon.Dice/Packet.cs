@@ -10,8 +10,6 @@ namespace RaptoRCon.Dice
     /// </summary>
     public class Packet : IPacket
     {
-        
-
         private readonly IList<IWord> words; 
 
         /// <summary>
@@ -21,6 +19,18 @@ namespace RaptoRCon.Dice
         /// <param name="words"></param>
         public Packet(IPacketSequence sequence, IEnumerable<IWord> words)
         {
+            #region Contracts
+            if (sequence == null)
+            {
+                throw new ArgumentNullException("sequence");
+            }
+
+            if (words == null)
+            {
+                throw new ArgumentNullException("words");
+            }
+            #endregion
+
             Sequence = sequence;
             this.words = words.ToList();
         }
@@ -148,7 +158,7 @@ namespace RaptoRCon.Dice
         {
             unchecked
             {
-                return ((words != null ? words.GetHashCode() : 0) * 397) ^ (Sequence != null ? Sequence.GetHashCode() : 0);
+                return  (words.GetHashCode() *397) ^ Sequence.GetHashCode();
             }
         }
     }

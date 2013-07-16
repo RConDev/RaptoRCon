@@ -16,6 +16,12 @@ namespace RaptoRCon.Dice.Tests
         }
 
         [Fact]
+        public void ctor_Null_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Word(null));
+        }
+
+        [Fact]
         public void ctor_MyCommand_ContentMyCommand()
         {
             var content = "MyCommand";
@@ -74,6 +80,34 @@ namespace RaptoRCon.Dice.Tests
             var word2 = new Word("Test");
 
             Assert.Equal(word, word2);
+        }
+
+        [Fact]
+        public void Equals_WordTestWordTest2_False()
+        {
+            var word = new Word("Test");
+            var word2 = new Word("Test2");
+
+            Assert.NotEqual(word, word2);
+        }
+
+        [Fact]
+        public void Equals_WordTestStringTest_False()
+        {
+            var word = new Word("Test");
+
+            Assert.False(Equals(word, "Test"));
+        }
+
+        #endregion
+
+        #region GetHashCode()
+
+        [Fact]
+        public void GetHashCode_SameInstance_Equal()
+        {
+            var instance = new Word("Test");
+            Assert.Equal(instance.GetHashCode(), instance.GetHashCode());
         }
 
         #endregion

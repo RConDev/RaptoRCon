@@ -31,18 +31,18 @@ namespace RaptoRCon.Dice.Tests
             Assert.Equal("all", deserializedPackets[0].Words.ToArray()[1].Content);
         }
 
-        ////[Fact]
-        ////public void FromBytes_MultiplePacketBytes_ReturnsTwoPackets()
-        ////{
-        ////    var expectedPacket = new Packet(new PacketSequence(458, PacketType.Response, PacketOrigin.Server),
-        ////                                    new List<IWord>() {new Word("OK"), new Word("21"), new Word("test")});
-        ////    var packetBytes = Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=").Concat(
-        ////        Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=")).ToArray();
-        ////    var deserializedPackets = this.packetFactory.FromBytes(packetBytes).ToArray();
-        ////    Assert.Equal(2, deserializedPackets.Length);
-        ////    Assert.Equal(expectedPacket, deserializedPackets[0]);
-        ////    Assert.Equal(expectedPacket, deserializedPackets[1]);
-        ////}
+        [Fact]
+        public void FromBytes_MultiplePacketBytes_ReturnsTwoPackets()
+        {
+            var expectedPacket = new Packet(new PacketSequence(458, PacketType.Response, PacketOrigin.Server),
+                                            new List<IWord>() { new Word("OK"), new Word("21"), new Word("test") });
+            var packetBytes = Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=").Concat(
+                Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=")).ToArray();
+            var deserializedPackets = packetFactory.FromBytes(packetBytes).ToArray();
+            Assert.Equal(2, deserializedPackets.Length);
+            Assert.Equal(expectedPacket, deserializedPackets[0]);
+            Assert.Equal(expectedPacket, deserializedPackets[1]);
+        }
 
         [Fact]
         public void FromBytes_Null_ThrowsArgumentNullException()
