@@ -9,13 +9,13 @@ namespace RaptoRCon.Dice
     public enum PacketType
     {
         /// <summary>
-        /// The current <see cref="IPacket"/> instance is a request.
+        /// The current <see cref="IDicePacket"/> instance is a request.
         /// </summary>
         [EnumMember]
         Request = 0,
 
         /// <summary>
-        /// The current <see cref="IPacket"/> instance is a response.
+        /// The current <see cref="IDicePacket"/> instance is a response.
         /// </summary>
         [EnumMember]
         Response = 1

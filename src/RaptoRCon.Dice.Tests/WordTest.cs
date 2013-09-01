@@ -11,21 +11,21 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void ctor_ImplementsIWord()
         {
-            var word = new Word("1");
-            Assert.IsAssignableFrom<IWord>(word);
+            var word = new DiceWord("1");
+            Assert.IsAssignableFrom<IDiceWord>(word);
         }
 
         [Fact]
         public void ctor_Null_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Word(null));
+            Assert.Throws<ArgumentNullException>(() => new DiceWord(null));
         }
 
         [Fact]
         public void ctor_MyCommand_ContentMyCommand()
         {
             var content = "MyCommand";
-            var word = new Word(content);
+            var word = new DiceWord(content);
             Assert.Equal(content, word.Content);
         }
 
@@ -33,7 +33,7 @@ namespace RaptoRCon.Dice.Tests
         public void ctor_MyCommand_Size9()
         {
             var content = "MyCommand";
-            var word = new Word(content);
+            var word = new DiceWord(content);
             Assert.Equal((uint)content.Length, word.Size);
         }
 
@@ -44,7 +44,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void Terminator_NULLByte()
         {
-            var word = new Word("1");
+            var word = new DiceWord("1");
             Assert.Equal('\0', word.Terminator);
         }
 
@@ -55,7 +55,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void ToBytes_WordTest_BytesLength9()
         {
-            var word = new Word("Test");
+            var word = new DiceWord("Test");
             var bytes = word.ToBytes();
             Assert.Equal(9, bytes.Count());
         }
@@ -63,7 +63,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void ToBytes_WordTest_BytesEquals()
         {
-            var word = new Word("Test");
+            var word = new DiceWord("Test");
             var bytes = word.ToBytes();
             byte[] expectedBytes = Convert.FromBase64String("BAAAAFRlc3QA");
             Assert.Equal(expectedBytes, bytes);
@@ -76,8 +76,8 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void Equals_WordTest_True()
         {
-            var word = new Word("Test");
-            var word2 = new Word("Test");
+            var word = new DiceWord("Test");
+            var word2 = new DiceWord("Test");
 
             Assert.Equal(word, word2);
         }
@@ -85,8 +85,8 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void Equals_WordTestWordTest2_False()
         {
-            var word = new Word("Test");
-            var word2 = new Word("Test2");
+            var word = new DiceWord("Test");
+            var word2 = new DiceWord("Test2");
 
             Assert.NotEqual(word, word2);
         }
@@ -94,7 +94,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void Equals_WordTestStringTest_False()
         {
-            var word = new Word("Test");
+            var word = new DiceWord("Test");
 
             Assert.False(Equals(word, "Test"));
         }
@@ -106,7 +106,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void GetHashCode_SameInstance_Equal()
         {
-            var instance = new Word("Test");
+            var instance = new DiceWord("Test");
             Assert.Equal(instance.GetHashCode(), instance.GetHashCode());
         }
 

@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\_Artifacts\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -47,18 +47,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PacketFactoryTest.cs" />
-    <Compile Include="PacketSequenceFactoryTest.cs" />
+    <Compile Include="DiceConnectionTest.cs" />
+    <Compile Include="DicePacketEventArgsTest.cs" />
+    <Compile Include="Factories\DiceConnectionFactoryTest.cs" />
+    <Compile Include="Factories\PacketFactoryTest.cs" />
+    <Compile Include="Factories\PacketSequenceFactoryTest.cs" />
+    <Compile Include="Factories\WordFactoryTest.cs" />
     <Compile Include="PacketSequenceTest.cs" />
     <Compile Include="PacketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordFactoryTest.cs" />
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RaptoRCon.Dice\RaptoRCon.Dice.csproj">
       <Project>{D593EF35-E70E-474C-B477-0DEB23DB5EFA}</Project>
       <Name>RaptoRCon.Dice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Sockets\RaptoRCon.Sockets.csproj">
+      <Project>{6D6A6210-BD04-48FE-A397-F2AD847DA5D5}</Project>
+      <Name>RaptoRCon.Sockets</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

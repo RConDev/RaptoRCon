@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace RaptoRCon.Sockets
 {
@@ -14,17 +14,22 @@ namespace RaptoRCon.Sockets
         event EventHandler<SocketDataReceivedEventArgs> DataReceived;
 
         /// <summary>
+        /// This event is invoked, when the underlying connection is closed.
+        /// </summary>
+        event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
+        
+        /// <summary>
         /// Connects to the stated remote host
         /// </summary>
         /// <param name="hostname">Name or IP-Address of the remote host</param>
         /// <param name="port">Port number of the remote host to connect to</param>
         /// <returns></returns>
-        void ConnectAsync(string hostname, int port);
+        Task<ISocket> ConnectAsync(string hostname, int port);
         
         /// <summary>
         /// Sends a content to the remote host
         /// </summary>
         /// <param name="socketData"></param>
-        void SendAsync(ISocketData socketData);
+        Task<int> SendAsync(ISocketData socketData);
     }
 }

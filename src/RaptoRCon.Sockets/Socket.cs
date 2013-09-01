@@ -32,7 +32,8 @@ namespace RaptoRCon.Sockets
         ///     Creates a new <see cref="Socket" /> instance with a self-defined buffer size
         /// </summary>
         /// <param name="bufferSize"></param>
-        public Socket(int bufferSize) : this()
+        public Socket(int bufferSize)
+            : this()
         {
             BufferSize = bufferSize;
         }
@@ -43,37 +44,60 @@ namespace RaptoRCon.Sockets
         public int BufferSize { get; private set; }
 
         /// <summary>
+        /// This event is invoked, when the underlying connection is closed.
+        /// </summary>
+        public event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
+
+
+
+        /// <summary>
         ///     Connects to the stated remote host
         /// </summary>
         /// <param name="hostname">Name or IP-Address of the remote host</param>
         /// <param name="port">Port number of the remote host to connect to</param>
         /// <returns></returns>
-        public async void ConnectAsync(string hostname, int port)
+        public Task<ISocket> ConnectAsync(string hostname, int port)
         {
             logger.DebugFormat("Trying to connect to {0}:{1}", hostname, port);
 
-            await Task.Factory.FromAsync((cb, s) => socket.BeginConnect(hostname, port, cb, s),
-                                         (ias) => socket.EndConnect(ias),
-                                         null);
+            return Task.Factory
+                       .FromAsync((cb, s) => socket.BeginConnect(hostname, port, cb, s),
+                                  (ias) =>
+                                  {
+                                      socket.EndConnect(ias);
+                                      return socket;
+                                  }, socket)
+                       .ContinueWith((connectTask) =>
+                                         {
+                                             if (connectTask.IsFaulted)
+                                             {
+                                                 if (connectTask.Exception != null)
+                                                     throw connectTask.Exception;
+                                             }
+                                             else
+                                             {
+                                                 StartListening(connectTask.Result);
+                                             }
 
-            StartListening(socket);
+                                             return (ISocket)this;
+                                         });
         }
 
         /// <summary>
         ///     Sends a content to the remote host
         /// </summary>
         /// <param name="socketData"></param>
-        public async void SendAsync(ISocketData socketData)
+        public Task<int> SendAsync(ISocketData socketData)
         {
             byte[] data = socketData.Data.ToArray();
             logger.DebugFormat("Sending {0} bytes to remote host", data.Length);
 
-            int bytesSent = await Task.Factory.FromAsync(
-                (callback, state) => socket.BeginSend(data, 0, data.Length, SocketFlags.None, callback, state),
-                (ias) => socket.EndSend(ias),
-                null);
-
-            logger.DebugFormat("{0} bytes were successfully sent to the remote host.", bytesSent);
+            return Task.Factory
+                       .FromAsync(
+                           (callback, state) =>
+                           socket.BeginSend(data, 0, data.Length, SocketFlags.None, callback, state),
+                           ias => socket.EndSend(ias),
+                           null);
         }
 
         /// <summary>
@@ -82,6 +106,7 @@ namespace RaptoRCon.Sockets
         public event EventHandler<SocketDataReceivedEventArgs> DataReceived;
 
         #region Private Members
+
         // ReSharper disable FunctionRecursiveOnAllPaths
         private async void StartListening(System.Net.Sockets.Socket socket1)
         // ReSharper restore FunctionRecursiveOnAllPaths
@@ -91,7 +116,12 @@ namespace RaptoRCon.Sockets
                 (cb, s) => socket1.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, cb, s),
                 ias => socket1.EndReceive(ias),
                 null);
-
+            if (bytesRead == 0)
+            {
+                // Connection was closed by the remote host
+                InvokeConnectionClosed();
+                return;
+            }
             var targetBytes = new byte[bytesRead];
             Array.Copy(buffer, 0, targetBytes, 0, bytesRead);
             InvokeDataReceived(targetBytes);
@@ -108,7 +138,22 @@ namespace RaptoRCon.Sockets
                                                                   this,
                                                                   eventArgs,
                                                                   null);
-        } 
+        }
+
+        protected virtual void InvokeConnectionClosed()
+        {
+            var handler = ConnectionClosed;
+            var eventArgs = new ConnectionClosedEventArgs();
+
+            if (handler != null)
+            {
+                Task.Factory.FromAsync<object, ConnectionClosedEventArgs>(handler.BeginInvoke,
+                                                                          handler.EndInvoke,
+                                                                          this,
+                                                                          eventArgs,
+                                                                          null);
+            }
+        }
         #endregion
 
         #region IDisposable Members

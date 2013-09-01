@@ -1,0 +1,17 @@
+﻿<Window x:Class="RaptoRCon.Client.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBox x:Name="hostTextBox" Width="150"></TextBox>
+            <TextBox x:Name="hostPortTextBox" Width="80"></TextBox>
+            <Button Width="80" Click="Button_Click">Connect</Button>
+        </StackPanel>
+        <RichTextBox Grid.Row="1"></RichTextBox>
+    </Grid>
+</Window>

@@ -1,35 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Logging;
 using RaptoRCon.Dice;
+using RaptoRCon.Server;
+using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
 
 namespace RaptoRCon.Console
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
-        {
-            var packetFactory = new PacketFactory();
-            ISocketFactory factory = new SocketFactory();
-            var socket = 
-                factory.CreateAndConnect("127.0.0.1", 11000, (sender, e) =>
-                                                                 {
-                                                                     var receivedPacket =
-                                                                         packetFactory.FromBytes(e.DataReceived.
-                                                                                                   ToArray()).ToArray()[
-                                                                                                       0];
-                                                                     System.Console.WriteLine("Received Packet: {0} ", receivedPacket);
-                                                                 }
-                    );
+        private static readonly ILog logger = LogManager.GetCurrentClassLogger();
 
-            var packet = new Packet(new PacketSequence(1, PacketType.Request, PacketOrigin.Client),
-                                    new List<IWord>() {new Word("serverInfo")});
-            socket.SendAsync(new SocketData(packet.ToBytes()));
+        public static void Main(string[] args)
+        {
+            logger.Debug("Starting RaptoRConServer");
+            var server = new RaptoRConServer();
+            server.Start();
+            logger.DebugFormat("RaptoRConServer is started and listens on {0}", server.Endpoint);
+
+            ////var httpClient = new HttpClient()
+            ////                     {
+            ////                         BaseAddress = server.Endpoint
+            ////                     };
+
+            ////httpClient.PostAsJsonAsync("/api/connection", new Connection() {Address = "127.0.0.1", Port = 11000})
+            ////          .ContinueWith(
+            ////              async postTask => System.Console.WriteLine(await postTask.Result.Content.ReadAsStringAsync()))
+            ////          .ContinueWith((logTask) =>
+            ////                            {
+            ////                                var command = new Command() {CommandString = "version"};
+            ////                                httpClient.PostAsJsonAsync("/api/command", command);
+            ////                            });
+            
 
             System.Console.ReadLine();
+            server.Stop();
         }
     }
 }

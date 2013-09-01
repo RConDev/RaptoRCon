@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Common.Logging;
 
 namespace RaptoRCon.Sockets
@@ -17,16 +18,31 @@ namespace RaptoRCon.Sockets
         /// <param name="port"></param>
         /// <param name="onDataReceivedHandler"></param>
         /// <returns></returns>
-        public ISocket CreateAndConnect(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler)
+        public Task<ISocket> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler = null)
         {
-            logger.TraceFormat("CreateAndConnect({0}, {1}, {2})", hostname, port, onDataReceivedHandler);
+            logger.TraceFormat("CreateAndConnectAsync({0}, {1}, {2})", hostname, port, onDataReceivedHandler);
 
             var socket = new Socket();
-            socket.DataReceived += onDataReceivedHandler;
-            socket.ConnectAsync(hostname, port);
+            if (onDataReceivedHandler != null)
+            {
+                socket.DataReceived += onDataReceivedHandler;
+            }
+
+            var task = socket.ConnectAsync(hostname, port)
+                .ContinueWith((connectTask) =>
+                                  {
+                                      if (connectTask.IsFaulted)
+                                      {
+                                          throw connectTask.Exception;
+                                      }
+
+                                      logger.TraceFormat("CreateAndConnectAsync({0}, {1}, {2}) returning {3}",
+                                                         hostname,
+                                                         port, onDataReceivedHandler, socket);
+                                      return connectTask.Result;
+                                  });
             
-            logger.TraceFormat("CreateAndConnect({0}, {1}, {2}) returning {3}", hostname, port, onDataReceivedHandler, socket);
-            return socket;
+            return task;
         }
     }
 }

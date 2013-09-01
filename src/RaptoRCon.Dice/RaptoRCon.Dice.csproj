@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\_Artifacts\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,18 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiceConnection.cs" />
+    <Compile Include="Factories\DiceConnectionFactory.cs" />
+    <Compile Include="IDiceConnection.cs" />
+    <Compile Include="Factories\IDiceConnectionFactory.cs" />
     <Compile Include="IDiceSerializableObject.cs" />
-    <Compile Include="IPacket.cs" />
-    <Compile Include="IPacketFactory.cs" />
-    <Compile Include="IPacketSequence.cs" />
-    <Compile Include="IPacketSequenceFactory.cs" />
-    <Compile Include="IWord.cs" />
-    <Compile Include="IWordFactory.cs" />
-    <Compile Include="Packet.cs" />
-    <Compile Include="PacketFactory.cs" />
+    <Compile Include="IDicePacket.cs" />
+    <Compile Include="Factories\IDicePacketFactory.cs" />
+    <Compile Include="IDicePacketSequence.cs" />
+    <Compile Include="Factories\IDicePacketSequenceFactory.cs" />
+    <Compile Include="IDiceWord.cs" />
+    <Compile Include="Factories\IDiceWordFactory.cs" />
+    <Compile Include="DicePacket.cs" />
+    <Compile Include="Factories\DicePacketFactory.cs" />
     <Compile Include="PacketOrigin.cs" />
-    <Compile Include="PacketSequence.cs" />
-    <Compile Include="PacketSequenceFactory.cs" />
+    <Compile Include="DicePacketEventArgs.cs" />
+    <Compile Include="DicePacketSequence.cs" />
+    <Compile Include="Factories\DicePacketSequenceFactory.cs" />
     <Compile Include="PacketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -59,14 +64,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Word.cs" />
-    <Compile Include="WordFactory.cs" />
+    <Compile Include="DiceWord.cs" />
+    <Compile Include="Factories\DiceWordFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RaptoRCon.Sockets\RaptoRCon.Sockets.csproj">
+      <Project>{6D6A6210-BD04-48FE-A397-F2AD847DA5D5}</Project>
+      <Name>RaptoRCon.Sockets</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

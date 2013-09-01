@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace RaptoRCon.Sockets
 {
@@ -14,6 +15,6 @@ namespace RaptoRCon.Sockets
         /// <param name="port"></param>
         /// <param name="onDataReceivedHandler"></param>
         /// <returns></returns>
-        ISocket CreateAndConnect(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler);
+        Task<ISocket> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler = null);
     }
 }

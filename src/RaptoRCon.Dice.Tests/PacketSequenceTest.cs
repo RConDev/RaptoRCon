@@ -17,7 +17,7 @@ namespace RaptoRCon.Dice.Tests
             var origin = PacketOrigin.Client;
             var type = PacketType.Request;
 
-            var packetSequence = new PacketSequence(id, type, origin);
+            var packetSequence = new DicePacketSequence(id, type, origin);
 
             Assert.NotNull(packetSequence);
             Assert.Equal(id, packetSequence.Id);
@@ -31,16 +31,16 @@ namespace RaptoRCon.Dice.Tests
             var origin = PacketOrigin.Client;
             var type = PacketType.Request;
 
-            var packetSequence = new PacketSequence(id, type, origin);
+            var packetSequence = new DicePacketSequence(id, type, origin);
 
-            Assert.IsAssignableFrom<IPacketSequence>(packetSequence);
+            Assert.IsAssignableFrom<IDicePacketSequence>(packetSequence);
         }
 
         [Fact]
         public void ctorParameter_Id1073741823_ReturnsInstance()
         {
             var id = 1073741823u;
-            var packetSequence = new PacketSequence(id, PacketType.Request, PacketOrigin.Client);
+            var packetSequence = new DicePacketSequence(id, PacketType.Request, PacketOrigin.Client);
 
             Assert.Equal(id, packetSequence.Id);
         }
@@ -50,7 +50,7 @@ namespace RaptoRCon.Dice.Tests
         {
             var id = 1073741824u;
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => new PacketSequence(id, PacketType.Request, PacketOrigin.Client));
+                () => new DicePacketSequence(id, PacketType.Request, PacketOrigin.Client));
         }
         
         #endregion
@@ -60,7 +60,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void ToBytes_NewSequence_BytesLength4()
         {
-            var sequence = new PacketSequence(1u, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(1u, PacketType.Request, PacketOrigin.Client);
 
             var bytes = sequence.ToBytes();
             
@@ -71,7 +71,7 @@ namespace RaptoRCon.Dice.Tests
         public void ToBytes_PacketRequestClient1_Equals()
         {
             var expectedBytes = Convert.FromBase64String("AQAAgA==");
-            var sequence = new PacketSequence(1u, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(1u, PacketType.Request, PacketOrigin.Client);
 
             var bytes = sequence.ToBytes();
             Assert.Equal(expectedBytes, bytes);
@@ -81,7 +81,7 @@ namespace RaptoRCon.Dice.Tests
         public void ToBytes_PacketRequestClient1073741823_Equals()
         {
             var expectedBytes = Convert.FromBase64String("////vw==");
-            var sequence = new PacketSequence(1073741823u, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(1073741823u, PacketType.Request, PacketOrigin.Client);
 
             var bytes = sequence.ToBytes();
             Assert.Equal(expectedBytes, bytes);
@@ -94,30 +94,30 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void Equals_Sequence123ClientRequest_True()
         {
-            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
-            var sequence2 = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence2 = new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client);
             Assert.Equal(sequence, sequence2);
         }
 
         [Fact]
         public void Equals_StringTest_NotEqual()
         {
-            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client);
             Assert.False(Equals(sequence, "Test"));
         }
 
         [Fact]
         public void Equals_DifferentPackets_False()
         {
-            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
-            var sequence2 = new PacketSequence(124, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence2 = new DicePacketSequence(124, PacketType.Request, PacketOrigin.Client);
             Assert.False(Equals(sequence, sequence2));
         }
 
         [Fact]
         public void Equals_OneSequenceNull_False()
         {
-            var sequence = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client);
             Assert.False(Equals(sequence, null));
         }
 
@@ -128,7 +128,7 @@ namespace RaptoRCon.Dice.Tests
         [Fact]
         public void GetHashCode_WithSameInstance_IsEqual()
         {
-            var instance = new PacketSequence(123, PacketType.Request, PacketOrigin.Client);
+            var instance = new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client);
             Assert.Equal(instance.GetHashCode(), instance.GetHashCode());
         }
 
