@@ -15,6 +15,6 @@ namespace RaptoRCon.Sockets
         /// <param name="port"></param>
         /// <param name="onDataReceivedHandler"></param>
         /// <returns></returns>
-        Task<ISocket> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler = null);
+        Task<ISocket> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler);
     }
 }

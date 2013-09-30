@@ -1,5 +1,6 @@
 ﻿using System;
 using RaptoRCon.Sockets;
+using System.Threading.Tasks;
 
 namespace RaptoRCon.Server
 {
@@ -18,11 +19,11 @@ namespace RaptoRCon.Server
         /// Starts the <see cref="IRaptoRConServer"/> instance and initializes the endpoint 
         /// for publishing the api
         /// </summary>
-        void Start();
+        Task StartAsync();
 
         /// <summary>
         /// Stops the <see cref="IRaptoRConServer"/> instances and removes the api endpoint
         /// </summary>
-        void Stop();
+        Task StopAsync();
     }
 }

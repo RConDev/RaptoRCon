@@ -7,6 +7,7 @@ using Moq;
 using RaptoRCon.Dice.Factories;
 using RaptoRCon.Sockets;
 using Xunit;
+using AssertExLib;
 
 namespace RaptoRCon.Dice.Tests.Factories
 {
@@ -60,33 +61,33 @@ namespace RaptoRCon.Dice.Tests.Factories
         [Fact]
         public void Create_HostNameNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123));
+            AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123));
         }
 
         [Fact]
         public void Create_HostNameNull_ArgumentNullExceptionParamNameHostname()
         {   
-            var exception = Assert.Throws<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123).Wait());
+            var exception = AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123));
             Assert.Equal("hostname", exception.ParamName);
         }
 
         [Fact]
         public void Create_PortNegative_ThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1));
+            AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1));
         }
 
         [Fact]
         public void Create_PortNegative_ThrowsArgumentOutOfRangeExceptionParamNamePort()
         {
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1));
+            var exception = AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1));
             Assert.Equal("port", exception.ParamName);
         }
 
         [Fact]
         public void Create_PortZero_ThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", 0));
+            AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", 0));
         }
 
         #endregion

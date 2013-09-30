@@ -48,51 +48,36 @@ namespace RaptoRCon.Sockets
         /// </summary>
         public event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
 
-
-
         /// <summary>
         ///     Connects to the stated remote host
         /// </summary>
         /// <param name="hostname">Name or IP-Address of the remote host</param>
         /// <param name="port">Port number of the remote host to connect to</param>
         /// <returns></returns>
-        public Task<ISocket> ConnectAsync(string hostname, int port)
+        public async Task<ISocket> ConnectAsync(string hostname, int port)
         {
             logger.DebugFormat("Trying to connect to {0}:{1}", hostname, port);
 
-            return Task.Factory
-                       .FromAsync((cb, s) => socket.BeginConnect(hostname, port, cb, s),
-                                  (ias) =>
-                                  {
-                                      socket.EndConnect(ias);
-                                      return socket;
-                                  }, socket)
-                       .ContinueWith((connectTask) =>
-                                         {
-                                             if (connectTask.IsFaulted)
-                                             {
-                                                 if (connectTask.Exception != null)
-                                                     throw connectTask.Exception;
-                                             }
-                                             else
-                                             {
-                                                 StartListening(connectTask.Result);
-                                             }
+            await Task.Factory.FromAsync(
+                (cb, s) => socket.BeginConnect(hostname, port, cb, this.socket),
+                (ias) =>  this.socket.EndConnect(ias),
+                null);
 
-                                             return (ISocket)this;
-                                         });
+            StartListening(socket);
+
+            return (ISocket)this;
         }
 
         /// <summary>
         ///     Sends a content to the remote host
         /// </summary>
         /// <param name="socketData"></param>
-        public Task<int> SendAsync(ISocketData socketData)
+        public async Task<int> SendAsync(ISocketData socketData)
         {
             byte[] data = socketData.Data.ToArray();
             logger.DebugFormat("Sending {0} bytes to remote host", data.Length);
 
-            return Task.Factory
+            return await Task.Factory
                        .FromAsync(
                            (callback, state) =>
                            socket.BeginSend(data, 0, data.Length, SocketFlags.None, callback, state),
@@ -129,25 +114,25 @@ namespace RaptoRCon.Sockets
             StartListening(socket1);
         }
 
-        private void InvokeDataReceived(byte[] bytesRead)
+        private async void InvokeDataReceived(byte[] bytesRead)
         {
             if (DataReceived == null) return;
             var eventArgs = new SocketDataReceivedEventArgs(bytesRead);
-            Task.Factory.FromAsync<object, SocketDataReceivedEventArgs>(DataReceived.BeginInvoke,
+            await Task.Factory.FromAsync<object, SocketDataReceivedEventArgs>(DataReceived.BeginInvoke,
                                                                   DataReceived.EndInvoke,
                                                                   this,
                                                                   eventArgs,
                                                                   null);
         }
 
-        protected virtual void InvokeConnectionClosed()
+        protected async virtual void InvokeConnectionClosed()
         {
             var handler = ConnectionClosed;
             var eventArgs = new ConnectionClosedEventArgs();
 
             if (handler != null)
             {
-                Task.Factory.FromAsync<object, ConnectionClosedEventArgs>(handler.BeginInvoke,
+                await Task.Factory.FromAsync<object, ConnectionClosedEventArgs>(handler.BeginInvoke,
                                                                           handler.EndInvoke,
                                                                           this,
                                                                           eventArgs,

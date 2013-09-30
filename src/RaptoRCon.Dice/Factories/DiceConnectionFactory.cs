@@ -64,7 +64,7 @@ namespace RaptoRCon.Dice.Factories
 
             #endregion Contracts
 
-            var socket = await SocketFactory.CreateAndConnectAsync(hostname, port);
+            var socket = await SocketFactory.CreateAndConnectAsync(hostname, port, null);
             var connection = new DiceConnection(socket, packetReceivedHandler);
 
             return connection;

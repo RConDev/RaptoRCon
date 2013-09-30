@@ -28,9 +28,9 @@ namespace RaptoRCon.Server.Controllers
         /// <summary>
         /// Creates a new <see cref="ConnectionController"/> instance
         /// </summary>
-        public ConnectionController()
+        public ConnectionController(ConnectionHost host)
         {
-            this.Host = new ConnectionHost();
+            this.Host = host;
         }
 
         public async Task<ConnectionCreated> Post(Connection connection)
@@ -42,6 +42,7 @@ namespace RaptoRCon.Server.Controllers
                                        .CreateAndConnectAsync(connection.Address,
                                                               connection.Port,
                                                               (sender, e) => Console.WriteLine(e.DataReceived.Count()));
+                this.Host.Socket = socket;
                 return new ConnectionCreated(connection);
             }
             catch (Exception ex)

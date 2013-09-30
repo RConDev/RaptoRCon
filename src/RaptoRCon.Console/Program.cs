@@ -18,28 +18,15 @@ namespace RaptoRCon.Console
 
         public static void Main(string[] args)
         {
-            logger.Debug("Starting RaptoRConServer");
             var server = new RaptoRConServer();
-            server.Start();
-            logger.DebugFormat("RaptoRConServer is started and listens on {0}", server.Endpoint);
+            server.StartAsync();
 
-            ////var httpClient = new HttpClient()
-            ////                     {
-            ////                         BaseAddress = server.Endpoint
-            ////                     };
+            while (System.Console.ReadKey(true).Key != System.ConsoleKey.Escape)
+            {
+                System.Console.WriteLine("Exit the server pressing ESC");
+            }
 
-            ////httpClient.PostAsJsonAsync("/api/connection", new Connection() {Address = "127.0.0.1", Port = 11000})
-            ////          .ContinueWith(
-            ////              async postTask => System.Console.WriteLine(await postTask.Result.Content.ReadAsStringAsync()))
-            ////          .ContinueWith((logTask) =>
-            ////                            {
-            ////                                var command = new Command() {CommandString = "version"};
-            ////                                httpClient.PostAsJsonAsync("/api/command", command);
-            ////                            });
-            
-
-            System.Console.ReadLine();
-            server.Stop();
+            server.StopAsync();
         }
     }
 }
