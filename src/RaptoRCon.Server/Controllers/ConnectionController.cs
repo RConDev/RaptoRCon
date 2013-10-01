@@ -6,10 +6,11 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Autofac;
 using RaptoRCon.Server.Config;
 using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
+using System.ComponentModel.Composition;
+using RaptoRCon.Server.Hosting;
 
 namespace RaptoRCon.Server.Controllers
 {
@@ -18,6 +19,8 @@ namespace RaptoRCon.Server.Controllers
     /// RCon-Interface connections
     /// </summary>
     /// <remarks>Currently limited to DICE RCon Protocol</remarks>
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ConnectionController : ApiController
     {
         /// <summary>
@@ -28,6 +31,7 @@ namespace RaptoRCon.Server.Controllers
         /// <summary>
         /// Creates a new <see cref="ConnectionController"/> instance
         /// </summary>
+        [ImportingConstructor]
         public ConnectionController(ConnectionHost host)
         {
             this.Host = host;

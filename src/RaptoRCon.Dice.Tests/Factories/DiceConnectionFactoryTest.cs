@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Moq;
 using RaptoRCon.Dice.Factories;
 using RaptoRCon.Sockets;
+using RaptoRCon.Tests;
 using Xunit;
 using AssertExLib;
 
@@ -88,6 +89,19 @@ namespace RaptoRCon.Dice.Tests.Factories
         public void Create_PortZero_ThrowsArgumentOutOfRangeException()
         {
             AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", 0));
+        }
+
+        [Fact]
+        public async Task Create_HostnameLocalhostPort11000_ReturnsDiceConnectionWithCorrectSocket()
+        {
+            var socketMock = new Mock<ISocket>();
+            var socket = socketMock.Object;
+            socketFactoryMock.Setup(m => m.CreateAndConnectAsync(It.Is<string>(x => x == "localhost"), It.Is<int>(x => x == 11000), It.IsAny<EventHandler<SocketDataReceivedEventArgs>>())).ReturnsAsync(socket);
+            
+            var connection = await connectionFactory.CreateAsync("localhost", 11000);
+            
+            Assert.Equal(socket, connection.Socket);
+            socketFactoryMock.VerifyAll();
         }
 
         #endregion

@@ -8,13 +8,18 @@ using RaptoRCon.Dice;
 using RaptoRCon.Server.Config;
 using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
+using System.ComponentModel.Composition;
+using RaptoRCon.Server.Hosting;
 
 namespace RaptoRCon.Server.Controllers
 {
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CommandController : ApiController
     {
         private readonly ConnectionHost host;
 
+        [ImportingConstructor]
         public CommandController(ConnectionHost host)
         {
             this.host = host;

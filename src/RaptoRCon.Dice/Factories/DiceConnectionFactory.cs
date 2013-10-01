@@ -46,9 +46,20 @@ namespace RaptoRCon.Dice.Factories
         /// </summary>
         /// <param name="hostname"></param>
         /// <param name="port"></param>
+        /// <returns></returns>
+        public async Task<IDiceConnection> CreateAsync(string hostname, int port)
+        {
+            return await CreateAsync(hostname, port, null);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="IDiceConnection"/> instance
+        /// </summary>
+        /// <param name="hostname"></param>
+        /// <param name="port"></param>
         /// <param name="packetReceivedHandler"></param>
         /// <returns></returns>
-        public async Task<IDiceConnection> CreateAsync(string hostname, int port, EventHandler<DicePacketEventArgs> packetReceivedHandler = null)
+        public async Task<IDiceConnection> CreateAsync(string hostname, int port, EventHandler<DicePacketEventArgs> packetReceivedHandler)
         {
             #region Contracts
 

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
-using Autofac;
-using Autofac.Core.Lifetime;
-using Autofac.Core.Registration;
-using Autofac.Integration.WebApi;
 using RaptoRCon.Server.Config;
 using RaptoRCon.Sockets;
 using System.Threading.Tasks;
@@ -44,16 +40,13 @@ namespace RaptoRCon.Server
             logger.Debug("Starting Server");
             
             logger.Trace("Configuring Server");
-            var config = new HttpSelfHostConfiguration(baseAddress)
-                             {
-                                 DependencyResolver =
-                                     new AutofacWebApiDependencyResolver(
-                                     DependencyConfiguration.BuildUp())
-                             };
+            var config = new HttpSelfHostConfiguration(baseAddress);
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional});
+            MefConfig.RegisterMef(config);
 
             logger.Trace("Instanciating HttpSelfHostServer");
             webApiServer = new HttpSelfHostServer(config);
+
             await webApiServer.OpenAsync();
                 
             logger.DebugFormat("Server started and listens on '{0}' ", baseAddress);

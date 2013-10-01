@@ -70,6 +70,10 @@
       <Project>{6D6A6210-BD04-48FE-A397-F2AD847DA5D5}</Project>
       <Name>RaptoRCon.Sockets</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Tests\RaptoRCon.Tests.csproj">
+      <Project>{ba1ae40f-032b-4b59-ad21-228112d5be5a}</Project>
+      <Name>RaptoRCon.Tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
