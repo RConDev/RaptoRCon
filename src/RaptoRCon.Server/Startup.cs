@@ -18,6 +18,7 @@ namespace RaptoRCon.Server
             MefConfig.RegisterMef(config);
             
             app.UseWebApi(config);
+            app.MapSignalR();
         }
     }
 }

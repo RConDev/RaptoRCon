@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using RaptoRCon.Sockets;
+using RaptoRCon.Dice.Factories;
 
 namespace RaptoRCon.Dice
 {
@@ -29,13 +30,12 @@ namespace RaptoRCon.Dice
 
             Socket = socket;
             socket.DataReceived += SocketOnDataReceived;
+            
             if (packetReceivedHandler != null)
             {
                 PacketReceived += packetReceivedHandler;
             }
         }
-
-        
 
         /// <summary>
         /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
@@ -47,9 +47,9 @@ namespace RaptoRCon.Dice
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        public Task<int> SendAsync(IEnumerable<IDiceWord> words)
+        public async Task<int> SendAsync(IDicePacket packet)
         {
-            throw new NotImplementedException();
+            return await this.Socket.SendAsync(new SocketData(packet.ToBytes()));
         }
 
         /// <summary>
@@ -69,9 +69,20 @@ namespace RaptoRCon.Dice
 
         #region Event Handler
 
-        private void SocketOnDataReceived(object sender, SocketDataReceivedEventArgs socketDataReceivedEventArgs)
+        private async void SocketOnDataReceived(object sender, SocketDataReceivedEventArgs socketDataReceivedEventArgs)
         {
-            throw new NotImplementedException();
+            var packetReceivedEventHandler = this.PacketReceived;
+            if (packetReceivedEventHandler == null)
+            {
+                return;
+            }
+
+            var packetFactory = new DicePacketFactory();
+            var packets = packetFactory.FromBytes(socketDataReceivedEventArgs.DataReceived);
+            foreach (var packet in packets)
+            {
+                await packetReceivedEventHandler.InvokeAllAsync(this, new DicePacketEventArgs(packet));
+            }
         }
 
         #endregion

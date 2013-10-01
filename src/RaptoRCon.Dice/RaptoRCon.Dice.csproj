@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiceConnection.cs" />
+    <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Factories\DiceConnectionFactory.cs" />
     <Compile Include="IDiceConnection.cs" />
     <Compile Include="Factories\IDiceConnectionFactory.cs" />

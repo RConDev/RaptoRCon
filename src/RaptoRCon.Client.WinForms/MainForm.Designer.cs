@@ -120,6 +120,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "MainForm";
             this.Text = "RaptoRCon";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

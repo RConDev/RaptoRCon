@@ -11,6 +11,9 @@ using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
 using System.ComponentModel.Composition;
 using RaptoRCon.Server.Hosting;
+using RaptoRCon.Dice.Factories;
+using Microsoft.AspNet.SignalR.Client;
+using Connection = RaptoRCon.Shared.Models.Connection;
 
 namespace RaptoRCon.Server.Controllers
 {
@@ -21,8 +24,9 @@ namespace RaptoRCon.Server.Controllers
     /// <remarks>Currently limited to DICE RCon Protocol</remarks>
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ConnectionController : ApiController
+    public class ConnectionController : RaptoRConApiControllerBase
     {
+        private IHubProxy messageHubProxy;
         /// <summary>
         /// Gets or sets the <see cref="ConnectionHost"/> responsible for managing and accessing connections
         /// </summary>
@@ -35,18 +39,24 @@ namespace RaptoRCon.Server.Controllers
         public ConnectionController(ConnectionHost host)
         {
             this.Host = host;
+
+            
         }
 
         public async Task<ConnectionCreated> Post(Connection connection)
         {
-            ISocketFactory socketFactory = new SocketFactory();
+            IDiceConnectionFactory connectionFactory = new DiceConnectionFactory();
             try
             {
-                var socket = await socketFactory
-                                       .CreateAndConnectAsync(connection.Address,
-                                                              connection.Port,
-                                                              (sender, e) => Console.WriteLine(e.DataReceived.Count()));
-                this.Host.Socket = socket;
+                var diceConnection = await connectionFactory.CreateAsync(connection.Address, connection.Port, (sender, e) => {
+                    MessageHubProxy.Invoke("SendMessage", e.Packet.ToString());
+                });
+                
+                ////var socket = await socketFactory
+                ////                       .CreateAndConnectAsync(connection.Address,
+                ////                                              connection.Port,
+                ////                                              (sender, e) => Console.WriteLine(e.DataReceived.Count()));
+                this.Host.Socket = diceConnection;
                 return new ConnectionCreated(connection);
             }
             catch (Exception ex)

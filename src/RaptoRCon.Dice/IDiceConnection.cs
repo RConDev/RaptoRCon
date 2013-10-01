@@ -21,9 +21,9 @@ namespace RaptoRCon.Dice
         /// <summary>
         /// Sends a DICE <see cref="IDicePacket"/> to the RCon interface
         /// </summary>
-        /// <param name="words"></param>
+        /// <param name="packet"></param>
         /// <returns></returns>
-        Task<int> SendAsync(IEnumerable<IDiceWord> words);
+        Task<int> SendAsync(IDicePacket packet);
 
         /// <summary>
         /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface

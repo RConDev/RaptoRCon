@@ -1,4 +1,5 @@
-﻿using RaptoRCon.Sockets;
+﻿using RaptoRCon.Dice;
+using RaptoRCon.Sockets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -11,6 +12,6 @@ namespace RaptoRCon.Server.Hosting
     [Export]
     public class ConnectionHost
     {
-        public ISocket Socket { get; set; }
+        public IDiceConnection Socket { get; set; }
     }
 }

@@ -116,13 +116,19 @@ namespace RaptoRCon.Sockets
 
         private async void InvokeDataReceived(byte[] bytesRead)
         {
-            if (DataReceived == null) return;
+            var dataReceivedEventHandler = DataReceived;
+            if (dataReceivedEventHandler == null) return;
             var eventArgs = new SocketDataReceivedEventArgs(bytesRead);
-            await Task.Factory.FromAsync<object, SocketDataReceivedEventArgs>(DataReceived.BeginInvoke,
-                                                                  DataReceived.EndInvoke,
-                                                                  this,
-                                                                  eventArgs,
-                                                                  null);
+
+            var receivers = dataReceivedEventHandler.GetInvocationList();
+            foreach (EventHandler<SocketDataReceivedEventArgs> receiver in receivers)
+            {
+                await Task.Factory.FromAsync<object, SocketDataReceivedEventArgs>(receiver.BeginInvoke,
+                                                                      receiver.EndInvoke,
+                                                                      this,
+                                                                      eventArgs,
+                                                                      null);
+            }
         }
 
         protected async virtual void InvokeConnectionClosed()

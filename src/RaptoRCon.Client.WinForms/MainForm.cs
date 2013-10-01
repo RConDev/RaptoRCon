@@ -1,4 +1,5 @@
-﻿using RaptoRCon.Shared.Models;
+﻿using Microsoft.AspNet.SignalR.Client;
+using RaptoRCon.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,18 +11,20 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Connection = RaptoRCon.Shared.Models.Connection;
 namespace RaptoRCon.Client.WinForms
 {
     public partial class MainForm : Form
     {
         private HttpClient httpClient;
+        private HubConnection hubConnection;
 
         public MainForm()
         {
             InitializeComponent();
 
             this.httpClient = new HttpClient() { BaseAddress = new Uri("http://localhost:10505/api/") };
+            
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -56,6 +59,14 @@ namespace RaptoRCon.Client.WinForms
             {
                 action();
             }
+        }
+
+        private async void MainForm_Load(object sender, EventArgs e)
+        {
+            this.hubConnection = new HubConnection("http://localhost:10505/");
+            var messageHubProxy = hubConnection.CreateHubProxy("MessageHub");
+            messageHubProxy.On<string>("SendMessage", message => InvokeIfRequired(this, () => listBox1.Items.Add(message)));
+            hubConnection.Start();
         }
     }
 }

@@ -10,12 +10,16 @@ using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
 using System.ComponentModel.Composition;
 using RaptoRCon.Server.Hosting;
+using Microsoft.AspNet.SignalR.Client;
+using System.Text;
+using System.Linq;
+using RaptoRCon.Dice.Factories;
 
 namespace RaptoRCon.Server.Controllers
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class CommandController : ApiController
+    public class CommandController : RaptoRConApiControllerBase
     {
         private readonly ConnectionHost host;
 
@@ -40,10 +44,9 @@ namespace RaptoRCon.Server.Controllers
             }
 
             var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client), new List<IDiceWord> {new DiceWord(command.CommandString)});
-            var tmp = await host.Socket.SendAsync(new SocketData(packet.ToBytes()));
+            var tmp = await host.Socket.Socket.SendAsync(new SocketData(packet.ToBytes()));
 
             return new CommandResult();
         }
-
     }
 }
