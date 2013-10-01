@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Web.Http;
-using System.Web.Http.SelfHost;
+
 using RaptoRCon.Server.Config;
 using RaptoRCon.Sockets;
 using System.Threading.Tasks;
 using Common.Logging;
+using Microsoft.Owin.Hosting;
+using RaptoRCon.Server.Hosting;
 
 namespace RaptoRCon.Server
 {
@@ -14,9 +16,10 @@ namespace RaptoRCon.Server
     public class RaptoRConServer : IRaptoRConServer
     {
         private static ILog logger = LogManager.GetCurrentClassLogger();
- 
+
         private readonly Uri baseAddress = new Uri("http://localhost:10505");
-        private HttpSelfHostServer webApiServer;
+        //private HttpSelfHostServer webApiServer;
+        private IDisposable webServer;
 
         /// <summary>
         /// Creates a new <see cref="RaptoRConServer"/> instance
@@ -37,19 +40,16 @@ namespace RaptoRCon.Server
         /// </summary>
         public async Task StartAsync()
         {
-            logger.Debug("Starting Server");
-            
-            logger.Trace("Configuring Server");
-            var config = new HttpSelfHostConfiguration(baseAddress);
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional});
-            MefConfig.RegisterMef(config);
+            await Task.Factory.StartNew(() =>
+            {
+                logger.Debug("Starting Server");
 
-            logger.Trace("Instanciating HttpSelfHostServer");
-            webApiServer = new HttpSelfHostServer(config);
+                logger.Trace("Configuring Server");
 
-            await webApiServer.OpenAsync();
-                
-            logger.DebugFormat("Server started and listens on '{0}' ", baseAddress);
+                this.webServer = WebApp.Start<Startup>(baseAddress.ToString());
+
+                logger.DebugFormat("Server started and listens on '{0}' ", baseAddress);
+            });
         }
 
         /// <summary>
@@ -57,9 +57,13 @@ namespace RaptoRCon.Server
         /// </summary>
         public async Task StopAsync()
         {
-            logger.Debug("Stopping Server");
-            await webApiServer.CloseAsync();
-            logger.Debug("Server stopped");
+            await Task.Factory.StartNew(() =>
+            {
+                logger.Debug("Stopping Server");
+                //await webApiServer.CloseAsync();
+                webServer.Dispose();
+                logger.Debug("Server stopped");
+            });
         }
     }
 }

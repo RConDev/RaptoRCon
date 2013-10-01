@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using RaptoRCon.Sockets;
 using System.ComponentModel.Composition.Hosting;
 using System.Reflection;
-using System.Web.Http.SelfHost;
 using System.ComponentModel.Composition;
+using Owin;
+using System.Web.Http;
 
 namespace RaptoRCon.Server.Config
 {
     public static class MefConfig
     {
-        internal static void RegisterMef(HttpSelfHostConfiguration config)
+        internal static void RegisterMef(HttpConfiguration config)
         {
             var catalog = new AssemblyCatalog(Assembly.GetExecutingAssembly());
             var container = new CompositionContainer(catalog);
