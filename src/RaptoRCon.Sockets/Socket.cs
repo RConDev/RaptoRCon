@@ -97,16 +97,42 @@ namespace RaptoRCon.Sockets
         // ReSharper restore FunctionRecursiveOnAllPaths
         {
             var buffer = new byte[BufferSize];
-            int bytesRead = await Task.Factory.FromAsync(
+            int bytesRead = 0;
+            
+            try
+            {
+                bytesRead = await Task.Factory.FromAsync(
                 (cb, s) => socket1.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, cb, s),
                 ias => socket1.EndReceive(ias),
                 null);
+            }
+            catch (SocketException ex)
+            {
+                logger.Warn("Error in socket-communication.", ex);
+                InvokeConnectionClosed();
+                return;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                logger.Warn("Waiting listening socket was closed", ex);
+                InvokeConnectionClosed();
+                return;
+            }
+            catch (Exception ex)
+            {
+                logger.Warn("Other error in listening socket communication", ex);
+                InvokeConnectionClosed();
+                return;
+            }
+
             if (bytesRead == 0)
             {
                 // Connection was closed by the remote host
                 InvokeConnectionClosed();
                 return;
             }
+
+
             var targetBytes = new byte[bytesRead];
             Array.Copy(buffer, 0, targetBytes, 0, bytesRead);
             InvokeDataReceived(targetBytes);

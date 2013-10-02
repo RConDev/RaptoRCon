@@ -50,12 +50,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiceCommandStringTest.cs" />
     <Compile Include="DiceConnectionTest.cs" />
     <Compile Include="DicePacketEventArgsTest.cs" />
     <Compile Include="Factories\DiceConnectionFactoryTest.cs" />
     <Compile Include="Factories\PacketFactoryTest.cs" />
     <Compile Include="Factories\PacketSequenceFactoryTest.cs" />
-    <Compile Include="Factories\WordFactoryTest.cs" />
+    <Compile Include="Factories\DiceWordFactoryTest.cs" />
     <Compile Include="PacketSequenceTest.cs" />
     <Compile Include="PacketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

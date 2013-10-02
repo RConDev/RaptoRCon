@@ -1,14 +1,15 @@
 using System;
 using RaptoRCon.Dice.Factories;
 using Xunit;
+using System.Collections.Generic;
 
 namespace RaptoRCon.Dice.Tests.Factories
 {
-    public class WordFactoryTest
+    public class DiceWordFactoryTest
     {
         private DiceWordFactory diceWordFactory;
 
-        public WordFactoryTest()
+        public DiceWordFactoryTest()
         {
             this.diceWordFactory = new DiceWordFactory();
         }
@@ -31,6 +32,18 @@ namespace RaptoRCon.Dice.Tests.Factories
             
             Assert.Equal("Test", result.Content);
             Assert.Equal(4u, result.Size);
+        }
+
+        #endregion
+
+        #region FromString()
+
+        [Fact]
+        public void FromString_Version_ReturnsIDiceWordEnumerable()
+        {
+            var versionString = "version";
+            IEnumerable<IDiceWord> words = diceWordFactory.FromString(versionString);
+            Assert.IsAssignableFrom(typeof(IEnumerable<IDiceWord>), words);
         }
 
         #endregion

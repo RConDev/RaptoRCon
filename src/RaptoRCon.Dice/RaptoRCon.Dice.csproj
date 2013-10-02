@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiceCommandString.cs" />
     <Compile Include="DiceConnection.cs" />
     <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Factories\DiceConnectionFactory.cs" />

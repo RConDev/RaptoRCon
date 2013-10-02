@@ -26,7 +26,6 @@ namespace RaptoRCon.Server.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ConnectionController : RaptoRConApiControllerBase
     {
-        private IHubProxy messageHubProxy;
         /// <summary>
         /// Gets or sets the <see cref="ConnectionHost"/> responsible for managing and accessing connections
         /// </summary>
@@ -39,8 +38,6 @@ namespace RaptoRCon.Server.Controllers
         public ConnectionController(ConnectionHost host)
         {
             this.Host = host;
-
-            
         }
 
         public async Task<ConnectionCreated> Post(Connection connection)
@@ -51,11 +48,7 @@ namespace RaptoRCon.Server.Controllers
                 var diceConnection = await connectionFactory.CreateAsync(connection.Address, connection.Port, (sender, e) => {
                     MessageHubProxy.Invoke("SendMessage", e.Packet.ToString());
                 });
-                
-                ////var socket = await socketFactory
-                ////                       .CreateAndConnectAsync(connection.Address,
-                ////                                              connection.Port,
-                ////                                              (sender, e) => Console.WriteLine(e.DataReceived.Count()));
+
                 this.Host.Socket = diceConnection;
                 return new ConnectionCreated(connection);
             }

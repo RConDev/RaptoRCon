@@ -31,6 +31,7 @@ namespace RaptoRCon.Server.Controllers
 
         public async Task<CommandResult> Post(Command command)
         {
+            
             if (host.Socket == null)
             {
                 var message = new ExceptionMessage(){Code = 100, Message = "The connetion expected was not available."};
@@ -43,7 +44,8 @@ namespace RaptoRCon.Server.Controllers
                 throw new HttpResponseException(responseMessage);
             }
 
-            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client), new List<IDiceWord> {new DiceWord(command.CommandString)});
+            var commandString = new DiceCommandString(command.CommandString);
+            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client), commandString.ToWords());
             var tmp = await host.Socket.Socket.SendAsync(new SocketData(packet.ToBytes()));
 
             return new CommandResult();

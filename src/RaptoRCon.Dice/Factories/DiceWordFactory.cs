@@ -30,5 +30,15 @@ namespace RaptoRCon.Dice.Factories
 
             return new DiceWord(word);
         }
+
+        /// <summary>
+        /// Creates a list of <see cref="IDiceWord"/> instances out of a <see cref="string"/> provided.
+        /// </summary>
+        /// <param name="versionString"></param>
+        /// <returns></returns>
+        public IEnumerable<IDiceWord> FromString(string versionString)
+        {
+            return new IDiceWord[0];
+        }
     }
 }
