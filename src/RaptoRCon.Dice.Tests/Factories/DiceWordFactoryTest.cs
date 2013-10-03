@@ -2,9 +2,11 @@ using System;
 using RaptoRCon.Dice.Factories;
 using Xunit;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RaptoRCon.Dice.Tests.Factories
 {
+    [ExcludeFromCodeCoverage]
     public class DiceWordFactoryTest
     {
         private DiceWordFactory diceWordFactory;

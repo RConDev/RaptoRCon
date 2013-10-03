@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Xunit;
 
 namespace RaptoRCon.Dice.Tests
 {
-    public class WordTest
+    [ExcludeFromCodeCoverage]
+    public class DiceWordTest
     {
         #region ctor
 

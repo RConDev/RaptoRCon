@@ -2,12 +2,14 @@
 using Moq.Language.Flow;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RaptoRCon.Tests
 {
+    [ExcludeFromCodeCoverage]
     public static class MoqExtensions
     {
         public static IReturnsResult<TMock> ReturnsAsync<TMock, TResult>(

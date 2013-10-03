@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AssertExLib;
 using Moq;
 using RaptoRCon.Dice.Factories;
 using RaptoRCon.Sockets;
 using RaptoRCon.Tests;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Xunit;
-using AssertExLib;
 
 namespace RaptoRCon.Dice.Tests.Factories
 {
+    [ExcludeFromCodeCoverage]
     public class DiceConnectionFactoryTest
     {
         private readonly Mock<ISocketFactory> socketFactoryMock;

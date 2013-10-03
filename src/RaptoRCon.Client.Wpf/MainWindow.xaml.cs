@@ -35,7 +35,7 @@ namespace RaptoRCon.Client.Wpf
             var host = hostTextBox.Text;
             var port = Convert.ToInt32(hostPortTextBox.Text);
 
-            var connection = new Connection() {Address = host, Port = port};
+            var connection = new Connection() {HostName = host, Port = port};
             //httpClient.
         }
     }

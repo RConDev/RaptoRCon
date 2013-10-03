@@ -27,17 +27,16 @@ namespace RaptoRCon.Server.Controllers
     public class ConnectionController : RaptoRConApiControllerBase
     {
         /// <summary>
-        /// Gets or sets the <see cref="ConnectionHost"/> responsible for managing and accessing connections
-        /// </summary>
-        public ConnectionHost Host { get; private set; }
-
-        /// <summary>
         /// Creates a new <see cref="ConnectionController"/> instance
         /// </summary>
         [ImportingConstructor]
-        public ConnectionController(ConnectionHost host)
+        public ConnectionController(ConnectionHost host) : base (host)
         {
-            this.Host = host;
+        }
+
+        public async Task<IEnumerable<Connection>> Get() 
+        {
+            return this.ConnectionHost.Get().Select(x => new Connection() { Id = x.Id, HostName = x.HostName, Port = x.Port });
         }
 
         public async Task<ConnectionCreated> Post(Connection connection)
@@ -45,12 +44,15 @@ namespace RaptoRCon.Server.Controllers
             IDiceConnectionFactory connectionFactory = new DiceConnectionFactory();
             try
             {
-                var diceConnection = await connectionFactory.CreateAsync(connection.Address, connection.Port, (sender, e) => {
-                    MessageHubProxy.Invoke("SendMessage", e.Packet.ToString());
-                });
+                var diceConnection = await connectionFactory.CreateAsync(connection.HostName, connection.Port);
+                var hostedConnection = new HostedConnection(connection.HostName, connection.Port, diceConnection);
+                diceConnection.PacketReceived += (sender, e) =>
+                {
+                    MessageHubProxy.Invoke("SendMessage", hostedConnection.Id, e.Packet.ToString());
+                };
 
-                this.Host.Socket = diceConnection;
-                return new ConnectionCreated(connection);
+                this.ConnectionHost.Add(hostedConnection);
+                return new ConnectionCreated(hostedConnection.Id, connection);
             }
             catch (Exception ex)
             {

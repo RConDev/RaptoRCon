@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using RaptoRCon.Dice.Factories;
 using Xunit;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RaptoRCon.Dice.Tests.Factories
 {
-    public class PacketFactoryTest
+    [ExcludeFromCodeCoverage]
+    public class DicePacketFactoryTest
     {
         private DicePacketFactory dicePacketFactory;
 
-        public PacketFactoryTest()
+        public DicePacketFactoryTest()
         {
 
             var sequence = new DicePacketSequence(458u, PacketType.Request, PacketOrigin.Server);

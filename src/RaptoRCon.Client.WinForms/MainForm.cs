@@ -18,6 +18,7 @@ namespace RaptoRCon.Client.WinForms
     {
         private HttpClient httpClient;
         private HubConnection hubConnection;
+        private Guid connectionId;
 
         public MainForm()
         {
@@ -31,18 +32,21 @@ namespace RaptoRCon.Client.WinForms
         {
             var connection = new Connection()
             {
-                Address = this.textBox1.Text,
+                HostName = this.textBox1.Text,
                 Port = Convert.ToInt32(this.textBox2.Text)
             };
 
             var response = await httpClient.PostAsJsonAsync<Connection>("connection", connection);
-            MessageBox.Show(string.Format("Connection to {0} on port {1} created.", connection.Address, connection.Port));
+            var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();
+            this.connectionId = connectionCreated.ConnectionId;
+            MessageBox.Show(string.Format("Connection to {0} on port {1} created. Id: {2}", connection.HostName, connection.Port, this.connectionId));
         }
 
         private async void sendButton_Click(object sender, EventArgs e)
         {
-            var command = new Command() { CommandString = this.textBox3.Text };
+            var command = new Command() { ConnectionId = this.connectionId, CommandString = this.textBox3.Text };
             var response = await httpClient.PostAsJsonAsync<Command>("command", command);
+
             InvokeIfRequired(this.listBox1, () =>
             {
                 this.listBox1.Items.Add(command.CommandString);
@@ -65,7 +69,7 @@ namespace RaptoRCon.Client.WinForms
         {
             this.hubConnection = new HubConnection("http://localhost:10505/");
             var messageHubProxy = hubConnection.CreateHubProxy("MessageHub");
-            messageHubProxy.On<string>("SendMessage", message => InvokeIfRequired(this, () => listBox1.Items.Add(message)));
+            messageHubProxy.On<Guid, string>("SendMessage", (id, message) => InvokeIfRequired(this, () => listBox1.Items.Add(string.Format("{0} - {1}", id, message))));
             hubConnection.Start();
         }
     }

@@ -9,9 +9,9 @@ namespace RaptoRCon.Server.Hubs
 {
     public class MessageHub : Hub
     {
-        public void SendMessage(string message)
+        public void SendMessage(Guid connectionId, string message)
         {
-            Clients.All.sendMessage(message);
+            Clients.All.sendMessage(connectionId, message);
         }
     }
 }

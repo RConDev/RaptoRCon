@@ -3,14 +3,16 @@ using System.Collections;
 using System.Text;
 using RaptoRCon.Dice.Factories;
 using Xunit;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RaptoRCon.Dice.Tests.Factories
 {
-    public class PacketSequenceFactoryTest
+    [ExcludeFromCodeCoverage]
+    public class DicePacketSequenceFactoryTest
     {
         private readonly DicePacketSequenceFactory sequenceFactory;
 
-        public PacketSequenceFactoryTest()
+        public DicePacketSequenceFactoryTest()
         {
             this.sequenceFactory = new DicePacketSequenceFactory();
         }

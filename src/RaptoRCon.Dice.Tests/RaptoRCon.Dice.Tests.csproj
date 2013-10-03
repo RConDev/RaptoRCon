@@ -45,7 +45,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit">
+    <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -54,13 +55,13 @@
     <Compile Include="DiceConnectionTest.cs" />
     <Compile Include="DicePacketEventArgsTest.cs" />
     <Compile Include="Factories\DiceConnectionFactoryTest.cs" />
-    <Compile Include="Factories\PacketFactoryTest.cs" />
-    <Compile Include="Factories\PacketSequenceFactoryTest.cs" />
+    <Compile Include="Factories\DicePacketFactoryTest.cs" />
+    <Compile Include="Factories\DicePacketSequenceFactoryTest.cs" />
     <Compile Include="Factories\DiceWordFactoryTest.cs" />
-    <Compile Include="PacketSequenceTest.cs" />
-    <Compile Include="PacketTest.cs" />
+    <Compile Include="DicePacketSequenceTest.cs" />
+    <Compile Include="DicePacketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordTest.cs" />
+    <Compile Include="DiceWordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RaptoRCon.Dice\RaptoRCon.Dice.csproj">

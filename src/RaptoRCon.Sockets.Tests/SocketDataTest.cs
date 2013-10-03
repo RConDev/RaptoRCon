@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Xunit;
 
@@ -7,6 +8,7 @@ namespace RaptoRCon.Sockets.Tests
     /// <summary>
     /// Tests for <see cref="SocketData"/>
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class SocketDataTest
     {
         #region ctor

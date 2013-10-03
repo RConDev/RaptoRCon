@@ -21,34 +21,22 @@ namespace RaptoRCon.Server.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CommandController : RaptoRConApiControllerBase
     {
-        private readonly ConnectionHost host;
-
         [ImportingConstructor]
-        public CommandController(ConnectionHost host)
+        public CommandController(ConnectionHost connectionHost ) : base(connectionHost)
         {
-            this.host = host;
         }
 
         public async Task<CommandResult> Post(Command command)
         {
-            
-            if (host.Socket == null)
-            {
-                var message = new ExceptionMessage(){Code = 100, Message = "The connetion expected was not available."};
-                var responseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                                          {
-                                              Content =
-                                                  new ObjectContent(typeof (ExceptionMessage), message,
-                                                                    new JsonMediaTypeFormatter())
-                                          };
-                throw new HttpResponseException(responseMessage);
-            }
+            var connection = GetHostedConnection(command.ConnectionId);
 
             var commandString = new DiceCommandString(command.CommandString);
             var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client), commandString.ToWords());
-            var tmp = await host.Socket.Socket.SendAsync(new SocketData(packet.ToBytes()));
+            var tmp = await connection.Connection.Socket.SendAsync(new SocketData(packet.ToBytes()));
 
             return new CommandResult();
         }
+
+
     }
 }

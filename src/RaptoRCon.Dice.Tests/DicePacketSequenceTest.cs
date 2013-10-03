@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Xunit;
 
 namespace RaptoRCon.Dice.Tests
 {
-    public class PacketSequenceTest
+    [ExcludeFromCodeCoverage]
+    public class DicePacketSequenceTest
     {
         #region ctor
         

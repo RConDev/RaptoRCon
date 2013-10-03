@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using RaptoRCon.Sockets;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace RaptoRCon.Dice.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class DiceConnectionTest
     {
         #region CTOR

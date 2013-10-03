@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Xunit;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RaptoRCon.Dice.Tests
 {
-    public class PacketTest
+    [ExcludeFromCodeCoverage]
+    public class DicePacketTest
     {
         private readonly Mock<IDicePacketSequence> packetSequenceMock;
         private readonly List<IDiceWord> wordsMock;
 
-        public PacketTest()
+        public DicePacketTest()
         {
             packetSequenceMock = new Mock<IDicePacketSequence>();
             wordsMock = new List<IDiceWord>();

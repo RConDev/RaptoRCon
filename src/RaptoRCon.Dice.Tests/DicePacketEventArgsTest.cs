@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace RaptoRCon.Dice.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class DicePacketEventArgsTest
     {
         #region CTOR

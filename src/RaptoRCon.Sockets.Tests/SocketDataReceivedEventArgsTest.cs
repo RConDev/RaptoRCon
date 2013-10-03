@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Xunit;
 
 namespace RaptoRCon.Sockets.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class SocketDataReceivedEventArgsTest
     {
         #region ctor
