@@ -23,34 +23,26 @@ namespace RaptoRCon.Client.WinForms
         public MainForm()
         {
             InitializeComponent();
+            this.DataContext = new MainFormViewModel(this);
 
-            this.httpClient = new HttpClient() { BaseAddress = new Uri("http://localhost:10505/api/") };
-            
+            this.mainFormViewModelBindingSource.DataSource = this.DataContext;
+            this.mainFormViewModelBindingSource.ResetBindings(false);
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            var connection = new Connection()
-            {
-                HostName = this.textBox1.Text,
-                Port = Convert.ToInt32(this.textBox2.Text)
-            };
-
-            var response = await httpClient.PostAsJsonAsync<Connection>("connection", connection);
-            var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();
-            this.connectionId = connectionCreated.ConnectionId;
-            MessageBox.Show(string.Format("Connection to {0} on port {1} created. Id: {2}", connection.HostName, connection.Port, this.connectionId));
+           
         }
 
         private async void sendButton_Click(object sender, EventArgs e)
         {
-            var command = new Command() { ConnectionId = this.connectionId, CommandString = this.textBox3.Text };
-            var response = await httpClient.PostAsJsonAsync<Command>("command", command);
+            //var command = new Command() { ConnectionId = this.connectionId, CommandString = this.textBox3.Text };
+            //var response = await httpClient.PostAsJsonAsync<Command>("command", command);
 
-            InvokeIfRequired(this.listBox1, () =>
-            {
-                this.listBox1.Items.Add(command.CommandString);
-            });
+            //InvokeIfRequired(this.listBox1, () =>
+            //{
+            //    this.listBox1.Items.Add(command.CommandString);
+            //});
         }
 
         private static void InvokeIfRequired(ISynchronizeInvoke control, MethodInvoker action)
@@ -67,10 +59,30 @@ namespace RaptoRCon.Client.WinForms
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
-            this.hubConnection = new HubConnection("http://localhost:10505/");
-            var messageHubProxy = hubConnection.CreateHubProxy("MessageHub");
-            messageHubProxy.On<Guid, string>("SendMessage", (id, message) => InvokeIfRequired(this, () => listBox1.Items.Add(string.Format("{0} - {1}", id, message))));
-            hubConnection.Start();
+           
+        }
+
+        public MainFormViewModel DataContext { get; private set; }
+
+        private void addConnectionButton_Click(object sender, EventArgs e)
+        {
+            var command = DataContext.AddConnectionCommand;
+            if (command != null)
+            {
+                command.Execute(this.DataContext);
+            }
+        }
+
+        private void sendButton_Click_1(object sender, EventArgs e)
+        {
+            var currentConnection = connectionsBindingSource.Current as ConnectionViewModel;
+            if (currentConnection == null) return;
+
+            var command = currentConnection.SendCommand;
+            if (command != null)
+            {
+                command.Execute(currentConnection);
+            }
         }
     }
 }

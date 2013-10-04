@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaptoRCon.Dice
+namespace RaptoRCon.Shared.Util
 {
     public static class EventHandlerExtensions
     {

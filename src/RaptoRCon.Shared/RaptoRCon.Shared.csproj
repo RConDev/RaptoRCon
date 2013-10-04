@@ -45,6 +45,7 @@
     <Compile Include="Models\ConnectionCreated.cs" />
     <Compile Include="Models\ExceptionMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\EventHandlerExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

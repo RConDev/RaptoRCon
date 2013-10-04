@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="DiceCommandString.cs" />
     <Compile Include="DiceConnection.cs" />
-    <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Factories\DiceConnectionFactory.cs" />
     <Compile Include="IDiceConnection.cs" />
     <Compile Include="Factories\IDiceConnectionFactory.cs" />
@@ -76,6 +75,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RaptoRCon.Shared\RaptoRCon.Shared.csproj">
+      <Project>{d0d98dbc-dd03-42ee-aa80-dacb72ff76f9}</Project>
+      <Name>RaptoRCon.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RaptoRCon.Sockets\RaptoRCon.Sockets.csproj">
       <Project>{6D6A6210-BD04-48FE-A397-F2AD847DA5D5}</Project>
       <Name>RaptoRCon.Sockets</Name>
