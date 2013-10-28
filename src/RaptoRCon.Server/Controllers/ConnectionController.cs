@@ -29,17 +29,23 @@ namespace RaptoRCon.Server.Controllers
         /// <summary>
         /// Creates a new <see cref="ConnectionController"/> instance
         /// </summary>
+        /// <param name="connectionHost">The <see cref="IConnectionHost"/> instance which holds all connections</param>
         [ImportingConstructor]
-        public ConnectionController(ConnectionHost host) : base (host)
+        public ConnectionController(IConnectionHost connectionHost) : base (connectionHost)
         {
         }
 
+        /// <summary>
+        /// Gets all active <see cref="Connection"/>s
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Connection>> Get() 
         {
             return this.ConnectionHost.Get().Select(x => new Connection() { Id = x.Id, HostName = x.HostName, Port = x.Port });
         }
 
-        public async Task<ConnectionCreated> Post(Connection connection)
+        [HttpPost]
+        public async Task<ConnectionCreated> Add(Connection connection)
         {
             IDiceConnectionFactory connectionFactory = new DiceConnectionFactory();
             try
@@ -62,6 +68,13 @@ namespace RaptoRCon.Server.Controllers
                                           };
                 throw new HttpResponseException(responseMessage);
             }
+        }
+
+        [HttpDelete]
+        public async Task<bool> Delete(Guid id)
+        {
+            var hostedConnection = ConnectionHost.Get(id);
+            return ConnectionHost.Remove(hostedConnection);
         }
     }
 }

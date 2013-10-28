@@ -106,8 +106,9 @@
     <Compile Include="Hosting\ConnectionHost.cs" />
     <Compile Include="Hosting\Exceptions\ConnectionAlreadyAddedException.cs" />
     <Compile Include="Hosting\HostedConnection.cs" />
+    <Compile Include="Hosting\IConnectionHost.cs" />
     <Compile Include="Hosting\IHostedConnection.cs" />
-    <Compile Include="Hosting\UnknownConnectionIdException.cs" />
+    <Compile Include="Hosting\Exceptions\UnknownConnectionIdException.cs" />
     <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="IRaptoRConServer.cs" />
     <Compile Include="RaptoRConServer.cs" />

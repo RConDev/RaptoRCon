@@ -59,10 +59,10 @@ namespace RaptoRCon.Sockets
             logger.DebugFormat("Trying to connect to {0}:{1}", hostname, port);
 
             await Task.Factory.FromAsync(
-                (cb, s) => socket.BeginConnect(hostname, port, cb, this.socket),
-                (ias) =>  this.socket.EndConnect(ias),
-                null);
-
+                    (cb, s) => socket.BeginConnect(hostname, port, cb, this.socket),
+                    (ias) => this.socket.EndConnect(ias),
+                    null);
+            
             StartListening(socket);
 
             return (ISocket)this;
@@ -98,7 +98,7 @@ namespace RaptoRCon.Sockets
         {
             var buffer = new byte[BufferSize];
             int bytesRead = 0;
-            
+
             try
             {
                 bytesRead = await Task.Factory.FromAsync(
@@ -140,7 +140,7 @@ namespace RaptoRCon.Sockets
             StartListening(socket1);
         }
 
-        private async void InvokeDataReceived(byte[] bytesRead)
+        private async Task InvokeDataReceived(byte[] bytesRead)
         {
             var dataReceivedEventHandler = DataReceived;
             if (dataReceivedEventHandler == null) return;
@@ -149,15 +149,16 @@ namespace RaptoRCon.Sockets
             var receivers = dataReceivedEventHandler.GetInvocationList();
             foreach (EventHandler<SocketDataReceivedEventArgs> receiver in receivers)
             {
-                await Task.Factory.FromAsync<object, SocketDataReceivedEventArgs>(receiver.BeginInvoke,
-                                                                      receiver.EndInvoke,
-                                                                      this,
-                                                                      eventArgs,
-                                                                      null);
+                await Task.Factory
+                    .FromAsync<object, SocketDataReceivedEventArgs>(receiver.BeginInvoke,
+                                                                    receiver.EndInvoke,
+                                                                    this,
+                                                                    eventArgs,
+                                                                    null);
             }
         }
 
-        protected async virtual void InvokeConnectionClosed()
+        protected async Task InvokeConnectionClosed()
         {
             var handler = ConnectionClosed;
             var eventArgs = new ConnectionClosedEventArgs();

@@ -19,6 +19,44 @@ namespace RaptoRCon.Client.WinForms
         private ObservableCollection<ConnectionViewModel> connections;
         private HttpClient httpClient;
 
+        private ICommand getConnectionsCommand = new DelegateCommand(async p => {
+            var viewModel = p as MainFormViewModel;
+            if (viewModel == null) return;
+
+            await GetConnectionsAsync(viewModel);
+        });
+
+        private static async Task GetConnectionsAsync(MainFormViewModel viewModel)
+        {
+            var response = await viewModel.HttpClient.GetAsync("connection");
+            response.EnsureSuccessStatusCode();
+
+            var connections = await response.Content.ReadAsAsync<IEnumerable<RaptoRCon.Shared.Models.Connection>>();
+            viewModel.connections.Clear();
+            foreach (var connection in connections)
+            {
+                viewModel.SyncInvoker(() => viewModel.Connections.Add(new ConnectionViewModel(viewModel.SyncInvoker, connection)));
+            }
+        }
+
+        private ICommand addConnectionCommand = new DelegateCommand(async (p) =>
+        {
+            var viewModel = p as MainFormViewModel;
+            if (viewModel == null) return;
+
+            await AddConnectionAsync(viewModel);
+            await GetConnectionsAsync(viewModel);
+        });
+
+        private ICommand removeConnectionCommand = new DelegateCommand(async p =>
+        {
+            var viewModel = p as MainFormViewModel;
+            if (viewModel == null) return;
+
+            await RemoveConnectionAsync(viewModel);
+            await GetConnectionsAsync(viewModel);
+        });
+
         public string HostName
         {
             get { return hostName; }
@@ -39,18 +77,19 @@ namespace RaptoRCon.Client.WinForms
             }
         }
 
-        private ICommand addConnectionCommand = new DelegateCommand(async (p) =>
-        {
-            var viewModel = p as MainFormViewModel;
-            if (viewModel == null) return;
+        public ConnectionViewModel CurrentConnection { get; set; }
 
-            await AddConnectionAsync(viewModel);
-        });
-
-        public MainFormViewModel(Control owner) : base(owner)
+        public MainFormViewModel(Action<Action> syncInvoker)
+            : base(syncInvoker)
         {
             this.connections = new ObservableCollection<ConnectionViewModel>();
+            Initialize();
             InitializeHub();
+        }
+
+        private async Task Initialize()
+        {
+            await GetConnectionsAsync(this);
         }
 
         private void InitializeHub()
@@ -62,7 +101,7 @@ namespace RaptoRCon.Client.WinForms
                 var connection = this.connections.SingleOrDefault(x => x.Id == id);
                 if (connection == null) return;
 
-                Owner.Invoke(new MethodInvoker(delegate() {connection.Packets.Add(new Packet() { Content = message });}));
+                SyncInvoker(() => connection.Packets.Add(new Packet() { Content = message }));
                 
             });
             hubConnection.Start();
@@ -72,6 +111,8 @@ namespace RaptoRCon.Client.WinForms
         {
             get { return addConnectionCommand; }
         }
+
+        public ICommand RemoveConnectionCommand { get { return removeConnectionCommand; } } 
 
         public ObservableCollection<ConnectionViewModel> Connections
         {
@@ -94,13 +135,18 @@ namespace RaptoRCon.Client.WinForms
             };
 
             var response = await viewModel.HttpClient.PostAsJsonAsync<RaptoRCon.Shared.Models.Connection>("connection", connection);
-            var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();
-            connection.Id = connectionCreated.ConnectionId;
-
-            viewModel.Connections.Add(new ConnectionViewModel(viewModel.Owner, connection));
+            response.EnsureSuccessStatusCode();
 
             viewModel.HostName = null;
             viewModel.Port = 0;
+        }
+
+        private static async Task RemoveConnectionAsync(MainFormViewModel viewModel)
+        {
+            if (viewModel.CurrentConnection == null) return;
+
+            var response = await viewModel.HttpClient.DeleteAsync(string.Format("connection/{0}", viewModel.CurrentConnection.Id));
+            response.EnsureSuccessStatusCode();
         }
 
         #endregion

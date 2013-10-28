@@ -11,6 +11,9 @@ using System.Windows.Input;
 
 namespace RaptoRCon.Client.WinForms
 {
+    /// <summary>
+    /// <see cref="ViewModelBase"/> instance holding data and interacting of/with a connection
+    /// </summary>
     public class ConnectionViewModel : ViewModelBase
     {
         private Guid id;
@@ -18,6 +21,7 @@ namespace RaptoRCon.Client.WinForms
         private int port;
         private ObservableCollection<Packet> packets;
         private Connection connection;
+        
         private ICommand sendCommand = new DelegateCommand(async (p) => {
             var viewModel = p as ConnectionViewModel;
             if (viewModel == null) return;
@@ -28,7 +32,6 @@ namespace RaptoRCon.Client.WinForms
             viewModel.Packets.Add(new Packet() { Content = viewModel.CommandString });
             viewModel.CommandString = null;
         });
-
 
         public Guid Id
         {
@@ -61,7 +64,7 @@ namespace RaptoRCon.Client.WinForms
 
         public ICommand SendCommand { get { return sendCommand; } }
 
-        public ConnectionViewModel(Control owner, Connection connection) : base(owner)
+        public ConnectionViewModel(Action<Action> owner, Connection connection) : base(owner)
         {
             this.connection = connection;
             this.Packets = new ObservableCollection<Packet>();

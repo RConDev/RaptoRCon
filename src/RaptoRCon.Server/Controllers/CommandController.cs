@@ -22,7 +22,7 @@ namespace RaptoRCon.Server.Controllers
     public class CommandController : RaptoRConApiControllerBase
     {
         [ImportingConstructor]
-        public CommandController(ConnectionHost connectionHost ) : base(connectionHost)
+        public CommandController(IConnectionHost connectionHost ) : base(connectionHost)
         {
         }
 

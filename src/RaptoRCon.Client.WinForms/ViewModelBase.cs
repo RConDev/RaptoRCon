@@ -13,8 +13,6 @@ namespace RaptoRCon.Client.WinForms
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-
-
         protected async void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
             var propertyChangedEventHandler = this.PropertyChanged;
@@ -26,17 +24,17 @@ namespace RaptoRCon.Client.WinForms
             var receivers = propertyChangedEventHandler.GetInvocationList();
             foreach (PropertyChangedEventHandler receiver in receivers) 
             {
-                Task.Factory.StartNew(() => Owner.Invoke(new MethodInvoker(delegate() { receiver.Invoke(this, new PropertyChangedEventArgs(propertyName)); })));
+                SyncInvoker(() => receiver.Invoke(this, new PropertyChangedEventArgs(propertyName)));
             }
-            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected Control Owner { get; private set; }
 
-        public ViewModelBase(Control owner)
+        protected Action<Action> SyncInvoker { get; private set; }
+
+        public ViewModelBase(Action<Action> syncInvoker)
         {
-            this.Owner = owner;
+            this.SyncInvoker = syncInvoker;
             this.HttpClient = new HttpClient() { BaseAddress = new Uri("http://localhost:10505/api/") };
         }
 
