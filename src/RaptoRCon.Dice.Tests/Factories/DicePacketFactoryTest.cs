@@ -11,13 +11,14 @@ namespace RaptoRCon.Dice.Tests.Factories
     public class DicePacketFactoryTest
     {
         private DicePacketFactory dicePacketFactory;
+        private DicePacket expectedPacket;
 
         public DicePacketFactoryTest()
         {
 
-            var sequence = new DicePacketSequence(458u, PacketType.Request, PacketOrigin.Server);
+            var sequence = new DicePacketSequence(458u, PacketType.Request, PacketOrigin.Client);
             var words = new List<IDiceWord> { new DiceWord("listPlayers"), new DiceWord("all") };
-            var expectedPacket = new DicePacket(sequence, words);
+            this.expectedPacket = new DicePacket(sequence, words);
 
             dicePacketFactory = new DicePacketFactory();
         }
@@ -45,6 +46,21 @@ namespace RaptoRCon.Dice.Tests.Factories
             Assert.Equal(2, deserializedPackets.Length);
             Assert.Equal(expectedPacket, deserializedPackets[0]);
             Assert.Equal(expectedPacket, deserializedPackets[1]);
+        }
+
+        [Fact]
+        public void FromBytes_MultipleDifferentPacketBytes_ReturnsTwoPackets()
+        {
+            var expectedPacket1 = new DicePacket(new DicePacketSequence(458, PacketType.Response, PacketOrigin.Server),
+                                            new List<IDiceWord>() { new DiceWord("OK"), new DiceWord("21"), new DiceWord("test") });
+            var expectedPacket2 = this.expectedPacket;
+            var packetBytes = Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=").Concat(
+                Convert.FromBase64String("ygEAgCQAAAACAAAACwAAAGxpc3RQbGF5ZXJzAAMAAABhbGwA")).ToArray();
+            var deserializedPackets = dicePacketFactory.FromBytes(packetBytes).ToArray();
+            
+            Assert.Equal(2, deserializedPackets.Length);
+            Assert.Equal(expectedPacket1, deserializedPackets[0]);
+            Assert.Equal(expectedPacket2, deserializedPackets[1]);
         }
 
         [Fact]

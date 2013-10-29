@@ -57,12 +57,12 @@ namespace RaptoRCon.Sockets
         public async Task<ISocket> ConnectAsync(string hostname, int port)
         {
             logger.DebugFormat("Trying to connect to {0}:{1}", hostname, port);
-
             await Task.Factory.FromAsync(
                     (cb, s) => socket.BeginConnect(hostname, port, cb, this.socket),
                     (ias) => this.socket.EndConnect(ias),
                     null);
-            
+            logger.DebugFormat("Connection to {0}:{1} successfully established", hostname, port);
+
             StartListening(socket);
 
             return (ISocket)this;
@@ -135,7 +135,7 @@ namespace RaptoRCon.Sockets
 
             var targetBytes = new byte[bytesRead];
             Array.Copy(buffer, 0, targetBytes, 0, bytesRead);
-            InvokeDataReceived(targetBytes);
+            await InvokeDataReceived(targetBytes);
 
             StartListening(socket1);
         }

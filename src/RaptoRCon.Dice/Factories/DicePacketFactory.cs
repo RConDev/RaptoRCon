@@ -9,9 +9,13 @@ namespace RaptoRCon.Dice.Factories
     /// </summary>
     public class DicePacketFactory : IDicePacketFactory
     {
+        private readonly object extractLock = new object();
+        
         private static readonly IDicePacketSequenceFactory dicePacketSequenceFactory = new DicePacketSequenceFactory();
 
         private static readonly IDiceWordFactory diceWordFactory = new DiceWordFactory();
+
+
 
         /// <summary>
         /// Creates a new <see cref="IDicePacket"/> instances based on <see cref="byte"/>s
@@ -30,7 +34,10 @@ namespace RaptoRCon.Dice.Factories
 
             #endregion
 
-            return ExtractFromBytes(bytes);
+            lock (extractLock)
+            {
+                return ExtractFromBytes(bytes);
+            }
         }
 
         private static IEnumerable<IDicePacket> ExtractFromBytes(IEnumerable<byte> bytes)
@@ -61,8 +68,16 @@ namespace RaptoRCon.Dice.Factories
 
                 yield return new DicePacket(sequence, words);
 
-                packetSize = BitConverter.ToUInt32(bytesToExtract.Skip(4).Take(4).ToArray(), 0);
-                packetBytes = bytesToExtract.Skip(packetOffset).Take(Convert.ToInt32(packetSize)).ToArray();
+                bytesToExtract = bytesToExtract.Skip(packetOffset).ToArray();
+                if (bytesToExtract.Length > 0)
+                {
+                    packetSize = BitConverter.ToUInt32(bytesToExtract.Skip(4).Take(4).ToArray(), 0);
+                    packetBytes = bytesToExtract.Take(Convert.ToInt32(packetSize)).ToArray();
+                }
+                else
+                {
+                    packetBytes = new byte[0];
+                }
             }
         }
     }
