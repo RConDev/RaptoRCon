@@ -1,4 +1,4 @@
-﻿using RaptoRCon.Dice;
+﻿using RaptoRCon.Games.Dice;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Moq;
-using RaptoRCon.Dice;
+using RaptoRCon.Games.Dice;
 using RaptoRCon.Server.Hosting;
 using RaptoRCon.Server.Hosting.Exceptions;
 using System;

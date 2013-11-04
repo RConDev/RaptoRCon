@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web.Http;
-using RaptoRCon.Dice;
+using RaptoRCon.Games.Dice;
 using RaptoRCon.Server.Config;
 using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
@@ -13,7 +13,7 @@ using RaptoRCon.Server.Hosting;
 using Microsoft.AspNet.SignalR.Client;
 using System.Text;
 using System.Linq;
-using RaptoRCon.Dice.Factories;
+using RaptoRCon.Games.Dice.Factories;
 
 namespace RaptoRCon.Server.Controllers
 {

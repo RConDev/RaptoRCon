@@ -1,4 +1,4 @@
-﻿using RaptoRCon.Dice;
+﻿using RaptoRCon.Games.Dice;
 using RaptoRCon.Server.Hosting.Exceptions;
 using RaptoRCon.Sockets;
 using System;

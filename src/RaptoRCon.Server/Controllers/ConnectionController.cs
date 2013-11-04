@@ -11,7 +11,7 @@ using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
 using System.ComponentModel.Composition;
 using RaptoRCon.Server.Hosting;
-using RaptoRCon.Dice.Factories;
+using RaptoRCon.Games.Dice.Factories;
 using Microsoft.AspNet.SignalR.Client;
 using Connection = RaptoRCon.Shared.Models.Connection;
 

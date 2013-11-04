@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{08F69F10-544E-47C2-BD0E-E0CE7BEC6EDE}</ProjectGuid>
+    <ProjectGuid>{2B13607C-3147-4BC3-B602-E245585FE218}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RaptoRCon.Server.Tests</RootNamespace>
-    <AssemblyName>RaptoRCon.Server.Tests</AssemblyName>
+    <RootNamespace>RaptoRCon.Games.Dice.Tests</RootNamespace>
+    <AssemblyName>RaptoRCon.Games.Dice.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,29 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AssertExLib, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="AssertExLib">
       <HintPath>..\packages\AssertEx.0.9.0\lib\net45\AssertExLib.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.1.1309.1617, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0-rc1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0-rc1\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,26 +55,34 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Contollers\ConnectionControllerTest.cs" />
-    <Compile Include="Hosting\ConnectionHostTest.cs" />
+    <Compile Include="DiceCommandStringTest.cs" />
+    <Compile Include="DiceConnectionTest.cs" />
+    <Compile Include="DicePacketEventArgsTest.cs" />
+    <Compile Include="Factories\DiceConnectionFactoryTest.cs" />
+    <Compile Include="Factories\DicePacketFactoryTest.cs" />
+    <Compile Include="Factories\DicePacketSequenceFactoryTest.cs" />
+    <Compile Include="Factories\DiceWordFactoryTest.cs" />
+    <Compile Include="DicePacketSequenceTest.cs" />
+    <Compile Include="DicePacketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="DiceWordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">
-      <Project>{d593ef35-e70e-474c-b477-0deb23db5efa}</Project>
+      <Project>{D593EF35-E70E-474C-B477-0DEB23DB5EFA}</Project>
       <Name>RaptoRCon.Games.Dice</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RaptoRCon.Server\RaptoRCon.Server.csproj">
-      <Project>{870416c3-e54c-436a-8c45-89e0e2268f02}</Project>
-      <Name>RaptoRCon.Server</Name>
+    <ProjectReference Include="..\RaptoRCon.Sockets\RaptoRCon.Sockets.csproj">
+      <Project>{6D6A6210-BD04-48FE-A397-F2AD847DA5D5}</Project>
+      <Name>RaptoRCon.Sockets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RaptoRCon.Shared\RaptoRCon.Shared.csproj">
-      <Project>{d0d98dbc-dd03-42ee-aa80-dacb72ff76f9}</Project>
-      <Name>RaptoRCon.Shared</Name>
+    <ProjectReference Include="..\RaptoRCon.Tests\RaptoRCon.Tests.csproj">
+      <Project>{ba1ae40f-032b-4b59-ad21-228112d5be5a}</Project>
+      <Name>RaptoRCon.Tests</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
