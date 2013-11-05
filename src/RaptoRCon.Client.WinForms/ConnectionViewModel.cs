@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Data;
 
 namespace RaptoRCon.Client.WinForms
 {
@@ -16,19 +17,18 @@ namespace RaptoRCon.Client.WinForms
     /// </summary>
     public class ConnectionViewModel : ViewModelBase
     {
-        private Guid id;
-        private string hostName;
-        private int port;
+        private object packetsLock = new object();
         private ObservableCollection<Packet> packets;
         private Connection connection;
-        
-        private ICommand sendCommand = new DelegateCommand(async (p) => {
+
+        private ICommand sendCommand = new DelegateCommand(async (p) =>
+        {
             var viewModel = p as ConnectionViewModel;
             if (viewModel == null) return;
 
             var command = new Command() { ConnectionId = viewModel.Id, CommandString = viewModel.CommandString };
             var response = await viewModel.HttpClient.PostAsJsonAsync<Command>("command", command);
-            
+
             viewModel.Packets.Add(new Packet() { Content = viewModel.CommandString });
             viewModel.CommandString = null;
         });
@@ -64,10 +64,19 @@ namespace RaptoRCon.Client.WinForms
 
         public ICommand SendCommand { get { return sendCommand; } }
 
-        public ConnectionViewModel(Action<Action> owner, Connection connection) : base(owner)
+        public ConnectionViewModel(Connection connection)
+            : base()
         {
             this.connection = connection;
             this.Packets = new ObservableCollection<Packet>();
+
+            BindingOperations.EnableCollectionSynchronization(Packets, packetsLock);
+        }
+
+        public void AddPacket(Packet packet)
+        {
+            this.Packets.Add(packet);
+            OnPropertyChanged("Packets");
         }
 
         public ObservableCollection<Packet> Packets
@@ -75,7 +84,7 @@ namespace RaptoRCon.Client.WinForms
             get { return packets; }
             set
             {
-                packets = new ObservableCollection<Packet>(value);
+                packets = value;
                 OnPropertyChanged();
             }
         }

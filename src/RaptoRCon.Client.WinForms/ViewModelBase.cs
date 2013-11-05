@@ -8,6 +8,7 @@ using RaptoRCon.Shared.Util;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Http;
+using System.Threading;
 
 namespace RaptoRCon.Client.WinForms
 {
@@ -24,17 +25,17 @@ namespace RaptoRCon.Client.WinForms
             var receivers = propertyChangedEventHandler.GetInvocationList();
             foreach (PropertyChangedEventHandler receiver in receivers) 
             {
-                SyncInvoker(() => receiver.Invoke(this, new PropertyChangedEventArgs(propertyName)));
+                Context.Post(state => receiver(this, new PropertyChangedEventArgs(propertyName)), null);
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected Action<Action> SyncInvoker { get; private set; }
+        internal SynchronizationContext Context { get; private set; }
 
-        public ViewModelBase(Action<Action> syncInvoker)
+        public ViewModelBase()
         {
-            this.SyncInvoker = syncInvoker;
+            this.Context = SynchronizationContext.Current ?? new SynchronizationContext();
             this.HttpClient = new HttpClient() { BaseAddress = new Uri("http://localhost:10505/api/") };
         }
 

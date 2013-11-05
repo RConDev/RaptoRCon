@@ -281,7 +281,6 @@
             this.Controls.Add(this.mainContainer);
             this.Name = "MainForm";
             this.Text = "RaptoRCon";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainContainer.Panel1.ResumeLayout(false);
             this.mainContainer.Panel2.ResumeLayout(false);
             this.mainContainer.Panel2.PerformLayout();

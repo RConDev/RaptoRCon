@@ -58,6 +58,7 @@ namespace RaptoRCon.Server.Controllers
                 };
 
                 this.ConnectionHost.Add(hostedConnection);
+                connection.Id = hostedConnection.Id;
                 return new ConnectionCreated(hostedConnection.Id, connection);
             }
             catch (Exception ex)

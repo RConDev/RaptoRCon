@@ -25,14 +25,18 @@ namespace RaptoRCon.Client.WinForms
             InitializeComponent();
         }
 
-        public MainFormViewModel DataContext { get; private set; }
-
-        private async void MainForm_Load(object sender, EventArgs e)
+        private MainFormViewModel dataContext;
+        public MainFormViewModel DataContext
         {
-            this.DataContext = new MainFormViewModel(a => this.Invoke(a));
+            get { return dataContext; }
+            set
+            {
+                this.dataContext = value;
 
-            this.mainFormViewModelBindingSource.DataSource = this.DataContext;
-            this.mainFormViewModelBindingSource.ResetBindings(false);
+                this.mainFormViewModelBindingSource.DataSource = this.dataContext;
+                this.mainFormViewModelBindingSource.ResetBindings(false);
+                this.connectionsBindingSource.ResetBindings(false);
+            }
         }
 
         private void addConnectionButton_Click(object sender, EventArgs e)
