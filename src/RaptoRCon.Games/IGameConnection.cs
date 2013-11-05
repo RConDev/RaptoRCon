@@ -16,7 +16,6 @@ namespace RaptoRCon.Games
         event EventHandler<GameDataEventArgs> GameDataReceived;
 
         event EventHandler<GameConnectionEventArgs> ConnectionCreated;
-        event EventHandler<GameConnectionEventArgs> ConnectionLost;
         event EventHandler<GameConnectionEventArgs> ConnectionClosed;
     }
 }

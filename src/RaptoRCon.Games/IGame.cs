@@ -25,11 +25,8 @@ namespace RaptoRCon.Games
         Uri Homepage { get; }
 
         /// <summary>
-        /// Creates a <see cref="IGameConnection"/> to the specified endpoint
+        /// Gets the factory responsible for creating <see cref="IGameConnection"/> instances for this game
         /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="port"></param>
-        /// <returns></returns>
-        Task<IGameConnection> CreateConnectionAsync(IGameConnectionInfo connectionInfo);
+        IGameConnectionFactory ConnectionFactory { get; }
     }
 }

@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\_Artifacts\Server\Games\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,24 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Battlefield4.cs" />
+    <Compile Include="GameConnection.cs" />
+    <Compile Include="GameData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">
+      <Project>{d593ef35-e70e-474c-b477-0deb23db5efa}</Project>
+      <Name>RaptoRCon.Games.Dice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Games\RaptoRCon.Games.csproj">
+      <Project>{8b32417e-a506-4bc6-834a-8077dcea9d8b}</Project>
+      <Name>RaptoRCon.Games</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Shared\RaptoRCon.Shared.csproj">
+      <Project>{d0d98dbc-dd03-42ee-aa80-dacb72ff76f9}</Project>
+      <Name>RaptoRCon.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

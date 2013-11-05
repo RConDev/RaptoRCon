@@ -15,6 +15,10 @@ namespace RaptoRCon.Games.Dice
     {
         private uint sequenceId;
         
+        public DiceConnection()
+        {
+        }
+
         /// <summary>
         /// Creates a new <see cref="DiceConnection"/> instance
         /// </summary>
@@ -48,7 +52,7 @@ namespace RaptoRCon.Games.Dice
         /// </summary>
         /// <param name="words"></param>
         /// <returns></returns>
-        public async Task<int> SendAsync(IDicePacket packet)
+        public virtual async Task<int> SendAsync(IDicePacket packet)
         {
             return await this.Socket.SendAsync(new SocketData(packet.ToBytes()));
         }
@@ -56,16 +60,16 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface
         /// </summary>
-        public event EventHandler<DicePacketEventArgs> PacketReceived;
+        public virtual event EventHandler<DicePacketEventArgs> PacketReceived;
 
         /// <summary>
         /// Returns the next valid <see cref="IDicePacketSequence.Id"/> within the <see cref="IDicePacketSequence"/> instance 
         /// used in <see cref="IDicePacket"/> communication for this connection
         /// </summary>
         /// <returns></returns>
-        public Task<uint> GetNextSequenceId()
+        public async Task<uint> GetNextSequenceId()
         {
-            throw new NotImplementedException();
+            return 123u;
         }
 
         #region Event Handler

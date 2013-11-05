@@ -24,6 +24,10 @@ namespace RaptoRCon.Games
             this.Homepage = homepage;
         }
 
-        public abstract Task<IGameConnection> CreateConnectionAsync(IGameConnectionInfo connectionInfo);
+
+        public abstract IGameConnectionFactory ConnectionFactory
+        {
+            get;
+        }
     }
 }

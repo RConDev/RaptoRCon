@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B32417E-A506-4BC6-834A-8077DCEA9D8B}</ProjectGuid>
+    <ProjectGuid>{96BF1ECA-32CF-46B8-AFC1-4246B79055B8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RaptoRCon.Games</RootNamespace>
-    <AssemblyName>RaptoRCon.Games</AssemblyName>
+    <RootNamespace>RaptoRCon.Games.Dice.Battlefield4.Tests</RootNamespace>
+    <AssemblyName>RaptoRCon.Games.Dice.Battlefield4.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AssertExLib">
+      <HintPath>..\packages\AssertEx.1.0.0\lib\net45\AssertExLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,25 +45,38 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\VersionInfo.cs">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="GameBase.cs" />
-    <Compile Include="GameCommand.cs" />
-    <Compile Include="GameConnectionEventArgs.cs" />
-    <Compile Include="GameDataEventArgs.cs" />
-    <Compile Include="IGame.cs" />
-    <Compile Include="IGameCommand.cs" />
-    <Compile Include="IGameConnection.cs" />
-    <Compile Include="IGameConnectionFactory.cs" />
-    <Compile Include="IGameConnectionInfo.cs" />
-    <Compile Include="IGameData.cs" />
-    <Compile Include="IGamesContext.cs" />
+    <Compile Include="Battlefield4Test.cs" />
+    <Compile Include="GameConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RaptoRCon.Games.Dice.Battlefield4\RaptoRCon.Games.Dice.Battlefield4.csproj">
+      <Project>{afa3320d-a7dd-46ed-8716-01c00028ab00}</Project>
+      <Name>RaptoRCon.Games.Dice.Battlefield4</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">
+      <Project>{d593ef35-e70e-474c-b477-0deb23db5efa}</Project>
+      <Name>RaptoRCon.Games.Dice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Games\RaptoRCon.Games.csproj">
+      <Project>{8b32417e-a506-4bc6-834a-8077dcea9d8b}</Project>
+      <Name>RaptoRCon.Games</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Tests\RaptoRCon.Tests.csproj">
+      <Project>{ba1ae40f-032b-4b59-ad21-228112d5be5a}</Project>
+      <Name>RaptoRCon.Tests</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

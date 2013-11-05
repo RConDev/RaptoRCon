@@ -7,5 +7,6 @@ namespace RaptoRCon.Games
 {
     public interface IGameCommand
     {
+        string Command { get; }
     }
 }
