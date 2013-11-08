@@ -13,8 +13,9 @@ namespace RaptoRCon.Games.Dice
     /// </summary>
     public class DiceConnection : IDiceConnection
     {
+        private readonly object sequenceIdLock = new object();
         private uint sequenceId;
-        
+
         public DiceConnection()
         {
         }
@@ -34,8 +35,8 @@ namespace RaptoRCon.Games.Dice
             #endregion
 
             Socket = socket;
-            socket.DataReceived += SocketOnDataReceived;
-            
+            Socket.DataReceived += SocketOnDataReceived;
+
             if (packetReceivedHandler != null)
             {
                 PacketReceived += packetReceivedHandler;
@@ -67,9 +68,20 @@ namespace RaptoRCon.Games.Dice
         /// used in <see cref="IDicePacket"/> communication for this connection
         /// </summary>
         /// <returns></returns>
-        public async Task<uint> GetNextSequenceId()
+        public async Task<uint> GetNextSequenceIdAsync()
         {
-            return 123u;
+            lock (sequenceIdLock)
+            {
+                return Convert.ToUInt32(++this.sequenceId);
+            }
+        }
+
+        public async Task UpdateSequenceIdAsync(uint newSequenceId)
+        {
+            lock (sequenceIdLock)
+            {
+                this.sequenceId = newSequenceId;
+            }
         }
 
         #region Event Handler
@@ -84,10 +96,14 @@ namespace RaptoRCon.Games.Dice
 
             var packetFactory = new DicePacketFactory();
             var packets = packetFactory.FromBytes(socketDataReceivedEventArgs.DataReceived);
+            var maxSequenceId = this.sequenceId;
             foreach (var packet in packets)
             {
+                maxSequenceId = packet.Sequence.Id > maxSequenceId ? packet.Sequence.Id : maxSequenceId;
                 await packetReceivedEventHandler.InvokeAllAsync(this, new DicePacketEventArgs(packet));
             }
+
+            await this.UpdateSequenceIdAsync(maxSequenceId);
         }
 
         #endregion

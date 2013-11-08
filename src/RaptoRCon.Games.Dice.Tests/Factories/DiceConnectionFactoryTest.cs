@@ -95,12 +95,17 @@ namespace RaptoRCon.Games.Dice.Factories
         {
             var socketMock = new Mock<ISocket>();
             var socket = socketMock.Object;
-            socketFactoryMock.Setup(m => m.CreateAndConnectAsync(It.Is<string>(x => x == "localhost"), It.Is<int>(x => x == 11000), It.IsAny<EventHandler<SocketDataReceivedEventArgs>>())).ReturnsAsync(socket);
+            socketFactoryMock
+                .Setup(m => m.CreateAndConnectAsync(
+                    It.Is<string>(x => x == "localhost"), 
+                    It.Is<int>(x => x == 11000), 
+                    It.IsAny<EventHandler<SocketDataReceivedEventArgs>>()))
+                .ReturnsAsync(socket);
             
             var connection = await connectionFactory.CreateAsync("localhost", 11000);
-            
-            Assert.Equal(socket, connection.Socket);
             socketFactoryMock.VerifyAll();
+            Assert.Equal(socket, connection.Socket);
+            
         }
 
         #endregion

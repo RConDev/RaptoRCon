@@ -36,7 +36,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4
         public async Task SendAsync(IGameCommand command)
         {
             var commandString = new DiceCommandString(command.Command);
-            var packetSequenceId = await DiceConnection.GetNextSequenceId();
+            var packetSequenceId = await DiceConnection.GetNextSequenceIdAsync();
             var commandStringWords = commandString.ToWords();
 
             var packet = new DicePacket(new DicePacketSequence(packetSequenceId, PacketType.Request, PacketOrigin.Client), commandStringWords);

@@ -52,7 +52,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
         {
             var diceConnectionMock = new Mock<IDiceConnection>();
             diceConnectionMock.Setup(mock => mock.SendAsync(It.IsAny<IDicePacket>())).ReturnsAsync(123);
-            diceConnectionMock.Setup(mock => mock.GetNextSequenceId()).ReturnsAsync(123u);
+            diceConnectionMock.Setup(mock => mock.GetNextSequenceIdAsync()).ReturnsAsync(123u);
             var diceConnection = diceConnectionMock.Object;
 
             var isCalled = false;

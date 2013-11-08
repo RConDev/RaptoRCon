@@ -35,6 +35,6 @@ namespace RaptoRCon.Games.Dice
         /// used in <see cref="IDicePacket"/> communication
         /// </summary>
         /// <returns></returns>
-        Task<uint> GetNextSequenceId();
+        Task<uint> GetNextSequenceIdAsync();
     }
 }
