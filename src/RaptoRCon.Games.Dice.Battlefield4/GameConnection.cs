@@ -23,8 +23,6 @@ namespace RaptoRCon.Games.Dice.Battlefield4
                 };
         }
 
-        
-
         public Task ConnectAsync()
         {
             throw new NotImplementedException();

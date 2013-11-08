@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +47,7 @@
     <Compile Include="GameCommand.cs" />
     <Compile Include="GameConnectionEventArgs.cs" />
     <Compile Include="GameDataEventArgs.cs" />
+    <Compile Include="GamesContext.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="IGameCommand.cs" />
     <Compile Include="IGameConnection.cs" />

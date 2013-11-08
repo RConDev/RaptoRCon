@@ -102,6 +102,7 @@
     <Compile Include="Config\MefDependencyResolver.cs" />
     <Compile Include="Controllers\CommandController.cs" />
     <Compile Include="Controllers\ConnectionController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\RaptoRConApiControllerBase.cs" />
     <Compile Include="Hosting\ConnectionHost.cs" />
     <Compile Include="Hosting\Exceptions\ConnectionAlreadyAddedException.cs" />
@@ -122,6 +123,10 @@
     <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">
       <Project>{d593ef35-e70e-474c-b477-0deb23db5efa}</Project>
       <Name>RaptoRCon.Games.Dice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Games\RaptoRCon.Games.csproj">
+      <Project>{8b32417e-a506-4bc6-834a-8077dcea9d8b}</Project>
+      <Name>RaptoRCon.Games</Name>
     </ProjectReference>
     <ProjectReference Include="..\RaptoRCon.Shared\RaptoRCon.Shared.csproj">
       <Project>{D0D98DBC-DD03-42EE-AA80-DACB72FF76F9}</Project>
