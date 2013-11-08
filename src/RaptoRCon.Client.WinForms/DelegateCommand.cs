@@ -13,6 +13,7 @@ namespace RaptoRCon.Client.WinForms
         private readonly Action<object> _execute;
 
         public event EventHandler CanExecuteChanged;
+        private Action<object> action;
 
         public DelegateCommand(Action<object> execute)
             : this(execute, null)

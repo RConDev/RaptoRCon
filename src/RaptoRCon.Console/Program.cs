@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Logging;
-using RaptoRCon.Dice;
+using RaptoRCon.Games.Dice;
 using RaptoRCon.Server;
 using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;

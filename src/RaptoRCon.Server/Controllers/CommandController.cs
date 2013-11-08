@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web.Http;
-using RaptoRCon.Dice;
+using RaptoRCon.Games.Dice;
 using RaptoRCon.Server.Config;
 using RaptoRCon.Shared.Models;
 using RaptoRCon.Sockets;
@@ -13,7 +13,8 @@ using RaptoRCon.Server.Hosting;
 using Microsoft.AspNet.SignalR.Client;
 using System.Text;
 using System.Linq;
-using RaptoRCon.Dice.Factories;
+using RaptoRCon.Games.Dice.Factories;
+using RaptoRCon.Games;
 
 namespace RaptoRCon.Server.Controllers
 {
@@ -22,7 +23,7 @@ namespace RaptoRCon.Server.Controllers
     public class CommandController : RaptoRConApiControllerBase
     {
         [ImportingConstructor]
-        public CommandController(ConnectionHost connectionHost ) : base(connectionHost)
+        public CommandController(IConnectionHost connectionHost ) : base(connectionHost)
         {
         }
 
@@ -30,9 +31,9 @@ namespace RaptoRCon.Server.Controllers
         {
             var connection = GetHostedConnection(command.ConnectionId);
 
-            var commandString = new DiceCommandString(command.CommandString);
-            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client), commandString.ToWords());
-            var tmp = await connection.Connection.Socket.SendAsync(new SocketData(packet.ToBytes()));
+            var gameCommand = new GameCommand() { Command = command.CommandString };
+
+            await connection.Connection.SendAsync(gameCommand);
 
             return new CommandResult();
         }

@@ -1,4 +1,4 @@
-﻿using RaptoRCon.Dice;
+﻿using RaptoRCon.Games.Dice;
 using RaptoRCon.Server.Hosting.Exceptions;
 using RaptoRCon.Sockets;
 using System;
@@ -10,11 +10,9 @@ using System.Threading.Tasks;
 
 namespace RaptoRCon.Server.Hosting
 {
-    [Export]
-    public class ConnectionHost
+    [Export(typeof(IConnectionHost))]
+    public class ConnectionHost : IConnectionHost
     {
-        ////public IDiceConnection Socket { get; set; }
-
         private IList<IHostedConnection> connections = new List<IHostedConnection>();
 
         /// <summary>
@@ -45,6 +43,17 @@ namespace RaptoRCon.Server.Hosting
             }
 
             return connection;
+        }
+
+        public bool Remove(IHostedConnection hostedConnection)
+        {
+            if (connections.Contains(hostedConnection))
+            {
+                connections.Remove(hostedConnection);
+                return true;
+            }
+
+            return false;
         }
     }
 }

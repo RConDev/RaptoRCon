@@ -1,5 +1,5 @@
 ﻿using Moq;
-using RaptoRCon.Dice;
+using RaptoRCon.Games.Dice;
 using RaptoRCon.Server.Hosting;
 using RaptoRCon.Server.Hosting.Exceptions;
 using System;
@@ -15,12 +15,12 @@ namespace RaptoRCon.Server.Tests.Hosting
     [ExcludeFromCodeCoverage]
     public class ConnectionHostTest
     {
-        private ConnectionHost connectionHost;
+        private ConnectionHost sut;
         private Mock<IHostedConnection> hostedConnectionMock;
         
         public ConnectionHostTest()
         {
-            connectionHost = new ConnectionHost();
+            sut = new ConnectionHost();
             hostedConnectionMock = new Mock<IHostedConnection>();
         }
 
@@ -29,16 +29,16 @@ namespace RaptoRCon.Server.Tests.Hosting
         [Fact]
         public void Get_WithNoConnectionAdded_ReturnsEmptyEnumerable()
         {
-            IEnumerable<IHostedConnection> connections = connectionHost.Get();
+            IEnumerable<IHostedConnection> connections = sut.Get();
             Assert.False(connections.Any());
         }
 
         [Fact]
         public void Get_AfterConnectionAdded_Returns1ItemInEnumerable() 
         {
-            connectionHost.Add(hostedConnectionMock.Object);
+            sut.Add(hostedConnectionMock.Object);
             
-            var connections = connectionHost.Get();
+            var connections = sut.Get();
 
             Assert.True(connections.Count() == 1);
         }
@@ -50,7 +50,7 @@ namespace RaptoRCon.Server.Tests.Hosting
         [Fact]
         public void Get_WithNoConnectionAdded_ThrowsUnknownConnectionIdException()
         {
-            Assert.Throws<UnknownConnectionIdException>(() => connectionHost.Get(Guid.NewGuid()));
+            Assert.Throws<UnknownConnectionIdException>(() => sut.Get(Guid.NewGuid()));
         }
         
         #endregion
@@ -63,9 +63,9 @@ namespace RaptoRCon.Server.Tests.Hosting
             var guid = Guid.NewGuid();
             hostedConnectionMock.Setup(x => x.Id).Returns(guid);
             var hostedConnection = hostedConnectionMock.Object;
-            connectionHost.Add(hostedConnection);
+            sut.Add(hostedConnection);
             
-            var connection = connectionHost.Get(guid);
+            var connection = sut.Get(guid);
             Assert.Equal(hostedConnection, connection);
         }
 
@@ -76,8 +76,36 @@ namespace RaptoRCon.Server.Tests.Hosting
             hostedConnectionMock.Setup(x => x.Id).Returns(guid);
             var hostedConnection = hostedConnectionMock.Object;
 
-            connectionHost.Add(hostedConnection);
-            Assert.Throws<ConnectionAlreadyAddedException>(() => connectionHost.Add(hostedConnection));
+            sut.Add(hostedConnection);
+            Assert.Throws<ConnectionAlreadyAddedException>(() => sut.Add(hostedConnection));
+        }
+
+        #endregion
+
+        #region Remove(IHostedConnection)
+
+        [Fact]
+        public void Remove_IHostedConnectionWithEmptyConnectionHost_ReturnsFalse()
+        {
+            Assert.False(sut.Remove(hostedConnectionMock.Object));
+        }
+
+        [Fact]
+        public void Remove_AddedIHostedConnection_ReturnsTrue()
+        {
+            var hostedConnection = hostedConnectionMock.Object;
+            sut.Add(hostedConnection);
+
+            Assert.True(sut.Remove(hostedConnection));
+        }
+
+        [Fact]
+        public void Remove_AddedIHostedConnection_RemovesConnectionFromList()
+        {
+            var hostedConnection = hostedConnectionMock.Object;
+            sut.Add(hostedConnection);
+            sut.Remove(hostedConnection);
+            Assert.Equal(0, sut.Get().Count());
         }
 
         #endregion

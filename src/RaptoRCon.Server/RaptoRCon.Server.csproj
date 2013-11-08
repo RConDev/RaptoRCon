@@ -102,12 +102,14 @@
     <Compile Include="Config\MefDependencyResolver.cs" />
     <Compile Include="Controllers\CommandController.cs" />
     <Compile Include="Controllers\ConnectionController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\RaptoRConApiControllerBase.cs" />
     <Compile Include="Hosting\ConnectionHost.cs" />
     <Compile Include="Hosting\Exceptions\ConnectionAlreadyAddedException.cs" />
     <Compile Include="Hosting\HostedConnection.cs" />
+    <Compile Include="Hosting\IConnectionHost.cs" />
     <Compile Include="Hosting\IHostedConnection.cs" />
-    <Compile Include="Hosting\UnknownConnectionIdException.cs" />
+    <Compile Include="Hosting\Exceptions\UnknownConnectionIdException.cs" />
     <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="IRaptoRConServer.cs" />
     <Compile Include="RaptoRConServer.cs" />
@@ -118,9 +120,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RaptoRCon.Dice\RaptoRCon.Dice.csproj">
-      <Project>{D593EF35-E70E-474C-B477-0DEB23DB5EFA}</Project>
-      <Name>RaptoRCon.Dice</Name>
+    <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">
+      <Project>{d593ef35-e70e-474c-b477-0deb23db5efa}</Project>
+      <Name>RaptoRCon.Games.Dice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Games\RaptoRCon.Games.csproj">
+      <Project>{8b32417e-a506-4bc6-834a-8077dcea9d8b}</Project>
+      <Name>RaptoRCon.Games</Name>
     </ProjectReference>
     <ProjectReference Include="..\RaptoRCon.Shared\RaptoRCon.Shared.csproj">
       <Project>{D0D98DBC-DD03-42EE-AA80-DACB72FF76F9}</Project>
@@ -133,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
 using RaptoRCon.Server.Hosting;
+using RaptoRCon.Server.Hosting.Exceptions;
 using RaptoRCon.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,10 @@ namespace RaptoRCon.Server.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class RaptoRConApiControllerBase : ApiController
     {
-        protected ConnectionHost ConnectionHost { get; private set; }
+        protected IConnectionHost ConnectionHost { get; private set; }
 
         [ImportingConstructor]
-        public RaptoRConApiControllerBase(ConnectionHost connectionHost)
+        public RaptoRConApiControllerBase(IConnectionHost connectionHost)
         {
             this.ConnectionHost = connectionHost;
             var hubConnection = new HubConnection("http://localhost:10505/");
@@ -42,7 +43,7 @@ namespace RaptoRCon.Server.Controllers
             {
                 var response = new HttpResponseMessage(HttpStatusCode.RequestedRangeNotSatisfiable)
                 {
-                    Content = new ObjectContent<ExceptionMessage>(new ExceptionMessage() { Message = "The connection id was not awailable.", Reference = connectionId.ToString() }, new JsonMediaTypeFormatter())
+                    Content = new ObjectContent<ExceptionMessage>(new ExceptionMessage() { Message = "The connection id was not available.", Reference = connectionId.ToString() }, new JsonMediaTypeFormatter())
                 };
 
                 throw new HttpResponseException(response);

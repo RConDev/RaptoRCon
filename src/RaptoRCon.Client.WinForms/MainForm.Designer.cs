@@ -32,25 +32,31 @@
             System.Windows.Forms.Label hostNameLabel;
             System.Windows.Forms.Label portLabel;
             System.Windows.Forms.Label commandLabel;
+            System.Windows.Forms.Label gamesLabel;
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsDataGridView = new System.Windows.Forms.DataGridView();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hostNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.portDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.connectionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.mainFormViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gamesComboBox = new System.Windows.Forms.ComboBox();
+            this.gamesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.removeButton = new System.Windows.Forms.Button();
             this.addConnectionButton = new System.Windows.Forms.Button();
             this.portTextBox = new System.Windows.Forms.TextBox();
             this.hostNameTextBox = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
             this.commandTextBox = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.packetsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hostNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.portDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mainFormViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.contentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.packetsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
             hostNameLabel = new System.Windows.Forms.Label();
             portLabel = new System.Windows.Forms.Label();
             commandLabel = new System.Windows.Forms.Label();
+            gamesLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
@@ -61,15 +67,16 @@
             this.connectionsContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.packetsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // hostNameLabel
             // 
             hostNameLabel.AutoSize = true;
-            hostNameLabel.Location = new System.Drawing.Point(12, 13);
+            hostNameLabel.Location = new System.Drawing.Point(12, 59);
             hostNameLabel.Name = "hostNameLabel";
             hostNameLabel.Size = new System.Drawing.Size(63, 13);
             hostNameLabel.TabIndex = 0;
@@ -78,7 +85,7 @@
             // portLabel
             // 
             portLabel.AutoSize = true;
-            portLabel.Location = new System.Drawing.Point(12, 39);
+            portLabel.Location = new System.Drawing.Point(12, 85);
             portLabel.Name = "portLabel";
             portLabel.Size = new System.Drawing.Size(29, 13);
             portLabel.TabIndex = 2;
@@ -92,6 +99,15 @@
             commandLabel.Size = new System.Drawing.Size(84, 13);
             commandLabel.TabIndex = 1;
             commandLabel.Text = "CommandString:";
+            // 
+            // gamesLabel
+            // 
+            gamesLabel.AutoSize = true;
+            gamesLabel.Location = new System.Drawing.Point(12, 32);
+            gamesLabel.Name = "gamesLabel";
+            gamesLabel.Size = new System.Drawing.Size(38, 13);
+            gamesLabel.TabIndex = 7;
+            gamesLabel.Text = "Game:";
             // 
             // mainContainer
             // 
@@ -129,13 +145,16 @@
             // connectionsContainer.Panel2
             // 
             this.connectionsContainer.Panel2.AutoScroll = true;
+            this.connectionsContainer.Panel2.Controls.Add(gamesLabel);
+            this.connectionsContainer.Panel2.Controls.Add(this.gamesComboBox);
+            this.connectionsContainer.Panel2.Controls.Add(this.removeButton);
             this.connectionsContainer.Panel2.Controls.Add(this.addConnectionButton);
             this.connectionsContainer.Panel2.Controls.Add(portLabel);
             this.connectionsContainer.Panel2.Controls.Add(this.portTextBox);
             this.connectionsContainer.Panel2.Controls.Add(hostNameLabel);
             this.connectionsContainer.Panel2.Controls.Add(this.hostNameTextBox);
             this.connectionsContainer.Size = new System.Drawing.Size(312, 457);
-            this.connectionsContainer.SplitterDistance = 372;
+            this.connectionsContainer.SplitterDistance = 293;
             this.connectionsContainer.TabIndex = 0;
             // 
             // connectionsDataGridView
@@ -147,78 +166,11 @@
             this.hostNameDataGridViewTextBoxColumn,
             this.portDataGridViewTextBoxColumn});
             this.connectionsDataGridView.DataSource = this.connectionsBindingSource;
-            this.connectionsDataGridView.Location = new System.Drawing.Point(0, 3);
+            this.connectionsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.connectionsDataGridView.Location = new System.Drawing.Point(0, 0);
             this.connectionsDataGridView.Name = "connectionsDataGridView";
-            this.connectionsDataGridView.Size = new System.Drawing.Size(309, 366);
+            this.connectionsDataGridView.Size = new System.Drawing.Size(312, 293);
             this.connectionsDataGridView.TabIndex = 0;
-            // 
-            // connectionsBindingSource
-            // 
-            this.connectionsBindingSource.DataMember = "Connections";
-            this.connectionsBindingSource.DataSource = this.mainFormViewModelBindingSource;
-            // 
-            // addConnectionButton
-            // 
-            this.addConnectionButton.Location = new System.Drawing.Point(203, 34);
-            this.addConnectionButton.Name = "addConnectionButton";
-            this.addConnectionButton.Size = new System.Drawing.Size(106, 23);
-            this.addConnectionButton.TabIndex = 4;
-            this.addConnectionButton.Text = "Add";
-            this.addConnectionButton.UseVisualStyleBackColor = true;
-            this.addConnectionButton.Click += new System.EventHandler(this.addConnectionButton_Click);
-            // 
-            // portTextBox
-            // 
-            this.portTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Port", true));
-            this.portTextBox.Location = new System.Drawing.Point(81, 36);
-            this.portTextBox.Name = "portTextBox";
-            this.portTextBox.Size = new System.Drawing.Size(100, 20);
-            this.portTextBox.TabIndex = 3;
-            // 
-            // hostNameTextBox
-            // 
-            this.hostNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "HostName", true));
-            this.hostNameTextBox.Location = new System.Drawing.Point(81, 10);
-            this.hostNameTextBox.Name = "hostNameTextBox";
-            this.hostNameTextBox.Size = new System.Drawing.Size(228, 20);
-            this.hostNameTextBox.TabIndex = 1;
-            // 
-            // sendButton
-            // 
-            this.sendButton.Location = new System.Drawing.Point(431, 410);
-            this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(106, 23);
-            this.sendButton.TabIndex = 5;
-            this.sendButton.Text = "Send";
-            this.sendButton.UseVisualStyleBackColor = true;
-            this.sendButton.Click += new System.EventHandler(this.sendButton_Click_1);
-            // 
-            // commandTextBox
-            // 
-            this.commandTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.connectionsBindingSource, "CommandString", true));
-            this.commandTextBox.Location = new System.Drawing.Point(104, 412);
-            this.commandTextBox.Name = "commandTextBox";
-            this.commandTextBox.Size = new System.Drawing.Size(321, 20);
-            this.commandTextBox.TabIndex = 2;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.contentDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.packetsBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(-1, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(623, 366);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // packetsBindingSource
-            // 
-            this.packetsBindingSource.DataMember = "Packets";
-            this.packetsBindingSource.DataSource = this.connectionsBindingSource;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -241,9 +193,101 @@
             this.portDataGridViewTextBoxColumn.Name = "portDataGridViewTextBoxColumn";
             this.portDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // connectionsBindingSource
+            // 
+            this.connectionsBindingSource.DataMember = "Connections";
+            this.connectionsBindingSource.DataSource = this.mainFormViewModelBindingSource;
+            this.connectionsBindingSource.CurrentChanged += new System.EventHandler(this.connectionsBindingSource_CurrentChanged);
+            // 
             // mainFormViewModelBindingSource
             // 
             this.mainFormViewModelBindingSource.DataSource = typeof(RaptoRCon.Client.WinForms.MainFormViewModel);
+            // 
+            // gamesComboBox
+            // 
+            this.gamesComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.mainFormViewModelBindingSource, "CurrentGameId", true));
+            this.gamesComboBox.DataSource = this.gamesBindingSource;
+            this.gamesComboBox.DisplayMember = "Name";
+            this.gamesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gamesComboBox.FormattingEnabled = true;
+            this.gamesComboBox.Location = new System.Drawing.Point(81, 29);
+            this.gamesComboBox.Name = "gamesComboBox";
+            this.gamesComboBox.Size = new System.Drawing.Size(228, 21);
+            this.gamesComboBox.TabIndex = 6;
+            this.gamesComboBox.ValueMember = "Id";
+            // 
+            // gamesBindingSource
+            // 
+            this.gamesBindingSource.DataMember = "Games";
+            this.gamesBindingSource.DataSource = this.mainFormViewModelBindingSource;
+            // 
+            // removeButton
+            // 
+            this.removeButton.Location = new System.Drawing.Point(247, 82);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(62, 23);
+            this.removeButton.TabIndex = 5;
+            this.removeButton.Text = "Remove";
+            this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
+            // addConnectionButton
+            // 
+            this.addConnectionButton.Location = new System.Drawing.Point(187, 82);
+            this.addConnectionButton.Name = "addConnectionButton";
+            this.addConnectionButton.Size = new System.Drawing.Size(54, 23);
+            this.addConnectionButton.TabIndex = 4;
+            this.addConnectionButton.Text = "Add";
+            this.addConnectionButton.UseVisualStyleBackColor = true;
+            this.addConnectionButton.Click += new System.EventHandler(this.addConnectionButton_Click);
+            // 
+            // portTextBox
+            // 
+            this.portTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Port", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.portTextBox.Location = new System.Drawing.Point(81, 82);
+            this.portTextBox.Name = "portTextBox";
+            this.portTextBox.Size = new System.Drawing.Size(100, 20);
+            this.portTextBox.TabIndex = 3;
+            // 
+            // hostNameTextBox
+            // 
+            this.hostNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "HostName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.hostNameTextBox.Location = new System.Drawing.Point(81, 56);
+            this.hostNameTextBox.Name = "hostNameTextBox";
+            this.hostNameTextBox.Size = new System.Drawing.Size(228, 20);
+            this.hostNameTextBox.TabIndex = 1;
+            // 
+            // sendButton
+            // 
+            this.sendButton.Location = new System.Drawing.Point(431, 410);
+            this.sendButton.Name = "sendButton";
+            this.sendButton.Size = new System.Drawing.Size(106, 23);
+            this.sendButton.TabIndex = 5;
+            this.sendButton.Text = "Send";
+            this.sendButton.UseVisualStyleBackColor = true;
+            this.sendButton.Click += new System.EventHandler(this.sendButton_Click_1);
+            // 
+            // commandTextBox
+            // 
+            this.commandTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.connectionsBindingSource, "CommandString", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.commandTextBox.Location = new System.Drawing.Point(104, 412);
+            this.commandTextBox.Name = "commandTextBox";
+            this.commandTextBox.Size = new System.Drawing.Size(321, 20);
+            this.commandTextBox.TabIndex = 2;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.contentDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.packetsBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(-1, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(623, 366);
+            this.dataGridView1.TabIndex = 0;
             // 
             // contentDataGridViewTextBoxColumn
             // 
@@ -251,6 +295,18 @@
             this.contentDataGridViewTextBoxColumn.HeaderText = "Content";
             this.contentDataGridViewTextBoxColumn.Name = "contentDataGridViewTextBoxColumn";
             this.contentDataGridViewTextBoxColumn.Width = 500;
+            // 
+            // packetsBindingSource
+            // 
+            this.packetsBindingSource.DataMember = "Packets";
+            this.packetsBindingSource.DataSource = this.connectionsBindingSource;
+            // 
+            // dataGridViewButtonColumn1
+            // 
+            this.dataGridViewButtonColumn1.DataPropertyName = "CloseCommand";
+            this.dataGridViewButtonColumn1.HeaderText = "Delete";
+            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
+            this.dataGridViewButtonColumn1.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -260,7 +316,6 @@
             this.Controls.Add(this.mainContainer);
             this.Name = "MainForm";
             this.Text = "RaptoRCon";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainContainer.Panel1.ResumeLayout(false);
             this.mainContainer.Panel2.ResumeLayout(false);
             this.mainContainer.Panel2.PerformLayout();
@@ -273,9 +328,10 @@
             this.connectionsContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.connectionsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.packetsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -291,13 +347,17 @@
         private System.Windows.Forms.TextBox hostNameTextBox;
         private System.Windows.Forms.Button addConnectionButton;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource packetsBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.TextBox commandTextBox;
+        private System.Windows.Forms.Button removeButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
+        private System.Windows.Forms.ComboBox gamesComboBox;
+        private System.Windows.Forms.BindingSource gamesBindingSource;
 
     }
 }

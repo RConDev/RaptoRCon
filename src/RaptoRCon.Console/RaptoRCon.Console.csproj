@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RaptoRCon.Dice\RaptoRCon.Dice.csproj">
-      <Project>{D593EF35-E70E-474C-B477-0DEB23DB5EFA}</Project>
-      <Name>RaptoRCon.Dice</Name>
+    <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">
+      <Project>{d593ef35-e70e-474c-b477-0deb23db5efa}</Project>
+      <Name>RaptoRCon.Games.Dice</Name>
     </ProjectReference>
     <ProjectReference Include="..\RaptoRCon.Server\RaptoRCon.Server.csproj">
       <Project>{870416C3-E54C-436A-8C45-89E0E2268F02}</Project>
