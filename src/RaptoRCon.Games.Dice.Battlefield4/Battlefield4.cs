@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RaptoRCon.Games.Dice.Factories;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4
 
         public override IGameConnectionFactory ConnectionFactory
         {
-            get { throw new NotImplementedException(); }
+            get { return new GameConnectionFactory(new DiceConnectionFactory()); }
         }
     }
 }

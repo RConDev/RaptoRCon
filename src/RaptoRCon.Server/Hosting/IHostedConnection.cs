@@ -1,4 +1,5 @@
-﻿using RaptoRCon.Games.Dice;
+﻿using RaptoRCon.Games;
+using RaptoRCon.Games.Dice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace RaptoRCon.Server.Hosting
         /// <summary>
         /// Gets the underlying connection used for communication
         /// </summary>
-        IDiceConnection Connection { get; }
+        IGameConnection Connection { get; }
 
 
 

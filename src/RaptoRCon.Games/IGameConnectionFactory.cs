@@ -17,6 +17,6 @@ namespace RaptoRCon.Games
         /// </summary>
         /// <param name="connectionInfo"></param>
         /// <returns></returns>
-        Task<IGameConnection> Create(IGameConnectionInfo connectionInfo);
+        Task<IGameConnection> CreateAsync(IGameConnectionInfo connectionInfo);
     }
 }

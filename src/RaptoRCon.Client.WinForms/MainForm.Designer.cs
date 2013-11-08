@@ -32,6 +32,7 @@
             System.Windows.Forms.Label hostNameLabel;
             System.Windows.Forms.Label portLabel;
             System.Windows.Forms.Label commandLabel;
+            System.Windows.Forms.Label gamesLabel;
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsDataGridView = new System.Windows.Forms.DataGridView();
@@ -40,6 +41,8 @@
             this.portDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.connectionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gamesComboBox = new System.Windows.Forms.ComboBox();
+            this.gamesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.removeButton = new System.Windows.Forms.Button();
             this.addConnectionButton = new System.Windows.Forms.Button();
             this.portTextBox = new System.Windows.Forms.TextBox();
@@ -53,6 +56,7 @@
             hostNameLabel = new System.Windows.Forms.Label();
             portLabel = new System.Windows.Forms.Label();
             commandLabel = new System.Windows.Forms.Label();
+            gamesLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
@@ -64,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.connectionsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.packetsBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -71,7 +76,7 @@
             // hostNameLabel
             // 
             hostNameLabel.AutoSize = true;
-            hostNameLabel.Location = new System.Drawing.Point(12, 13);
+            hostNameLabel.Location = new System.Drawing.Point(12, 59);
             hostNameLabel.Name = "hostNameLabel";
             hostNameLabel.Size = new System.Drawing.Size(63, 13);
             hostNameLabel.TabIndex = 0;
@@ -80,7 +85,7 @@
             // portLabel
             // 
             portLabel.AutoSize = true;
-            portLabel.Location = new System.Drawing.Point(12, 39);
+            portLabel.Location = new System.Drawing.Point(12, 85);
             portLabel.Name = "portLabel";
             portLabel.Size = new System.Drawing.Size(29, 13);
             portLabel.TabIndex = 2;
@@ -94,6 +99,15 @@
             commandLabel.Size = new System.Drawing.Size(84, 13);
             commandLabel.TabIndex = 1;
             commandLabel.Text = "CommandString:";
+            // 
+            // gamesLabel
+            // 
+            gamesLabel.AutoSize = true;
+            gamesLabel.Location = new System.Drawing.Point(12, 32);
+            gamesLabel.Name = "gamesLabel";
+            gamesLabel.Size = new System.Drawing.Size(38, 13);
+            gamesLabel.TabIndex = 7;
+            gamesLabel.Text = "Game:";
             // 
             // mainContainer
             // 
@@ -131,6 +145,8 @@
             // connectionsContainer.Panel2
             // 
             this.connectionsContainer.Panel2.AutoScroll = true;
+            this.connectionsContainer.Panel2.Controls.Add(gamesLabel);
+            this.connectionsContainer.Panel2.Controls.Add(this.gamesComboBox);
             this.connectionsContainer.Panel2.Controls.Add(this.removeButton);
             this.connectionsContainer.Panel2.Controls.Add(this.addConnectionButton);
             this.connectionsContainer.Panel2.Controls.Add(portLabel);
@@ -138,7 +154,7 @@
             this.connectionsContainer.Panel2.Controls.Add(hostNameLabel);
             this.connectionsContainer.Panel2.Controls.Add(this.hostNameTextBox);
             this.connectionsContainer.Size = new System.Drawing.Size(312, 457);
-            this.connectionsContainer.SplitterDistance = 372;
+            this.connectionsContainer.SplitterDistance = 293;
             this.connectionsContainer.TabIndex = 0;
             // 
             // connectionsDataGridView
@@ -150,9 +166,10 @@
             this.hostNameDataGridViewTextBoxColumn,
             this.portDataGridViewTextBoxColumn});
             this.connectionsDataGridView.DataSource = this.connectionsBindingSource;
-            this.connectionsDataGridView.Location = new System.Drawing.Point(0, 3);
+            this.connectionsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.connectionsDataGridView.Location = new System.Drawing.Point(0, 0);
             this.connectionsDataGridView.Name = "connectionsDataGridView";
-            this.connectionsDataGridView.Size = new System.Drawing.Size(309, 366);
+            this.connectionsDataGridView.Size = new System.Drawing.Size(312, 293);
             this.connectionsDataGridView.TabIndex = 0;
             // 
             // idDataGridViewTextBoxColumn
@@ -186,9 +203,27 @@
             // 
             this.mainFormViewModelBindingSource.DataSource = typeof(RaptoRCon.Client.WinForms.MainFormViewModel);
             // 
+            // gamesComboBox
+            // 
+            this.gamesComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.mainFormViewModelBindingSource, "CurrentGameId", true));
+            this.gamesComboBox.DataSource = this.gamesBindingSource;
+            this.gamesComboBox.DisplayMember = "Name";
+            this.gamesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gamesComboBox.FormattingEnabled = true;
+            this.gamesComboBox.Location = new System.Drawing.Point(81, 29);
+            this.gamesComboBox.Name = "gamesComboBox";
+            this.gamesComboBox.Size = new System.Drawing.Size(228, 21);
+            this.gamesComboBox.TabIndex = 6;
+            this.gamesComboBox.ValueMember = "Id";
+            // 
+            // gamesBindingSource
+            // 
+            this.gamesBindingSource.DataMember = "Games";
+            this.gamesBindingSource.DataSource = this.mainFormViewModelBindingSource;
+            // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(247, 36);
+            this.removeButton.Location = new System.Drawing.Point(247, 82);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(62, 23);
             this.removeButton.TabIndex = 5;
@@ -198,7 +233,7 @@
             // 
             // addConnectionButton
             // 
-            this.addConnectionButton.Location = new System.Drawing.Point(187, 36);
+            this.addConnectionButton.Location = new System.Drawing.Point(187, 82);
             this.addConnectionButton.Name = "addConnectionButton";
             this.addConnectionButton.Size = new System.Drawing.Size(54, 23);
             this.addConnectionButton.TabIndex = 4;
@@ -209,7 +244,7 @@
             // portTextBox
             // 
             this.portTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Port", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.portTextBox.Location = new System.Drawing.Point(81, 36);
+            this.portTextBox.Location = new System.Drawing.Point(81, 82);
             this.portTextBox.Name = "portTextBox";
             this.portTextBox.Size = new System.Drawing.Size(100, 20);
             this.portTextBox.TabIndex = 3;
@@ -217,7 +252,7 @@
             // hostNameTextBox
             // 
             this.hostNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "HostName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.hostNameTextBox.Location = new System.Drawing.Point(81, 10);
+            this.hostNameTextBox.Location = new System.Drawing.Point(81, 56);
             this.hostNameTextBox.Name = "hostNameTextBox";
             this.hostNameTextBox.Size = new System.Drawing.Size(228, 20);
             this.hostNameTextBox.TabIndex = 1;
@@ -294,6 +329,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.connectionsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.packetsBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -320,6 +356,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
+        private System.Windows.Forms.ComboBox gamesComboBox;
+        private System.Windows.Forms.BindingSource gamesBindingSource;
 
     }
 }

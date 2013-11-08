@@ -46,6 +46,7 @@
     <Compile Include="GameBase.cs" />
     <Compile Include="GameCommand.cs" />
     <Compile Include="GameConnectionEventArgs.cs" />
+    <Compile Include="GameConnectionInfo.cs" />
     <Compile Include="GameDataEventArgs.cs" />
     <Compile Include="GamesContext.cs" />
     <Compile Include="IGame.cs" />

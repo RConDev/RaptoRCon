@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using Connection = RaptoRCon.Shared.Models.Connection;
 namespace RaptoRCon.Client.WinForms
 {
-    public partial class MainForm : Form, ISyncCall
+    public partial class MainForm : Form
     {
         private HttpClient httpClient;
         private HubConnection hubConnection;
@@ -73,12 +73,5 @@ namespace RaptoRCon.Client.WinForms
                 command.Execute(this.DataContext);
             }
         }
-
-        void ISyncCall.Invoke(Action action)
-        {
-            this.Invoke(action);
-        }
-
-        public bool syncInvoker { get; set; }
     }
 }

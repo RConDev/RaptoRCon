@@ -45,6 +45,7 @@
     </Compile>
     <Compile Include="Battlefield4.cs" />
     <Compile Include="GameConnection.cs" />
+    <Compile Include="GameConnectionFactory.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

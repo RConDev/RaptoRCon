@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
+using RaptoRCon.Client.WinForms.Sdk;
+using RaptoRCon.Shared.Commands;
 using RaptoRCon.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -18,13 +20,7 @@ namespace RaptoRCon.Client.WinForms
         private int port;
         private ObservableCollection<ConnectionViewModel> connections;
         private HttpClient httpClient;
-
-        private ICommand getConnectionsCommand = new DelegateCommand(async p => {
-            var viewModel = p as MainFormViewModel;
-            if (viewModel == null) return;
-
-            ////await GetConnectionsAsync(viewModel);
-        });
+        private GamesClient gamesClient = new GamesClient();
 
         private static async Task GetConnectionsAsync(MainFormViewModel viewModel)
         {
@@ -45,7 +41,6 @@ namespace RaptoRCon.Client.WinForms
             if (viewModel == null) return;
 
             await AddConnectionAsync(viewModel);
-            ////await GetConnectionsAsync(viewModel);
         });
 
         private ICommand removeConnectionCommand = new DelegateCommand(async p =>
@@ -89,19 +84,21 @@ namespace RaptoRCon.Client.WinForms
         private async Task Initialize()
         {
             await GetConnectionsAsync(this);
+            await GetGamesAsync(this);
         }
 
         private void InitializeHub()
         {
             this.HubConnection = new HubConnection("http://localhost:10505/");
             var messageHubProxy = HubConnection.CreateHubProxy("MessageHub");
-            messageHubProxy.On<Guid, string>("SendMessage", (id, message) => {
-                
+            messageHubProxy.On<Guid, string>("SendMessage", (id, message) =>
+            {
+
                 var connection = this.connections.SingleOrDefault(x => x.Id == id);
                 if (connection == null) return;
 
                 connection.Context.Post(state => ((ConnectionViewModel)state).AddPacket(new Packet() { Content = message }), connection);
-                
+
             });
             HubConnection.Start();
         }
@@ -111,7 +108,7 @@ namespace RaptoRCon.Client.WinForms
             get { return addConnectionCommand; }
         }
 
-        public ICommand RemoveConnectionCommand { get { return removeConnectionCommand; } } 
+        public ICommand RemoveConnectionCommand { get { return removeConnectionCommand; } }
 
         public ObservableCollection<ConnectionViewModel> Connections
         {
@@ -125,20 +122,29 @@ namespace RaptoRCon.Client.WinForms
 
         #region Private Methods
 
+        private static async Task GetGamesAsync(MainFormViewModel viewModel)
+        {
+            var games = await viewModel.gamesClient.GetAsync();
+            viewModel.Context.Post(state => ((MainFormViewModel)state).Games = new ObservableCollection<Game>(games), viewModel);
+
+        }
+
         private static async Task AddConnectionAsync(MainFormViewModel viewModel)
         {
-            var connection = new RaptoRCon.Shared.Models.Connection()
+            var createConnection = new CreateConnectionCommand()
             {
+                GameId = viewModel.CurrentGameId.Value,
                 HostName = viewModel.HostName,
                 Port = viewModel.Port
             };
 
-            var response = await viewModel.HttpClient.PostAsJsonAsync<RaptoRCon.Shared.Models.Connection>("connection", connection);
+            var response = await viewModel.HttpClient.PostAsJsonAsync<CreateConnectionCommand>("connection", createConnection);
             response.EnsureSuccessStatusCode();
 
             var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();
             viewModel.Context.Post(state => ((MainFormViewModel)state).AddConnection(new ConnectionViewModel(connectionCreated.Connection)), viewModel);
 
+            viewModel.CurrentGameId = null;
             viewModel.HostName = null;
             viewModel.Port = 0;
         }
@@ -149,10 +155,10 @@ namespace RaptoRCon.Client.WinForms
             this.OnPropertyChanged("Connections");
         }
 
-        private void RemoveConnection(ConnectionViewModel connectionViewModel) 
+        private void RemoveConnection(ConnectionViewModel connectionViewModel)
         {
             this.Connections.Remove(connectionViewModel);
-                OnPropertyChanged("Connections");
+            OnPropertyChanged("Connections");
         }
 
         private static async Task RemoveConnectionAsync(MainFormViewModel viewModel)
@@ -168,5 +174,18 @@ namespace RaptoRCon.Client.WinForms
         #endregion
 
         public HubConnection HubConnection { get; set; }
+
+        private ObservableCollection<Game> games;
+        public ObservableCollection<Game> Games
+        {
+            get { return games; }
+            set
+            {
+                this.games = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Guid? CurrentGameId { get; set; }
     }
 }

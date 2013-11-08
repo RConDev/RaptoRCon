@@ -17,7 +17,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4
             diceConnection.PacketReceived +=
                 (sender, e) =>
                 {
-                    var gameData = new GameData();
+                    var gameData = new GameData() { DataString = e.Packet.ToString()};
                     var eventArgs = new GameDataEventArgs(gameData);
                     OnGameDataReceived(eventArgs);
                 };

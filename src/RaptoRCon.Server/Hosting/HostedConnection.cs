@@ -1,4 +1,5 @@
-﻿using RaptoRCon.Games.Dice;
+﻿using RaptoRCon.Games;
+using RaptoRCon.Games.Dice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,13 @@ namespace RaptoRCon.Server.Hosting
 
         public int Port { get; private set; }
 
-        public IDiceConnection Connection { get; private set; }
+        public IGameConnection Connection { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="HostedConnection"/> instance
         /// </summary>
         /// <param name="diceConnection"></param>
-        public HostedConnection(string hostName, int port, IDiceConnection diceConnection)
+        public HostedConnection(string hostName, int port, IGameConnection diceConnection)
         {
             this.Id = Guid.NewGuid();
             this.HostName = hostName;

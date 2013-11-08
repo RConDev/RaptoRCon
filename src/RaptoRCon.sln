@@ -17,6 +17,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Console", "RaptoRCon.Console\RaptoRCon.Console.csproj", "{23634519-A508-4D26-B7AE-B54C155F0F7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Server", "RaptoRCon.Server\RaptoRCon.Server.csproj", "{870416C3-E54C-436A-8C45-89E0E2268F02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFA3320D-A7DD-46ED-8716-01C00028AB00} = {AFA3320D-A7DD-46ED-8716-01C00028AB00}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptoRCon.Client.Wpf", "RaptoRCon.Client.Wpf\RaptoRCon.Client.Wpf.csproj", "{3824FB29-EF8B-4AE3-BFF7-16B966BBA40F}"
 EndProject
