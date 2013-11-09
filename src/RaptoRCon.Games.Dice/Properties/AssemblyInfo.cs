@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("56c2f1c9-89f1-4754-9f08-e4de13f909d7")]
+[assembly: InternalsVisibleTo("RaptoRCon.Games.Dice.Tests")]
