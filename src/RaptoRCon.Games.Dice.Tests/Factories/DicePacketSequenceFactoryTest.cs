@@ -104,7 +104,7 @@ namespace RaptoRCon.Games.Dice.Factories
             var instance = sequenceFactory.FromBytes(bytes);
             Assert.NotNull(instance);
 
-            Assert.Equal(PacketOrigin.Server, instance.Origin);
+            Assert.Equal(Origin.Server, instance.Origin);
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace RaptoRCon.Games.Dice.Factories
             var instance = sequenceFactory.FromBytes(bytes);
             Assert.NotNull(instance);
 
-            Assert.Equal(PacketOrigin.Client, instance.Origin);
+            Assert.Equal(Origin.Client, instance.Origin);
         }
 
         #endregion

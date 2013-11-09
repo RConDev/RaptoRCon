@@ -16,7 +16,7 @@ namespace RaptoRCon.Games.Dice.Factories
         public DicePacketFactoryTest()
         {
 
-            var sequence = new DicePacketSequence(458u, PacketType.Request, PacketOrigin.Client);
+            var sequence = new DicePacketSequence(458u, PacketType.Request, Origin.Client);
             var words = new List<IDiceWord> { new DiceWord("listPlayers"), new DiceWord("all") };
             this.expectedPacket = new DicePacket(sequence, words);
 
@@ -38,7 +38,7 @@ namespace RaptoRCon.Games.Dice.Factories
         [Fact]
         public void FromBytes_MultiplePacketBytes_ReturnsTwoPackets()
         {
-            var expectedPacket = new DicePacket(new DicePacketSequence(458, PacketType.Response, PacketOrigin.Server),
+            var expectedPacket = new DicePacket(new DicePacketSequence(458, PacketType.Response, Origin.Server),
                                             new List<IDiceWord>() { new DiceWord("OK"), new DiceWord("21"), new DiceWord("test") });
             var packetBytes = Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=").Concat(
                 Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=")).ToArray();
@@ -51,7 +51,7 @@ namespace RaptoRCon.Games.Dice.Factories
         [Fact]
         public void FromBytes_MultipleDifferentPacketBytes_ReturnsTwoPackets()
         {
-            var expectedPacket1 = new DicePacket(new DicePacketSequence(458, PacketType.Response, PacketOrigin.Server),
+            var expectedPacket1 = new DicePacket(new DicePacketSequence(458, PacketType.Response, Origin.Server),
                                             new List<IDiceWord>() { new DiceWord("OK"), new DiceWord("21"), new DiceWord("test") });
             var expectedPacket2 = this.expectedPacket;
             var packetBytes = Convert.FromBase64String("ygEAQCMAAAADAAAAAgAAAE9LAAIAAAAyMQAEAAAAdGVzdAA=").Concat(

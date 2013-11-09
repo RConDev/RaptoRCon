@@ -31,7 +31,7 @@ namespace RaptoRCon.Games.Dice.Tests
         public void ctor_WordsNull_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(
-                () => new DicePacket(new DicePacketSequence(123u, PacketType.Request, PacketOrigin.Client), null));
+                () => new DicePacket(new DicePacketSequence(123u, PacketType.Request, Origin.Client), null));
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void ToBytes_Packet458RequestServerListPlayersAll_BytesEqual()
         {
-            var packetSequence = new DicePacketSequence((uint)458, PacketType.Request, PacketOrigin.Client);
+            var packetSequence = new DicePacketSequence((uint)458, PacketType.Request, Origin.Client);
             var words = new List<IDiceWord>() {new DiceWord("listPlayers"), new DiceWord("all")};
             var packet = new DicePacket(packetSequence, words);
 
@@ -105,7 +105,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void ToString_123ClientRequestServerInfo_123ClientRequestServerInfoSize()
         {
-            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client),
+            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, Origin.Client),
                                     new List<IDiceWord>() {new DiceWord("serverInfo")});
             var actual = packet.ToString();
             Assert.Equal("{[Id: 123] [Client] [Request] [Size: 27] [1: serverInfo]}", actual);
@@ -114,7 +114,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void ToString_123ClientRequestListPlayersAll_123ClientRequestListPlayersAllSize()
         {
-            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client),
+            var packet = new DicePacket(new DicePacketSequence(123, PacketType.Request, Origin.Client),
                                     new List<IDiceWord>() { new DiceWord("listPlayers"), new DiceWord("all") });
             var actual = packet.ToString();
             Assert.Equal("{[Id: 123] [Client] [Request] [Size: 36] [1: listPlayers] [2: all]}", actual);
@@ -160,7 +160,7 @@ namespace RaptoRCon.Games.Dice.Tests
         public void Equals_AnotherPacket_True()
         {
             var packet = new DicePacket(packetSequenceMock.Object, new List<IDiceWord>() { new DiceWord("Test") });
-            var packet2 = new DicePacket(new DicePacketSequence(123, PacketType.Request, PacketOrigin.Client), new List<IDiceWord>() { new DiceWord("Test2") });
+            var packet2 = new DicePacket(new DicePacketSequence(123, PacketType.Request, Origin.Client), new List<IDiceWord>() { new DiceWord("Test2") });
             Assert.False(packet.Equals(packet2));
         }
 

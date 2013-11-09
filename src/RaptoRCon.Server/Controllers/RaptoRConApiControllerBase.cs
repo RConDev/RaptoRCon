@@ -39,7 +39,7 @@ namespace RaptoRCon.Server.Controllers
             {
                 hostedConnection = ConnectionHost.Get(connectionId); 
             }
-            catch(UnknownConnectionIdException ex) 
+            catch(UnknownConnectionIdException) 
             {
                 var response = new HttpResponseMessage(HttpStatusCode.RequestedRangeNotSatisfiable)
                 {

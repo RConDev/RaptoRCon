@@ -6,7 +6,7 @@ namespace RaptoRCon.Games.Dice
     /// This enum shows the options where a <see cref="IDicePacket"/> command can be originated.
     /// </summary>
     [DataContract]
-    public enum PacketOrigin
+    public enum Origin
     {
         /// <summary>
         /// The <see cref="IDicePacket"/> command was originated on the server

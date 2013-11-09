@@ -17,10 +17,10 @@ namespace RaptoRCon.Games.Dice
         uint Id { get; }
 
         /// <summary>
-        /// Gets the <see cref="PacketOrigin"/>-option, to show where the command
+        /// Gets the <see cref="Origin"/>-option, to show where the command
         /// of the current request/response communication was originated
         /// </summary>
-        PacketOrigin Origin { get; }
+        Origin Origin { get; }
 
         /// <summary>
         /// Gets the <see cref="PacketType"/>-option, to show wheather the current

@@ -68,7 +68,7 @@ namespace RaptoRCon.Games.Dice
         /// used in <see cref="IDicePacket"/> communication for this connection
         /// </summary>
         /// <returns></returns>
-        public async Task<uint> GetNextSequenceIdAsync()
+        public uint GetNextSequenceId()
         {
             lock (sequenceIdLock)
             {
@@ -76,7 +76,7 @@ namespace RaptoRCon.Games.Dice
             }
         }
 
-        public async Task UpdateSequenceIdAsync(uint newSequenceId)
+        public void UpdateSequenceId(uint newSequenceId)
         {
             lock (sequenceIdLock)
             {
@@ -103,7 +103,7 @@ namespace RaptoRCon.Games.Dice
                 await packetReceivedEventHandler.InvokeAllAsync(this, new DicePacketEventArgs(packet));
             }
 
-            await this.UpdateSequenceIdAsync(maxSequenceId);
+            this.UpdateSequenceId(maxSequenceId);
         }
 
         #endregion

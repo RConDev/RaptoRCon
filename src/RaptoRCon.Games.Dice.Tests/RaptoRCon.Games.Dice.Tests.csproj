@@ -70,6 +70,8 @@
     <Compile Include="PlayerNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DiceWordTest.cs" />
+    <Compile Include="SquadIdTest.cs" />
+    <Compile Include="TeamIdTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RaptoRCon.Games.Dice\RaptoRCon.Games.Dice.csproj">

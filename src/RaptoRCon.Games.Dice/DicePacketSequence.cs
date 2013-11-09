@@ -31,10 +31,10 @@ namespace RaptoRCon.Games.Dice
         public PacketType Type { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="PacketOrigin"/>-option, to show where the command
+        /// Gets the <see cref="Origin"/>-option, to show where the command
         /// of the current request/response communication was originated
         /// </summary>
-        public PacketOrigin Origin { get; private set; }
+        public Origin Origin { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="DicePacketSequence"/> instance based on the given values
@@ -42,7 +42,7 @@ namespace RaptoRCon.Games.Dice
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <param name="origin"></param>
-        public DicePacketSequence(uint id, PacketType type, PacketOrigin origin)
+        public DicePacketSequence(uint id, PacketType type, Origin origin)
         {
             #region Contracts
             if (id > MaxIdValue)
@@ -65,7 +65,7 @@ namespace RaptoRCon.Games.Dice
             var idBytes = BitConverter.GetBytes(Id);
             var bitArray = new BitArray(idBytes);
             bitArray[30] = Type == PacketType.Response;
-            bitArray[31] = Origin == PacketOrigin.Client;
+            bitArray[31] = Origin == Origin.Client;
             var sequenceBytes = new byte[4];
             bitArray.CopyTo(sequenceBytes, 0);
             return sequenceBytes;

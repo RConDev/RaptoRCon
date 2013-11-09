@@ -37,12 +37,12 @@ namespace RaptoRCon.Games.Dice.Tests
         #region GetNextSequenceId()
 
         [Fact]
-        public async Task GetNextSequenceId_NewGeneratedConnection_Returns1() 
+        public void GetNextSequenceId_NewGeneratedConnection_Returns1() 
         {
             var socketMock = new Mock<ISocket>();
             var diceConnection = new DiceConnection(socketMock.Object);
 
-            var sequenceId = await diceConnection.GetNextSequenceIdAsync();
+            var sequenceId = diceConnection.GetNextSequenceId();
             Assert.Equal(1u, sequenceId);
             socketMock.VerifyAll();
         }
@@ -52,13 +52,13 @@ namespace RaptoRCon.Games.Dice.Tests
         #region UpdateSequenceId()
 
         [Fact]
-        public async Task UpdateSequenceId_1234_NextSequenceIdReturns1235() 
+        public void UpdateSequenceId_1234_NextSequenceIdReturns1235() 
         {
             var socketMock = new Mock<ISocket>();
             var diceConnection = new DiceConnection(socketMock.Object);
 
-            await diceConnection.UpdateSequenceIdAsync(1234);
-            var sequenceId = await diceConnection.GetNextSequenceIdAsync();
+            diceConnection.UpdateSequenceId(1234);
+            var sequenceId = diceConnection.GetNextSequenceId();
             socketMock.VerifyAll();
             Assert.Equal(1235u, sequenceId);
         }

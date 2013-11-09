@@ -19,7 +19,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void Ctor_WithIDicePacket_FillsProperty()
         {
-            var dicePacket = new DicePacket(new DicePacketSequence(123u, PacketType.Request, PacketOrigin.Client), new List<IDiceWord>(){new DiceWord("123")});
+            var dicePacket = new DicePacket(new DicePacketSequence(123u, PacketType.Request, Origin.Client), new List<IDiceWord>(){new DiceWord("123")});
             var instance = new DicePacketEventArgs(dicePacket);
 
             Assert.Equal(dicePacket, instance.Packet);

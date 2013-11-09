@@ -62,9 +62,9 @@ namespace RaptoRCon.Games.Dice.Factories
             return bitArray[30] ? PacketType.Response : PacketType.Request;
         }
 
-        private PacketOrigin GetOriginFromBytes(byte[] bytes)
+        private Origin GetOriginFromBytes(byte[] bytes)
         {
-            return new BitArray(bytes)[31] ? PacketOrigin.Client : PacketOrigin.Server;
+            return new BitArray(bytes)[31] ? Origin.Client : Origin.Server;
         }
 
         #endregion

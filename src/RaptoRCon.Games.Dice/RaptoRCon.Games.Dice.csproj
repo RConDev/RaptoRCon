@@ -59,7 +59,7 @@
     <Compile Include="Factories\IDiceWordFactory.cs" />
     <Compile Include="DicePacket.cs" />
     <Compile Include="Factories\DicePacketFactory.cs" />
-    <Compile Include="PacketOrigin.cs" />
+    <Compile Include="Origin.cs" />
     <Compile Include="DicePacketEventArgs.cs" />
     <Compile Include="DicePacketSequence.cs" />
     <Compile Include="Factories\DicePacketSequenceFactory.cs" />
@@ -74,6 +74,8 @@
     </Compile>
     <Compile Include="DiceWord.cs" />
     <Compile Include="Factories\DiceWordFactory.cs" />
+    <Compile Include="SquadId.cs" />
+    <Compile Include="TeamId.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

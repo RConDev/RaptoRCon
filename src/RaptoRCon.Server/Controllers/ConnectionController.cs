@@ -44,7 +44,7 @@ namespace RaptoRCon.Server.Controllers
         /// <returns></returns>
         public async Task<IEnumerable<Connection>> Get()
         {
-            return this.ConnectionHost.Get().Select(x => new Connection() { Id = x.Id, HostName = x.HostName, Port = x.Port });
+            return await Task.Factory.StartNew(() => this.ConnectionHost.Get().Select(x => new Connection() { Id = x.Id, HostName = x.HostName, Port = x.Port }));
         }
 
         [HttpPost]
@@ -92,8 +92,11 @@ namespace RaptoRCon.Server.Controllers
         [HttpDelete]
         public async Task<bool> Delete(Guid id)
         {
-            var hostedConnection = ConnectionHost.Get(id);
-            return ConnectionHost.Remove(hostedConnection);
+            return await Task.Factory.StartNew(() =>
+            {
+                var hostedConnection = ConnectionHost.Get(id);
+                return ConnectionHost.Remove(hostedConnection);
+            });
         }
     }
 }
