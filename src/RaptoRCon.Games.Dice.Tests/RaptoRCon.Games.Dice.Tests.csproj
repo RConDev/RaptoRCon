@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="DiceCommandStringTest.cs" />
     <Compile Include="DiceConnectionTest.cs" />
+    <Compile Include="DiceGuidTest.cs" />
     <Compile Include="DicePacketEventArgsTest.cs" />
     <Compile Include="Factories\DiceConnectionFactoryTest.cs" />
     <Compile Include="Factories\DicePacketFactoryTest.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="DicePacketTest.cs" />
     <Compile Include="HexStringTest.cs" />
     <Compile Include="PasswordTest.cs" />
+    <Compile Include="PlayerNameTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DiceWordTest.cs" />
   </ItemGroup>

@@ -34,7 +34,7 @@ namespace RaptoRCon.Server.Hosting
             connections.Add(hostedConnection);
         }
 
-        public IHostedConnection Get(Guid id)
+        public IHostedConnection Get(System.Guid id)
         {
             var connection = connections.SingleOrDefault(x => x.Id == id);
             if (connection == null)

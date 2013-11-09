@@ -50,7 +50,7 @@ namespace RaptoRCon.Server.Tests.Hosting
         [Fact]
         public void Get_WithNoConnectionAdded_ThrowsUnknownConnectionIdException()
         {
-            Assert.Throws<UnknownConnectionIdException>(() => sut.Get(Guid.NewGuid()));
+            Assert.Throws<UnknownConnectionIdException>(() => sut.Get(System.Guid.NewGuid()));
         }
         
         #endregion
@@ -60,7 +60,7 @@ namespace RaptoRCon.Server.Tests.Hosting
         [Fact]
         public void Add_WithHostedConnection_ReturnsConnectionsGuid() 
         { 
-            var guid = Guid.NewGuid();
+            var guid = System.Guid.NewGuid();
             hostedConnectionMock.Setup(x => x.Id).Returns(guid);
             var hostedConnection = hostedConnectionMock.Object;
             sut.Add(hostedConnection);
@@ -72,7 +72,7 @@ namespace RaptoRCon.Server.Tests.Hosting
         [Fact]
         public void Add_SameConnectionAddedTwice_ThrowsConnectionAlreadyAddedException()
         {
-            var guid = Guid.NewGuid();
+            var guid = System.Guid.NewGuid();
             hostedConnectionMock.Setup(x => x.Id).Returns(guid);
             var hostedConnection = hostedConnectionMock.Object;
 

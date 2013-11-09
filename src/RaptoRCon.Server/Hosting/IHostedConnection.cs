@@ -16,7 +16,7 @@ namespace RaptoRCon.Server.Hosting
         /// <summary>
         /// Id for the connection in the <see cref="ConnectionHost"/>
         /// </summary>
-        Guid Id { get; }
+        System.Guid Id { get; }
 
         /// <summary>
         /// Gets the hostname of the connected game server

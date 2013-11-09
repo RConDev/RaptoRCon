@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace RaptoRCon.Server.Hosting
 {
     /// <summary>
@@ -13,7 +14,7 @@ namespace RaptoRCon.Server.Hosting
     /// </summary>
     public class HostedConnection : IHostedConnection
     {
-        public Guid Id { get; private set; }
+        public System.Guid Id { get; private set; }
 
         public string HostName { get; private set; }
 
@@ -27,7 +28,7 @@ namespace RaptoRCon.Server.Hosting
         /// <param name="diceConnection"></param>
         public HostedConnection(string hostName, int port, IGameConnection diceConnection)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = System.Guid.NewGuid();
             this.HostName = hostName;
             this.Port = port;
             this.Connection = diceConnection;
