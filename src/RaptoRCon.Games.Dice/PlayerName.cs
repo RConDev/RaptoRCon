@@ -27,7 +27,7 @@ namespace RaptoRCon.Games.Dice
         {
             #region Contracts
 
-            if (playerName == null) 
+            if (playerName == null)
             {
                 throw new ArgumentNullException("playerName");
             }
@@ -35,6 +35,11 @@ namespace RaptoRCon.Games.Dice
             #endregion
 
             this.Value = playerName;
+        }
+
+        public IEnumerable<IDiceWord> ToWords()
+        {
+            yield return new DiceWord(this.Value);
         }
     }
 }

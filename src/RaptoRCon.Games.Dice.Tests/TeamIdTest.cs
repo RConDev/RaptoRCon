@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Xunit;
 
 namespace RaptoRCon.Games.Dice.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TeamIdTest
     {
         #region Ctor
@@ -65,6 +67,24 @@ namespace RaptoRCon.Games.Dice.Tests
         {
             var teamId = new TeamId("1");
             Assert.False(teamId.IsNeutral);
+        }
+
+        #endregion
+
+        #region ToWords()
+
+        [Fact]
+        public void ToWords_Nothing_WordsCount1() 
+        {
+            var teamId = new TeamId("1");
+            Assert.Equal(1, teamId.ToWords().Count());
+        }
+
+        [Fact]
+        public void ToWords_Nothing_ReturnsDiceWord1()
+        {
+            var teamId = new TeamId("1");
+            Assert.Equal(new DiceWord("1"), teamId.ToWords().Single());
         }
 
         #endregion

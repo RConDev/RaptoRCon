@@ -27,5 +27,16 @@ namespace RaptoRCon.Games.Dice.Tests
         }
 
         #endregion
+
+        #region ToWords()
+
+        [Fact]
+        public void ToWords_PlayerNameSoldier_WordsCount2()
+        {
+            var subset = new PlayerPlayerSubset(new PlayerName("Soldier"));
+            Assert.Equal(2, subset.ToWords().Count());
+        }
+
+        #endregion
     }
 }

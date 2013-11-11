@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace RaptoRCon.Games.Dice.Tests
     /// <summary>
     /// Tests for the basic type <see cref="HexString"/>
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class HexStringTest
     {
         #region Ctor

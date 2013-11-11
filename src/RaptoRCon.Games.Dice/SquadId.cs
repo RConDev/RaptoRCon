@@ -52,5 +52,10 @@ namespace RaptoRCon.Games.Dice
 
             this.Value = intValue;
         }
+
+        public IEnumerable<IDiceWord> ToWords()
+        {
+            yield return new DiceWord(Convert.ToString(this.Value));
+        }
     }
 }
