@@ -1,0 +1,9 @@
+<xunit>
+  <assemblies>
+    <assembly filename="..\_Artifacts\Tests\RaptoRCon.Games.Dice.Battlefield4.Tests.dll"/>
+	<assembly filename="..\_Artifacts\Tests\RaptoRCon.Games.Dice.Tests.dll"/>
+	<assembly filename="..\_Artifacts\Tests\RaptoRCon.Games.Tests.dll"/>
+	<assembly filename="..\_Artifacts\Tests\RaptoRCon.Server.Tests.dll"/>
+	<assembly filename="..\_Artifacts\Tests\RaptoRCon.Sockets.Tests.dll"/>
+  </assemblies>
+</xunit>
