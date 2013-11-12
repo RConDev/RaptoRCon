@@ -60,13 +60,16 @@
     <Compile Include="Factories\IDiceWordFactory.cs" />
     <Compile Include="DicePacket.cs" />
     <Compile Include="Factories\DicePacketFactory.cs" />
+    <Compile Include="IDiceWordifyable.cs" />
     <Compile Include="IPlayerSubset.cs" />
+    <Compile Include="ITimeout.cs" />
     <Compile Include="Origin.cs" />
     <Compile Include="DicePacketEventArgs.cs" />
     <Compile Include="DicePacketSequence.cs" />
     <Compile Include="Factories\DicePacketSequenceFactory.cs" />
     <Compile Include="PacketType.cs" />
     <Compile Include="Password.cs" />
+    <Compile Include="PermanentTimeout.cs" />
     <Compile Include="PlayerName.cs" />
     <Compile Include="PlayerPlayerSubset.cs" />
     <Compile Include="PlayerSubset.cs" />
@@ -79,10 +82,14 @@
     </Compile>
     <Compile Include="DiceWord.cs" />
     <Compile Include="Factories\DiceWordFactory.cs" />
+    <Compile Include="RoundsTimeout.cs" />
+    <Compile Include="SecondsTimeout.cs" />
     <Compile Include="SquadId.cs" />
     <Compile Include="SquadPlayerSubset.cs" />
     <Compile Include="TeamId.cs" />
     <Compile Include="TeamPlayerSubset.cs" />
+    <Compile Include="Timeout.cs" />
+    <Compile Include="TimeoutType.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
