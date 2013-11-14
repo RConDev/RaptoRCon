@@ -69,6 +69,7 @@
     <Compile Include="GuidPlayerIdTest.cs" />
     <Compile Include="HexStringTest.cs" />
     <Compile Include="IpPlayerIdTest.cs" />
+    <Compile Include="IpPortPairTest.cs" />
     <Compile Include="PasswordTest.cs" />
     <Compile Include="PermanentTimeoutTest.cs" />
     <Compile Include="NamePlayerIdTest.cs" />

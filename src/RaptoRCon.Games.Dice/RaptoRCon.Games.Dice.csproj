@@ -66,6 +66,7 @@
     <Compile Include="IpPlayerId.cs" />
     <Compile Include="IPlayerId.cs" />
     <Compile Include="IPlayerSubset.cs" />
+    <Compile Include="IpPortPair.cs" />
     <Compile Include="ITimeout.cs" />
     <Compile Include="Origin.cs" />
     <Compile Include="DicePacketEventArgs.cs" />
