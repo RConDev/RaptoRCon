@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RaptoRCon.Games.Dice
@@ -7,7 +8,7 @@ namespace RaptoRCon.Games.Dice
     /// A stream of hexadecimal digits. The stream must always contain an even number of digits. 
     /// </summary>
     /// <remarks>Allowed characters are: 0123456789ABCDEF</remarks>
-    public class HexString
+    public class HexString : IDiceWordifyable
     {
         /// <summary>
         /// The collection of allowed characters in a <see cref="HexString"/>
@@ -44,6 +45,16 @@ namespace RaptoRCon.Games.Dice
             #endregion
 
             this.Value = upperValue;
+        }
+
+        /// <summary>
+        /// Transforms the current instance into words for communication with the remote console 
+        /// of the game server
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<IDiceWord> ToWords()
+        {
+            yield return new DiceWord(this.Value);
         }
     }
 }

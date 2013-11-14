@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RaptoRCon.Games.Dice
@@ -7,7 +8,7 @@ namespace RaptoRCon.Games.Dice
     /// A password is from 0 up to 16 characters in length, inclusive. 
     /// </summary>
     /// <remarks>The allowed characters are: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</remarks>
-    public class Password
+    public class Password : IDiceWordifyable
     {
         /// <summary>
         /// The collection of allowed characters in the <see cref="Password.Value"/>
@@ -48,6 +49,16 @@ namespace RaptoRCon.Games.Dice
             #endregion
 
             this.Value = password;
+        }
+
+        /// <summary>
+        /// Transforms the current instance into words for communication with the remote console 
+        /// of the game server
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<IDiceWord> ToWords()
+        {
+            yield return new DiceWord(this.Value);
         }
     }
 }

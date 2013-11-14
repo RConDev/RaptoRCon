@@ -24,22 +24,41 @@ namespace RaptoRCon.Games.Dice.Tests
         }
 
         [Fact]
-        public void Ctor_AG12_ThrowsArgumentOutOfRangeException() 
-        { 
+        public void Ctor_AG12_ThrowsArgumentOutOfRangeException()
+        {
             Assert.Throws<ArgumentOutOfRangeException>(() => new HexString("AG12"));
         }
 
         [Fact]
-        public void Ctor_abc123_HexStringABC123() 
+        public void Ctor_abc123_HexStringABC123()
         {
             var hexString = new HexString("abc123");
             Assert.Equal("ABC123", hexString.Value);
         }
 
         [Fact]
-        public void Ctor_abc_ThrowsArgumentOutOfRangeException() 
+        public void Ctor_abc_ThrowsArgumentOutOfRangeException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new HexString("abc"));
+        }
+
+        #endregion
+
+        #region ToWords()
+
+        [Fact]
+        public void ToWords_ABC123_WordsCount1()
+        {
+            var hexString = new HexString("ABC123");
+            Assert.Equal(1, hexString.ToWords().Count());
+        }
+
+        [Fact]
+        public void ToWords_ABC123_WordsDiceWordABC123()
+        {
+            var expectedSequence = new[] { new DiceWord("ABC123") };
+            var hexString = new HexString("ABC123");
+            Assert.Equal(expectedSequence, hexString.ToWords());
         }
 
         #endregion
