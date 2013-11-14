@@ -10,7 +10,7 @@ namespace RaptoRCon.Games.Dice
     /// An integer. Team 0 is neutral.
     /// </summary>
     /// <remarks>Depending on gamemode, there are up to 16 non-neutral teams, numbered 1…16.</remarks>
-    public class TeamId
+    public class TeamId : IDiceWordifyable
     {
         /// <summary>
         /// Gets the <see cref="Int32"/> Team-ID value

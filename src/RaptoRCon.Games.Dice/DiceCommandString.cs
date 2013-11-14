@@ -6,9 +6,9 @@
     using System.Text;
 
     /// <summary>
-    /// this class represents a complete string which stands for <see cref="ICommand"/>
+    /// this class represents a complete string which stands for an DICE RCon Command
     /// </summary>
-    public class DiceCommandString
+    public class DiceCommandString : IDiceWordifyable
     {
         private const string SplitChar = " ";
 
@@ -26,7 +26,8 @@
         }
 
         /// <summary>
-        /// converts the command string to seperated words needed for <see cref="IPacket"/>
+        /// Transforms the current instance into words for communication with the remote console 
+        /// of the game server
         /// </summary>
         /// <returns></returns>
         public IEnumerable<IDiceWord> ToWords()

@@ -11,7 +11,7 @@ namespace RaptoRCon.Games.Dice
     /// logging in to EA Online.
     /// </summary>
     /// <remarks>The exact specification of a player name (length, valid characters, etc.) is currently unclear. </remarks>
-    public class PlayerName
+    public class PlayerName : IDiceWordifyable
     {
         /// <summary>
         /// Gets the <see cref="string"/> representation of the <see cref="PlayerName"/>
