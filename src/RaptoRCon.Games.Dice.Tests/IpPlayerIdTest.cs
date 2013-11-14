@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using Xunit;
 
 namespace RaptoRCon.Games.Dice.Tests
@@ -27,14 +25,14 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void Ctor_IpAddress_IpIpAddress()
         {
-            var ipId = new IpPlayerId("127.0.0.1");
-            Assert.Equal("127.0.0.1", ipId.Ip);
+            var ipId = new IpPlayerId(IPAddress.Parse("127.0.0.1"));
+            Assert.Equal(IPAddress.Parse("127.0.0.1"), ipId.Ip);
         }
 
         [Fact]
         public void Ctor_IpAddress_TypeIdTypeIp()
         {
-            var ipId = new IpPlayerId("127.0.0.1");
+            var ipId = new IpPlayerId(IPAddress.Parse("127.0.0.1"));
             Assert.Equal(IdType.Ip, ipId.Type);
         }
 
@@ -45,7 +43,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void ToWords_IpAddress_WordsCount2()
         {
-            var ipId = new IpPlayerId("127.0.0.1");
+            var ipId = new IpPlayerId(IPAddress.Parse("127.0.0.1"));
             Assert.Equal(2, ipId.ToWords().Count());
         }
 
@@ -53,7 +51,7 @@ namespace RaptoRCon.Games.Dice.Tests
         public void ToWords_IpAddressIp127001_WordsIp127001()
         {
             var expectedSequence = new[] { new DiceWord("ip"), new DiceWord("127.0.0.1") };
-            var ipId = new IpPlayerId("127.0.0.1");
+            var ipId = new IpPlayerId(IPAddress.Parse("127.0.0.1"));
             Assert.Equal(expectedSequence, ipId.ToWords());
         }
 

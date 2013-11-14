@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace RaptoRCon.Games.Dice
 {
     public class IpPlayerId : PlayerId
     {
-        public string Ip { get; private set; }
+        public IPAddress Ip { get; private set; }
 
-        public IpPlayerId(string ip)
+        public IpPlayerId(IPAddress ip)
             : base(IdType.Ip)
         {
             #region Contracts
@@ -30,7 +31,7 @@ namespace RaptoRCon.Games.Dice
 
         private IEnumerable<IDiceWord> IpToWords()
         {
-            yield return new DiceWord(Ip);
+            yield return new DiceWord(Ip.ToString());
         }
     }
 }
