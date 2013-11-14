@@ -39,5 +39,24 @@ namespace RaptoRCon.Games.Dice.Tests
         }
 
         #endregion
+
+        #region ToWords()
+
+        [Fact]
+        public void ToWords_EA_5E58A522B9BF4E7DADB5212623C3B721_WordsCount1()
+        {
+            var guid = new DiceGuid("EA_5E58A522B9BF4E7DADB5212623C3B721");
+            Assert.Equal(1, guid.ToWords().Count());
+        }
+
+        [Fact]
+        public void ToWords_EA_5E58A522B9BF4E7DADB5212623C3B721_WordsDiceWordEA_5E58A522B9BF4E7DADB5212623C3B721()
+        {
+            var expectedSequence = new[] {new DiceWord("EA_5E58A522B9BF4E7DADB5212623C3B721")};
+            var guid = new DiceGuid("EA_5E58A522B9BF4E7DADB5212623C3B721");
+            Assert.Equal(expectedSequence, guid.ToWords());
+        }
+
+        #endregion
     }
 }

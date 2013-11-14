@@ -66,9 +66,12 @@
     <Compile Include="Factories\DiceWordFactoryTest.cs" />
     <Compile Include="DicePacketSequenceTest.cs" />
     <Compile Include="DicePacketTest.cs" />
+    <Compile Include="GuidPlayerIdTest.cs" />
     <Compile Include="HexStringTest.cs" />
+    <Compile Include="IpPlayerIdTest.cs" />
     <Compile Include="PasswordTest.cs" />
     <Compile Include="PermanentTimeoutTest.cs" />
+    <Compile Include="NamePlayerIdTest.cs" />
     <Compile Include="PlayerNameTest.cs" />
     <Compile Include="PlayerPlayerSubsetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

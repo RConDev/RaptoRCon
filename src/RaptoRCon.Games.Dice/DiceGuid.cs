@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -10,7 +7,7 @@ namespace RaptoRCon.Games.Dice
     /// The <see cref="DiceGuid"/> is a unique identifier for a player. 
     /// </summary>
     /// <remarks>It is 35 characters long, consists of the prefix “EA_” immediately followed by a 32-character HexString.</remarks>
-    public class DiceGuid
+    public class DiceGuid : IDiceWordifyable
     {
         /// <summary>
         /// Gets the <see cref="string"/> representation of the <see cref="DiceGuid"/>
@@ -45,6 +42,11 @@ namespace RaptoRCon.Games.Dice
             #endregion
 
             this.Value = guid;
+        }
+
+        public IEnumerable<IDiceWord> ToWords()
+        {
+            yield return new DiceWord(Value);
         }
     }
 }

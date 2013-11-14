@@ -48,6 +48,7 @@
     <Compile Include="DiceConnection.cs" />
     <Compile Include="Factories\DiceConnectionFactory.cs" />
     <Compile Include="DiceGuid.cs" />
+    <Compile Include="GuidPlayerId.cs" />
     <Compile Include="HexString.cs" />
     <Compile Include="IDiceConnection.cs" />
     <Compile Include="Factories\IDiceConnectionFactory.cs" />
@@ -61,6 +62,9 @@
     <Compile Include="DicePacket.cs" />
     <Compile Include="Factories\DicePacketFactory.cs" />
     <Compile Include="IDiceWordifyable.cs" />
+    <Compile Include="IdType.cs" />
+    <Compile Include="IpPlayerId.cs" />
+    <Compile Include="IPlayerId.cs" />
     <Compile Include="IPlayerSubset.cs" />
     <Compile Include="ITimeout.cs" />
     <Compile Include="Origin.cs" />
@@ -70,7 +74,9 @@
     <Compile Include="PacketType.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="PermanentTimeout.cs" />
+    <Compile Include="PlayerId.cs" />
     <Compile Include="PlayerName.cs" />
+    <Compile Include="NamePlayerId.cs" />
     <Compile Include="PlayerPlayerSubset.cs" />
     <Compile Include="PlayerSubset.cs" />
     <Compile Include="PlayerSubsetType.cs" />
