@@ -51,7 +51,9 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="ConnectionClosedEventArgs.cs" />
+    <Compile Include="ISocket.cs" />
     <Compile Include="ISocketClient.cs" />
+    <Compile Include="Socket.cs" />
     <Compile Include="SocketData.cs" />
     <Compile Include="ISocketData.cs" />
     <Compile Include="ISocketClientFactory.cs" />

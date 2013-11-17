@@ -15,13 +15,13 @@ namespace RaptoRCon.Sockets
 
         private static readonly ILog logger = LogManager.GetCurrentClassLogger();
 
-        private readonly System.Net.Sockets.Socket socket;
+        private readonly ISocket socket;
         private bool disposed;
 
         /// <summary>
         /// Creates a new <see cref="SocketClient" /> instance
         /// </summary>
-        public SocketClient(Socket socket)
+        public SocketClient(ISocket socket)
         {
             logger.Trace("Creating new instance");
             BufferSize = DefaultBufferSize;
@@ -93,7 +93,7 @@ namespace RaptoRCon.Sockets
         #region Private Members
 
         // ReSharper disable FunctionRecursiveOnAllPaths
-        private async Task StartListening(System.Net.Sockets.Socket socket1)
+        private async Task StartListening(ISocket socket1)
         // ReSharper restore FunctionRecursiveOnAllPaths
         {
             var buffer = new byte[BufferSize];

@@ -34,7 +34,7 @@ namespace RaptoRCon.Sockets
         {
             logger.TraceFormat("CreateAndConnectAsync({0}, {1}, {2})", hostname, port, onDataReceivedHandler);
 
-            var socket = new SocketClient(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp));
+            var socket = new SocketClient(new Socket());
             if (onDataReceivedHandler != null)
             {
                 socket.DataReceived += onDataReceivedHandler;
