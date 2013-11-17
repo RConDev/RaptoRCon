@@ -15,7 +15,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void Ctor_InstanceImplementsIDiceConnection()
         {
-            var socketMock = new Mock<ISocket>();
+            var socketMock = new Mock<ISocketClient>();
                 var instance = new DiceConnection(socketMock.Object, (sender, args) => {});
             Assert.IsAssignableFrom<IDiceConnection>(instance);
         }
@@ -39,7 +39,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void GetNextSequenceId_NewGeneratedConnection_Returns1() 
         {
-            var socketMock = new Mock<ISocket>();
+            var socketMock = new Mock<ISocketClient>();
             var diceConnection = new DiceConnection(socketMock.Object);
 
             var sequenceId = diceConnection.GetNextSequenceId();
@@ -54,7 +54,7 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void UpdateSequenceId_1234_NextSequenceIdReturns1235() 
         {
-            var socketMock = new Mock<ISocket>();
+            var socketMock = new Mock<ISocketClient>();
             var diceConnection = new DiceConnection(socketMock.Object);
 
             diceConnection.UpdateSequenceId(1234);

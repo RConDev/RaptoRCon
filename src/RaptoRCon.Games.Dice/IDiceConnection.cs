@@ -16,7 +16,7 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
         /// </summary>
-        ISocket Socket { get; }
+        ISocketClient Socket { get; }
 
         /// <summary>
         /// Sends a DICE <see cref="IDicePacket"/> to the RCon interface

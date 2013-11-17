@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Common.Logging;
 
 namespace RaptoRCon.Sockets
 {
     /// <summary>
-    /// Implementation of <see cref="ISocketFactory"/>
+    /// Implementation of <see cref="ISocketClientFactory"/>
     /// </summary>
-    public class SocketFactory  : ISocketFactory
+    public class SocketClientFactory  : ISocketClientFactory
     {
         private static readonly ILog logger = LogManager.GetCurrentClassLogger();
 
@@ -17,7 +18,7 @@ namespace RaptoRCon.Sockets
         /// <param name="hostname"></param>
         /// <param name="port"></param>
         /// <returns></returns>
-        public async Task<ISocket> CreateAndConnectAsync(string hostname, int port)
+        public async Task<ISocketClient> CreateAndConnectAsync(string hostname, int port)
         {
             return await CreateAndConnectAsync(hostname, port, null);
         }
@@ -29,11 +30,11 @@ namespace RaptoRCon.Sockets
         /// <param name="port"></param>
         /// <param name="onDataReceivedHandler"></param>
         /// <returns></returns>
-        public async Task<ISocket> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler)
+        public async Task<ISocketClient> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler)
         {
             logger.TraceFormat("CreateAndConnectAsync({0}, {1}, {2})", hostname, port, onDataReceivedHandler);
 
-            var socket = new Socket();
+            var socket = new SocketClient(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp));
             if (onDataReceivedHandler != null)
             {
                 socket.DataReceived += onDataReceivedHandler;

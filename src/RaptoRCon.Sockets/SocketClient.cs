@@ -7,9 +7,9 @@ using Common.Logging;
 namespace RaptoRCon.Sockets
 {
     /// <summary>
-    ///     Implementation of <see cref="ISocket" />
+    ///     Implementation of <see cref="ISocketClient" />
     /// </summary>
-    public class Socket : ISocket
+    public class SocketClient : ISocketClient
     {
         private const int DefaultBufferSize = 16384;
 
@@ -19,24 +19,24 @@ namespace RaptoRCon.Sockets
         private bool disposed;
 
         /// <summary>
-        ///     Creates a new <see cref="Socket" /> instance
+        /// Creates a new <see cref="SocketClient" /> instance
         /// </summary>
-        public Socket()
+        public SocketClient(Socket socket)
         {
             logger.Trace("Creating new instance");
             BufferSize = DefaultBufferSize;
-            socket = new System.Net.Sockets.Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.socket = socket;
         }
 
-        /// <summary>
-        ///     Creates a new <see cref="Socket" /> instance with a self-defined buffer size
-        /// </summary>
-        /// <param name="bufferSize"></param>
-        public Socket(int bufferSize)
-            : this()
-        {
-            BufferSize = bufferSize;
-        }
+        ///// <summary>
+        /////     Creates a new <see cref="socketWrapper" /> instance with a self-defined buffer size
+        ///// </summary>
+        ///// <param name="bufferSize"></param>
+        //socketWrapper(int bufferSize)
+        //    : this()
+        //{
+        //    BufferSize = bufferSize;
+        //}
 
         /// <summary>
         ///     Gets the size of the buffer used in this connection
@@ -49,12 +49,12 @@ namespace RaptoRCon.Sockets
         public event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
 
         /// <summary>
-        ///     Connects to the stated remote host
+        /// Connects to the stated remote host and initiates reading
         /// </summary>
         /// <param name="hostname">Name or IP-Address of the remote host</param>
         /// <param name="port">Port number of the remote host to connect to</param>
         /// <returns></returns>
-        public async Task<ISocket> ConnectAsync(string hostname, int port)
+        public async Task<ISocketClient> ConnectAsync(string hostname, int port)
         {
             logger.DebugFormat("Trying to connect to {0}:{1}", hostname, port);
             await Task.Factory.FromAsync(
@@ -65,7 +65,7 @@ namespace RaptoRCon.Sockets
 
             StartListening(socket);
 
-            return (ISocket)this;
+            return (ISocketClient)this;
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace RaptoRCon.Sockets
         #region Private Members
 
         // ReSharper disable FunctionRecursiveOnAllPaths
-        private async void StartListening(System.Net.Sockets.Socket socket1)
+        private async Task StartListening(System.Net.Sockets.Socket socket1)
         // ReSharper restore FunctionRecursiveOnAllPaths
         {
             var buffer = new byte[BufferSize];
@@ -108,19 +108,19 @@ namespace RaptoRCon.Sockets
             }
             catch (SocketException ex)
             {
-                logger.Warn("Error in socket-communication.", ex);
+                logger.Warn("Error in socketWrapper-communication.", ex);
                 InvokeConnectionClosed();
                 return;
             }
             catch (ObjectDisposedException ex)
             {
-                logger.Warn("Waiting listening socket was closed", ex);
+                logger.Warn("Waiting listening socketWrapper was closed", ex);
                 InvokeConnectionClosed();
                 return;
             }
             catch (Exception ex)
             {
-                logger.Warn("Other error in listening socket communication", ex);
+                logger.Warn("Other error in listening socketWrapper communication", ex);
                 InvokeConnectionClosed();
                 return;
             }
@@ -158,18 +158,14 @@ namespace RaptoRCon.Sockets
             }
         }
 
-        protected async Task InvokeConnectionClosed()
+        protected void InvokeConnectionClosed()
         {
             var handler = ConnectionClosed;
             var eventArgs = new ConnectionClosedEventArgs();
 
             if (handler != null)
             {
-                await Task.Factory.FromAsync<object, ConnectionClosedEventArgs>(handler.BeginInvoke,
-                                                                          handler.EndInvoke,
-                                                                          this,
-                                                                          eventArgs,
-                                                                          null);
+                handler(this, eventArgs);
             }
         }
         #endregion
@@ -203,7 +199,7 @@ namespace RaptoRCon.Sockets
             disposed = true;
         }
 
-        ~Socket()
+        ~SocketClient()
         {
             Dispose(false);
         }

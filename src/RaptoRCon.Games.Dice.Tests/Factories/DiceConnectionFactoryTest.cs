@@ -13,13 +13,13 @@ namespace RaptoRCon.Games.Dice.Factories
     [ExcludeFromCodeCoverage]
     public class DiceConnectionFactoryTest
     {
-        private readonly Mock<ISocketFactory> socketFactoryMock;
+        private readonly Mock<ISocketClientFactory> socketFactoryMock;
 
         private DiceConnectionFactory connectionFactory;
 
         public DiceConnectionFactoryTest()
         {
-            socketFactoryMock = new Mock<ISocketFactory>();
+            socketFactoryMock = new Mock<ISocketClientFactory>();
             connectionFactory = new DiceConnectionFactory(socketFactoryMock.Object);
         }
 
@@ -36,16 +36,16 @@ namespace RaptoRCon.Games.Dice.Factories
         public void Ctor_None_PropertySocketFactoryDeliversDefault()
         {
             var instance = new DiceConnectionFactory();
-            Assert.IsType<SocketFactory>(instance.SocketFactory);
+            Assert.IsType<SocketClientFactory>(instance.SocketClientFactory);
         }
 
         [Fact]
         public void Ctor_ISocketFactoryMock_PropertySocketFactoryDeliversDefault()
         {
-            var socketFactoryMock = new Mock<ISocketFactory>();
+            var socketFactoryMock = new Mock<ISocketClientFactory>();
 
             var instance = new DiceConnectionFactory(socketFactoryMock.Object);
-            Assert.True(socketFactoryMock.Object.Equals(instance.SocketFactory));
+            Assert.True(socketFactoryMock.Object.Equals(instance.SocketClientFactory));
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace RaptoRCon.Games.Dice.Factories
         [Fact]
         public async Task Create_HostnameLocalhostPort11000_ReturnsDiceConnectionWithCorrectSocket()
         {
-            var socketMock = new Mock<ISocket>();
+            var socketMock = new Mock<ISocketClient>();
             var socket = socketMock.Object;
             socketFactoryMock
                 .Setup(m => m.CreateAndConnectAsync(

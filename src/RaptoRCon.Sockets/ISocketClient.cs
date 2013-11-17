@@ -6,7 +6,7 @@ namespace RaptoRCon.Sockets
     /// <summary>
     /// The interface describes the basic connection via <see cref="System.Net.Sockets.Socket"/>
     /// </summary>
-    public interface ISocket : IDisposable
+    public interface ISocketClient : IDisposable
     {
         /// <summary>
         /// This event is invoked, when the connection receives data from the remote host
@@ -24,7 +24,7 @@ namespace RaptoRCon.Sockets
         /// <param name="hostname">Name or IP-Address of the remote host</param>
         /// <param name="port">Port number of the remote host to connect to</param>
         /// <returns></returns>
-        Task<ISocket> ConnectAsync(string hostname, int port);
+        Task<ISocketClient> ConnectAsync(string hostname, int port);
         
         /// <summary>
         /// Sends a content to the remote host

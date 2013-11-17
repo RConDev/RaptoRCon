@@ -25,7 +25,7 @@ namespace RaptoRCon.Games.Dice
         /// </summary>
         /// <param name="socket"></param>
         /// <param name="packetReceivedHandler"></param>
-        public DiceConnection(ISocket socket, EventHandler<DicePacketEventArgs> packetReceivedHandler = null)
+        public DiceConnection(ISocketClient socket, EventHandler<DicePacketEventArgs> packetReceivedHandler = null)
         {
             #region Contracts
             if (socket == null)
@@ -46,7 +46,7 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
         /// </summary>
-        public ISocket Socket { get; private set; }
+        public ISocketClient Socket { get; private set; }
 
         /// <summary>
         /// Sends a DICE <see cref="IDicePacket"/> to the RCon interface

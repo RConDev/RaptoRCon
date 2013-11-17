@@ -14,32 +14,32 @@ namespace RaptoRCon.Games.Dice.Factories
         /// </summary>
         public DiceConnectionFactory()
         {
-            this.SocketFactory = new SocketFactory();
+            this.SocketClientFactory = new SocketClientFactory();
         }
 
         /// <summary>
-        /// Creates a new <see cref="DiceConnectionFactory"/> using the delivered <see cref="ISocketFactory"/>
+        /// Creates a new <see cref="DiceConnectionFactory"/> using the delivered <see cref="ISocketClientFactory"/>
         /// for creating the underlying <see cref="ISocket"/> connection
         /// </summary>
-        /// <param name="socketFactory"></param>
-        public DiceConnectionFactory(ISocketFactory socketFactory)
+        /// <param name="socketClientFactory"></param>
+        public DiceConnectionFactory(ISocketClientFactory socketClientFactory)
         {
             #region Contracts
 
-            if (socketFactory == null)
+            if (socketClientFactory == null)
             {
-                throw new ArgumentNullException("socketFactory");
+                throw new ArgumentNullException("socketClientFactory");
             }
 
             #endregion Contracts
 
-            SocketFactory = socketFactory;
+            SocketClientFactory = socketClientFactory;
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="ISocketFactory"/> implementation used within this <see cref="IDiceConnectionFactory"/>
+        /// Gets or sets the <see cref="ISocketClientFactory"/> implementation used within this <see cref="IDiceConnectionFactory"/>
         /// </summary>
-        public ISocketFactory SocketFactory { get; set; }
+        public ISocketClientFactory SocketClientFactory { get; set; }
 
         /// <summary>
         /// Creates a new <see cref="IDiceConnection"/> instance
@@ -75,7 +75,7 @@ namespace RaptoRCon.Games.Dice.Factories
 
             #endregion Contracts
 
-            var socket = await SocketFactory.CreateAndConnectAsync(hostname, port, null);
+            var socket = await SocketClientFactory.CreateAndConnectAsync(hostname, port, null);
             var connection = new DiceConnection(socket, packetReceivedHandler);
 
             return connection;
