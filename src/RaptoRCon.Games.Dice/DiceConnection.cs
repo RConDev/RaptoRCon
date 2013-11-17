@@ -23,19 +23,19 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// Creates a new <see cref="DiceConnection"/> instance
         /// </summary>
-        /// <param name="socket"></param>
+        /// <param name="socketClient"></param>
         /// <param name="packetReceivedHandler"></param>
-        public DiceConnection(ISocketClient socket, EventHandler<DicePacketEventArgs> packetReceivedHandler = null)
+        public DiceConnection(ISocketClient socketClient, EventHandler<DicePacketEventArgs> packetReceivedHandler = null)
         {
             #region Contracts
-            if (socket == null)
+            if (socketClient == null)
             {
-                throw new ArgumentNullException("socket");
+                throw new ArgumentNullException("socketClient");
             }
             #endregion
 
-            Socket = socket;
-            Socket.DataReceived += SocketOnDataReceived;
+            SocketClient = socketClient;
+            SocketClient.DataReceived += SocketOnDataReceived;
 
             if (packetReceivedHandler != null)
             {
@@ -46,7 +46,7 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
         /// </summary>
-        public ISocketClient Socket { get; private set; }
+        public ISocketClient SocketClient { get; private set; }
 
         /// <summary>
         /// Sends a DICE <see cref="IDicePacket"/> to the RCon interface
@@ -55,7 +55,7 @@ namespace RaptoRCon.Games.Dice
         /// <returns></returns>
         public virtual async Task<int> SendAsync(IDicePacket packet)
         {
-            return await this.Socket.SendAsync(new SocketData(packet.ToBytes()));
+            return await this.SocketClient.SendAsync(new SocketData(packet.ToBytes()));
         }
 
         /// <summary>

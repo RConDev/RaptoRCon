@@ -113,11 +113,6 @@ namespace RaptoRCon.Client.WinForms
         public ObservableCollection<ConnectionViewModel> Connections
         {
             get { return connections; }
-            ////set
-            ////{
-            ////    connections = new ObservableCollection<ConnectionViewModel>(value);
-            ////    OnPropertyChanged();
-            ////}
         }
 
         #region Private Methods
@@ -138,7 +133,7 @@ namespace RaptoRCon.Client.WinForms
                 Port = viewModel.Port
             };
 
-            var response = await viewModel.HttpClient.PostAsJsonAsync<CreateConnectionCommand>("connection", createConnection);
+            var response = await viewModel.HttpClient.PostAsJsonAsync("connection", createConnection);
             response.EnsureSuccessStatusCode();
 
             var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();

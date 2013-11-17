@@ -21,7 +21,7 @@ namespace RaptoRCon.Shared.Util
             }
         }
 
-        public static async Task InvokeAll<T>(this EventHandler<T> eventHandler, object sender, T eventArgs)
+        public static void InvokeAll<T>(this EventHandler<T> eventHandler, object sender, T eventArgs)
         {
             var receivers = eventHandler.GetInvocationList();
             foreach (EventHandler<T> receiver in receivers)

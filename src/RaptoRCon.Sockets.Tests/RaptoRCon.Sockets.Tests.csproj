@@ -57,6 +57,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocketClientTest.cs" />
     <Compile Include="SocketDataReceivedEventArgsTest.cs" />
     <Compile Include="SocketDataTest.cs" />
   </ItemGroup>

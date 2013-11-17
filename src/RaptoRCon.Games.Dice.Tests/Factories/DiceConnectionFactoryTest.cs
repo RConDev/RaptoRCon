@@ -104,7 +104,7 @@ namespace RaptoRCon.Games.Dice.Factories
             
             var connection = await connectionFactory.CreateAsync("localhost", 11000);
             socketFactoryMock.VerifyAll();
-            Assert.Equal(socket, connection.Socket);
+            Assert.Equal(socket, connection.SocketClient);
             
         }
 

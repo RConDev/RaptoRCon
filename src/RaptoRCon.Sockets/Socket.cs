@@ -34,6 +34,16 @@ namespace RaptoRCon.Sockets
             this.socket.EndConnect(asyncResult);
         }
 
+        public IAsyncResult BeginDisconnect(bool reuseSocket, AsyncCallback callback, object state)
+        {
+            return this.socket.BeginDisconnect(reuseSocket, callback, state);
+        }
+
+        public void EndDisconnect(IAsyncResult asyncResult)
+        {
+            this.socket.EndDisconnect(asyncResult);
+        }
+
         public IAsyncResult BeginSend(byte[] buffer, int offset, int size, SocketFlags socketFlags, AsyncCallback asyncCallback, object state)
         {
             return this.socket.BeginSend(buffer, offset, size, socketFlags, asyncCallback, state);

@@ -14,29 +14,23 @@ namespace RaptoRCon.Sockets
         private const int DefaultBufferSize = 16384;
 
         private static readonly ILog logger = LogManager.GetCurrentClassLogger();
-
-        private readonly ISocket socket;
         private bool disposed;
 
-        /// <summary>
-        /// Creates a new <see cref="SocketClient" /> instance
-        /// </summary>
-        public SocketClient(ISocket socket)
-        {
-            logger.Trace("Creating new instance");
-            BufferSize = DefaultBufferSize;
-            this.socket = socket;
-        }
+        #region Events
 
-        ///// <summary>
-        /////     Creates a new <see cref="socketWrapper" /> instance with a self-defined buffer size
-        ///// </summary>
-        ///// <param name="bufferSize"></param>
-        //socketWrapper(int bufferSize)
-        //    : this()
-        //{
-        //    BufferSize = bufferSize;
-        //}
+        /// <summary>
+        /// This event is invoked, when the underlying connection is closed.
+        /// </summary>
+        public event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
+
+        /// <summary>
+        /// This event is invoked, when the connection receives data from the remote host
+        /// </summary>
+        public event EventHandler<SocketDataReceivedEventArgs> DataReceived;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         ///     Gets the size of the buffer used in this connection
@@ -44,9 +38,28 @@ namespace RaptoRCon.Sockets
         public int BufferSize { get; private set; }
 
         /// <summary>
-        /// This event is invoked, when the underlying connection is closed.
+        /// Gets the underlying communication instance of <see cref="ISocket"/>
         /// </summary>
-        public event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
+        public ISocket Socket { get; private set; }
+
+        #endregion
+
+        /// <summary>
+        /// Creates a new <see cref="SocketClient" /> instance
+        /// </summary>
+        public SocketClient(ISocket socket)
+        {
+            #region Contracts
+            if (socket == null)
+            {
+                throw new ArgumentNullException();
+            }
+            #endregion
+
+            logger.Trace("Creating new instance");
+            BufferSize = DefaultBufferSize;
+            this.Socket = socket;
+        }
 
         /// <summary>
         /// Connects to the stated remote host and initiates reading
@@ -58,14 +71,16 @@ namespace RaptoRCon.Sockets
         {
             logger.DebugFormat("Trying to connect to {0}:{1}", hostname, port);
             await Task.Factory.FromAsync(
-                    (cb, s) => socket.BeginConnect(hostname, port, cb, this.socket),
-                    (ias) => this.socket.EndConnect(ias),
-                    null);
+                    (callback, state) => Socket.BeginConnect(hostname, port, callback, state),
+                    asyncResult => ((ISocket)asyncResult.AsyncState).EndConnect(asyncResult),
+                    this.Socket);
             logger.DebugFormat("Connection to {0}:{1} successfully established", hostname, port);
 
-            StartListening(socket);
+            #pragma warning disable 4014
+            StartListening(Socket);
+            #pragma warning restore 4014
 
-            return (ISocketClient)this;
+            return this;
         }
 
         /// <summary>
@@ -80,31 +95,26 @@ namespace RaptoRCon.Sockets
             return await Task.Factory
                        .FromAsync(
                            (callback, state) =>
-                           socket.BeginSend(data, 0, data.Length, SocketFlags.None, callback, state),
-                           ias => socket.EndSend(ias),
+                           Socket.BeginSend(data, 0, data.Length, SocketFlags.None, callback, state),
+                           ias => Socket.EndSend(ias),
                            null);
         }
-
-        /// <summary>
-        /// This event is invoked, when the connection receives data from the remote host
-        /// </summary>
-        public event EventHandler<SocketDataReceivedEventArgs> DataReceived;
 
         #region Private Members
 
         // ReSharper disable FunctionRecursiveOnAllPaths
-        private async Task StartListening(ISocket socket1)
+        private async Task StartListening(ISocket socket)
         // ReSharper restore FunctionRecursiveOnAllPaths
         {
             var buffer = new byte[BufferSize];
-            int bytesRead = 0;
+            int bytesRead;
 
             try
             {
                 bytesRead = await Task.Factory.FromAsync(
-                (cb, s) => socket1.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, cb, s),
-                ias => socket1.EndReceive(ias),
-                null);
+                (callback, state) => ((ISocket)state).BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, callback, state),
+                ias => ((ISocket)ias.AsyncState).EndReceive(ias),
+                socket);
             }
             catch (SocketException ex)
             {
@@ -137,7 +147,7 @@ namespace RaptoRCon.Sockets
             Array.Copy(buffer, 0, targetBytes, 0, bytesRead);
             await InvokeDataReceived(targetBytes);
 
-            StartListening(socket1);
+            StartListening(socket);
         }
 
         private async Task InvokeDataReceived(byte[] bytesRead)
@@ -192,7 +202,7 @@ namespace RaptoRCon.Sockets
             if (disposing)
             {
                 // Dispose managed resources.
-                socket.Close();
+                Socket.Close();
             }
 
             // Note disposing has been done.
@@ -205,5 +215,15 @@ namespace RaptoRCon.Sockets
         }
 
         #endregion IDisposable Members
+
+        public async Task DisconnectAsync(bool reuseSocket)
+        {
+            logger.DebugFormat("Trying to disconnect");
+            await Task.Factory.FromAsync(
+                (callback, state) => Socket.BeginDisconnect(reuseSocket, callback, Socket),
+                Socket.EndDisconnect,
+                Socket);
+            logger.DebugFormat("Successfully disconnected from remote host. Socket can be reused.");
+        }
     }
 }

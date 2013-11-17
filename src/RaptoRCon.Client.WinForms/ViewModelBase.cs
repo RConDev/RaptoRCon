@@ -23,9 +23,10 @@ namespace RaptoRCon.Client.WinForms
             }
 
             var receivers = propertyChangedEventHandler.GetInvocationList();
-            foreach (PropertyChangedEventHandler receiver in receivers) 
+            foreach (PropertyChangedEventHandler receiver in receivers)
             {
-                Context.Post(state => receiver(this, new PropertyChangedEventArgs(propertyName)), null);
+                PropertyChangedEventHandler receiver1 = receiver;
+                Context.Post(state => receiver1(this, new PropertyChangedEventArgs(propertyName)), null);
             }
         }
 

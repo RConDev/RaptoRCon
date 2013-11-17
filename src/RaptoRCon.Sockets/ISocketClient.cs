@@ -19,6 +19,11 @@ namespace RaptoRCon.Sockets
         event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
         
         /// <summary>
+        /// Gets the underlying communication instance of <see cref="ISocket"/>
+        /// </summary>
+        ISocket Socket { get; }
+
+        /// <summary>
         /// Connects to the stated remote host
         /// </summary>
         /// <param name="hostname">Name or IP-Address of the remote host</param>
@@ -31,5 +36,7 @@ namespace RaptoRCon.Sockets
         /// </summary>
         /// <param name="socketData"></param>
         Task<int> SendAsync(ISocketData socketData);
+
+        Task DisconnectAsync(bool reuseSocket);
     }
 }

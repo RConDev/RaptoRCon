@@ -16,5 +16,7 @@ namespace RaptoRCon.Sockets
         IAsyncResult BeginReceive(byte[] buffer, int offset, int size, SocketFlags socketFlags, AsyncCallback callback, object state);
         int EndReceive(IAsyncResult asyncResult);
         void Close();
+        IAsyncResult BeginDisconnect(bool reuseSocket, AsyncCallback callback, object state);
+        void EndDisconnect(IAsyncResult asyncResult);
     }
 }

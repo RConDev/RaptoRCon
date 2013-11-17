@@ -16,8 +16,7 @@ namespace RaptoRCon.Client.WinForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var mainForm = new MainForm();
-            mainForm.DataContext = new MainFormViewModel();
+            var mainForm = new MainForm {DataContext = new MainFormViewModel()};
             Application.Run(mainForm);
         }
     }
