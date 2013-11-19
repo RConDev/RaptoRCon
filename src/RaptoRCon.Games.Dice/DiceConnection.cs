@@ -16,16 +16,21 @@ namespace RaptoRCon.Games.Dice
         private readonly object sequenceIdLock = new object();
         private uint sequenceId;
 
-        public DiceConnection()
-        {
-        }
+        /// <summary>
+        /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface
+        /// </summary>
+        public virtual event EventHandler<DicePacketEventArgs> PacketReceived;
+
+        /// <summary>
+        /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
+        /// </summary>
+        public ISocketClient SocketClient { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="DiceConnection"/> instance
         /// </summary>
         /// <param name="socketClient"></param>
-        /// <param name="packetReceivedHandler"></param>
-        public DiceConnection(ISocketClient socketClient, EventHandler<DicePacketEventArgs> packetReceivedHandler = null)
+        public DiceConnection(ISocketClient socketClient)
         {
             #region Contracts
             if (socketClient == null)
@@ -36,32 +41,26 @@ namespace RaptoRCon.Games.Dice
 
             SocketClient = socketClient;
             SocketClient.DataReceived += SocketOnDataReceived;
-
-            if (packetReceivedHandler != null)
-            {
-                PacketReceived += packetReceivedHandler;
-            }
         }
-
+        
         /// <summary>
-        /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
+        /// Establishes the connection to the remote host asynchronously
         /// </summary>
-        public ISocketClient SocketClient { get; private set; }
+        /// <returns></returns>
+        public async Task ConnectAsync(string hostname, int port)
+        {
+            await this.SocketClient.ConnectAsync(hostname, port);
+        }
 
         /// <summary>
         /// Sends a DICE <see cref="IDicePacket"/> to the RCon interface
         /// </summary>
-        /// <param name="words"></param>
+        /// <param name="packet"></param>
         /// <returns></returns>
         public virtual async Task<int> SendAsync(IDicePacket packet)
         {
             return await this.SocketClient.SendAsync(new SocketData(packet.ToBytes()));
         }
-
-        /// <summary>
-        /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface
-        /// </summary>
-        public virtual event EventHandler<DicePacketEventArgs> PacketReceived;
 
         /// <summary>
         /// Returns the next valid <see cref="IDicePacketSequence.Id"/> within the <see cref="IDicePacketSequence"/> instance 

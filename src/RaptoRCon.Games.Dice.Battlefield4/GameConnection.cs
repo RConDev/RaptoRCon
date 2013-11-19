@@ -9,6 +9,18 @@ namespace RaptoRCon.Games.Dice.Battlefield4
 {
     public class GameConnection : IGameConnection
     {
+        #region Events
+
+        public virtual event EventHandler<GameDataEventArgs> GameDataSent;
+
+        public virtual event EventHandler<GameDataEventArgs> GameDataReceived;
+
+        public virtual event EventHandler<GameConnectionEventArgs> ConnectionCreated;
+
+        public virtual event EventHandler<GameConnectionEventArgs> ConnectionClosed;
+
+        #endregion
+
         public IDiceConnection DiceConnection { get; private set; }
 
         public GameConnection(IDiceConnection diceConnection)
@@ -23,9 +35,9 @@ namespace RaptoRCon.Games.Dice.Battlefield4
                 };
         }
 
-        public Task ConnectAsync()
+        public async Task ConnectAsync(string hostname, int port)
         {
-            throw new NotImplementedException();
+            await this.DiceConnection.ConnectAsync(hostname, port);
         }
 
         public Task DisconnectAsync()
@@ -66,16 +78,6 @@ namespace RaptoRCon.Games.Dice.Battlefield4
 
         #endregion
 
-        #region Events
-
-        public virtual event EventHandler<GameDataEventArgs> GameDataSent;
-
-        public virtual event EventHandler<GameDataEventArgs> GameDataReceived;
-
-        public virtual event EventHandler<GameConnectionEventArgs> ConnectionCreated;
-
-        public virtual event EventHandler<GameConnectionEventArgs> ConnectionClosed;
-
-        #endregion
+        
     }
 }

@@ -29,7 +29,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
         [Fact]
         public async Task SendAsync_IGameCommand_EventGameDataSentIsInvoked()
         {
-            var diceConnectionMock = new Mock<DiceConnection>();
+            var diceConnectionMock = new Mock<IDiceConnection>();
             var diceConnection = diceConnectionMock.Object;
             diceConnectionMock.Setup(mock => mock.SendAsync(It.IsAny<IDicePacket>())).ReturnsAsync(123);
 
@@ -68,7 +68,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
         [Fact]
         public void Behaviour_DiceConnectionPacketReceived_GameDataReceivedIsInvoked()
         {
-            var diceConnectionMock = new Mock<DiceConnection>();
+            var diceConnectionMock = new Mock<IDiceConnection>();
             var diceConnection = diceConnectionMock.Object;
 
             var isCalled = false;

@@ -16,14 +16,14 @@ namespace RaptoRCon.Games.Dice.Tests
         public void Ctor_InstanceImplementsIDiceConnection()
         {
             var socketMock = new Mock<ISocketClient>();
-                var instance = new DiceConnection(socketMock.Object, (sender, args) => {});
+                var instance = new DiceConnection(socketMock.Object);
             Assert.IsAssignableFrom<IDiceConnection>(instance);
         }
 
         [Fact]
         public void Ctor_SocketNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new DiceConnection(null, (sender, args) => { }));
+            Assert.Throws<ArgumentNullException>(() => new DiceConnection(null));
         }
 
         #endregion

@@ -10,17 +10,16 @@ namespace RaptoRCon.Games.Dice.Factories
     public interface IDiceConnectionFactory
     {
         /// <summary>
+        /// Gets or sets the <see cref="ISocketClientFactory"/> implementation used within this <see cref="IDiceConnectionFactory"/>
+        /// </summary>
+        ISocketClientFactory SocketClientFactory { get; set; }
+
+        /// <summary>
         /// Creates a new <see cref="IDiceConnection"/> instance
         /// </summary>
         /// <param name="hostname"></param>
         /// <param name="port"></param>
-        /// <param name="packetReceivedHandler"></param>
         /// <returns></returns>
-        Task<IDiceConnection> CreateAsync(string hostname, int port, EventHandler<DicePacketEventArgs> packetReceivedHandler = null);
-
-        /// <summary>
-        /// Gets or sets the <see cref="ISocketClientFactory"/> implementation used within this <see cref="IDiceConnectionFactory"/>
-        /// </summary>
-        ISocketClientFactory SocketClientFactory { get; set; }
+        Task<IDiceConnection> CreateAsync(string hostname, int port);
     }
 }

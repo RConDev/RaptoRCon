@@ -14,15 +14,6 @@ namespace RaptoRCon.Sockets
         /// <param name="hostname"></param>
         /// <param name="port"></param>
         /// <returns></returns>
-        Task<ISocketClient> CreateAndConnectAsync(string hostname, int port);
-
-        /// <summary>
-        /// Creates a new <see cref="ISocketClient"/> instance connected to the stated remote host
-        /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="port"></param>
-        /// <param name="onDataReceivedHandler"></param>
-        /// <returns></returns>
-        Task<ISocketClient> CreateAndConnectAsync(string hostname, int port, EventHandler<SocketDataReceivedEventArgs> onDataReceivedHandler);
+        Task<ISocketClient> CreateAsync(string hostname, int port);
     }
 }

@@ -16,7 +16,7 @@ namespace RaptoRCon.Server.Hosting
         /// <summary>
         /// Id for the connection in the <see cref="ConnectionHost"/>
         /// </summary>
-        System.Guid Id { get; }
+        Guid Id { get; }
 
         /// <summary>
         /// Gets the hostname of the connected game server
@@ -33,8 +33,10 @@ namespace RaptoRCon.Server.Hosting
         /// </summary>
         IGameConnection Connection { get; }
 
-
-
-        
+        /// <summary>
+        /// Establishes the underlying <see cref="IGameConnection"/> to the remote console
+        /// </summary>
+        /// <returns></returns>
+        Task ConnectAsync();
     }
 }

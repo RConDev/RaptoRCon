@@ -96,10 +96,9 @@ namespace RaptoRCon.Games.Dice.Factories
             var socketMock = new Mock<ISocketClient>();
             var socket = socketMock.Object;
             socketFactoryMock
-                .Setup(m => m.CreateAndConnectAsync(
+                .Setup(m => m.CreateAsync(
                     It.Is<string>(x => x == "localhost"), 
-                    It.Is<int>(x => x == 11000), 
-                    It.IsAny<EventHandler<SocketDataReceivedEventArgs>>()))
+                    It.Is<int>(x => x == 11000)))
                 .ReturnsAsync(socket);
             
             var connection = await connectionFactory.CreateAsync("localhost", 11000);

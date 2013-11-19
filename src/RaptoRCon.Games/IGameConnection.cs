@@ -8,7 +8,7 @@ namespace RaptoRCon.Games
 {
     public interface IGameConnection
     {
-        Task ConnectAsync();
+        Task ConnectAsync(string hostname, int port);
         Task DisconnectAsync();
         Task SendAsync(IGameCommand command);
 

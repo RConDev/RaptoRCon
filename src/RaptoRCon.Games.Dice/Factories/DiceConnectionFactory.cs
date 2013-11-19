@@ -49,18 +49,6 @@ namespace RaptoRCon.Games.Dice.Factories
         /// <returns></returns>
         public async Task<IDiceConnection> CreateAsync(string hostname, int port)
         {
-            return await CreateAsync(hostname, port, null);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="IDiceConnection"/> instance
-        /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="port"></param>
-        /// <param name="packetReceivedHandler"></param>
-        /// <returns></returns>
-        public async Task<IDiceConnection> CreateAsync(string hostname, int port, EventHandler<DicePacketEventArgs> packetReceivedHandler)
-        {
             #region Contracts
 
             if (hostname == null)
@@ -75,8 +63,8 @@ namespace RaptoRCon.Games.Dice.Factories
 
             #endregion Contracts
 
-            var socket = await SocketClientFactory.CreateAndConnectAsync(hostname, port, null);
-            var connection = new DiceConnection(socket, packetReceivedHandler);
+            var socketClient = await SocketClientFactory.CreateAsync(hostname, port);
+            var connection = new DiceConnection(socketClient);
 
             return connection;
         }

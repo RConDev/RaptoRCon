@@ -50,26 +50,25 @@ namespace RaptoRCon.Server.Controllers
         [HttpPost]
         public async Task<ConnectionCreated> Create(CreateConnectionCommand createConnection)
         {
-            IDiceConnectionFactory connectionFactory = new DiceConnectionFactory();
-
             try
             {
                 var game = await GamesContext.GetInstance().GetAsync(createConnection.GameId);
                 if (game != null)
                 {
                     var gameConnection = await game.ConnectionFactory.CreateAsync(new GameConnectionInfo() { HostName = createConnection.HostName, Port = createConnection.Port });
+                    
                     var hostedConnection = new HostedConnection(createConnection.HostName, createConnection.Port, gameConnection);
-                    gameConnection.GameDataReceived += (sender, e) =>
-                    {
-                        MessageHubProxy.Invoke("SendMessage", hostedConnection.Id, e.GameData.DataString);
-                    };
+                    gameConnection.GameDataReceived += (sender, e) => MessageHubProxy.Invoke("SendMessage", hostedConnection.Id, e.GameData.DataString);
                     this.ConnectionHost.Add(hostedConnection);
+                    await hostedConnection.ConnectAsync();
+
                     var connection = new Connection()
                     {
                         Id = hostedConnection.Id,
                         HostName = createConnection.HostName,
                         Port = createConnection.Port
                     };
+
                     return new ConnectionCreated(hostedConnection.Id, connection);
                 }
 

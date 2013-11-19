@@ -21,17 +21,22 @@ namespace RaptoRCon.Server.Hosting
         public int Port { get; private set; }
 
         public IGameConnection Connection { get; private set; }
-
+       
         /// <summary>
         /// Creates a new <see cref="HostedConnection"/> instance
         /// </summary>
         /// <param name="diceConnection"></param>
         public HostedConnection(string hostName, int port, IGameConnection diceConnection)
         {
-            this.Id = System.Guid.NewGuid();
+            Id = Guid.NewGuid();
             this.HostName = hostName;
             this.Port = port;
             this.Connection = diceConnection;
+        }
+
+        public async Task ConnectAsync()
+        {
+            await this.Connection.ConnectAsync(this.HostName, this.Port);
         }
     }
 }
