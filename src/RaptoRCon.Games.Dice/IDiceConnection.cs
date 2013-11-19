@@ -14,6 +14,16 @@ namespace RaptoRCon.Games.Dice
     public interface IDiceConnection
     {
         /// <summary>
+        /// Gets the name / ip address of the remote host the remote console is running on
+        /// </summary>
+        string HostName { get; }
+
+        /// <summary>
+        /// Gets the port number the remote console listens on for new connections
+        /// </summary>
+        int Port { get; }
+
+        /// <summary>
         /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface
         /// </summary>
         event EventHandler<DicePacketEventArgs> PacketReceived;
@@ -26,10 +36,15 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// Establishes the connection to the remote host asynchronously
         /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="port"></param>
         /// <returns></returns>
-        Task ConnectAsync(string hostname, int port);
+        Task ConnectAsync();
+
+        /// <summary>
+        /// Releases the connection to the remote host asynchronously with the option to 
+        /// reconnect
+        /// </summary>
+        /// <returns></returns>
+        Task DisconnectAsync();
 
         /// <summary>
         /// Sends a DICE <see cref="IDicePacket"/> to the RCon interface

@@ -10,20 +10,53 @@ namespace RaptoRCon.Games.Dice.Tests
     [ExcludeFromCodeCoverage]
     public class DiceConnectionTest
     {
+        private readonly Mock<ISocketClient> socketMock;
+
+        public DiceConnectionTest()
+        {
+            socketMock = new Mock<ISocketClient>();
+        }
+
         #region CTOR
 
         [Fact]
         public void Ctor_InstanceImplementsIDiceConnection()
         {
-            var socketMock = new Mock<ISocketClient>();
-                var instance = new DiceConnection(socketMock.Object);
+            var instance = new DiceConnection("myhost", 12345, socketMock.Object);
             Assert.IsAssignableFrom<IDiceConnection>(instance);
         }
 
         [Fact]
         public void Ctor_SocketNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new DiceConnection(null));
+            Assert.Throws<ArgumentNullException>(() => new DiceConnection("myhost", 12345, null));
+        }
+
+        [Fact]
+        public void Ctor_HostnameNull_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new DiceConnection(null, 12345, socketMock.Object));
+        }
+
+        [Fact]
+        public void Ctor_HostnameNull_ThrowsArgumentNullExceptionParamNameHostname()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => new DiceConnection(null, 12345, socketMock.Object));
+            Assert.Equal("hostname", exception.ParamName);
+        }
+
+        [Fact]
+        public void Ctor_HostnameMyHost_HostNameMyHost()
+        {
+            var diceConnection = new DiceConnection("myhost", 12345, socketMock.Object);
+            Assert.Equal("myhost", diceConnection.HostName);
+        }
+        
+        [Fact]
+        public void Ctor_Port12345_Port12345()
+        {
+            var diceConnection = new DiceConnection("myhost", 12345, socketMock.Object);
+            Assert.Equal(12345, diceConnection.Port);
         }
 
         #endregion
@@ -40,7 +73,7 @@ namespace RaptoRCon.Games.Dice.Tests
         public void GetNextSequenceId_NewGeneratedConnection_Returns1() 
         {
             var socketMock = new Mock<ISocketClient>();
-            var diceConnection = new DiceConnection(socketMock.Object);
+            var diceConnection = new DiceConnection("myhost", 12345, socketMock.Object);
 
             var sequenceId = diceConnection.GetNextSequenceId();
             Assert.Equal(1u, sequenceId);
@@ -55,7 +88,7 @@ namespace RaptoRCon.Games.Dice.Tests
         public void UpdateSequenceId_1234_NextSequenceIdReturns1235() 
         {
             var socketMock = new Mock<ISocketClient>();
-            var diceConnection = new DiceConnection(socketMock.Object);
+            var diceConnection = new DiceConnection("myhost", 12345, socketMock.Object);
 
             diceConnection.UpdateSequenceId(1234);
             var sequenceId = diceConnection.GetNextSequenceId();

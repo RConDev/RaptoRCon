@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RaptoRCon.Shared.Util;
 
 namespace RaptoRCon.Games.Dice.Battlefield4
 {
+    /// <summary>
+    /// The <see cref="IGameConnection"/> implementation for administrating the Battlefield 4 Game Server
+    /// </summary>
     public class GameConnection : IGameConnection
     {
         #region Events
@@ -21,8 +21,15 @@ namespace RaptoRCon.Games.Dice.Battlefield4
 
         #endregion
 
+        /// <summary>
+        /// Gets the underlying <see cref="IDiceConnection"/>
+        /// </summary>
         public IDiceConnection DiceConnection { get; private set; }
 
+        /// <summary>
+        /// Creates a new <see cref="GameConnection"/> instance
+        /// </summary>
+        /// <param name="diceConnection"></param>
         public GameConnection(IDiceConnection diceConnection)
         {
             this.DiceConnection = diceConnection;
@@ -35,14 +42,14 @@ namespace RaptoRCon.Games.Dice.Battlefield4
                 };
         }
 
-        public async Task ConnectAsync(string hostname, int port)
+        public async Task ConnectAsync()
         {
-            await this.DiceConnection.ConnectAsync(hostname, port);
+            await DiceConnection.ConnectAsync();
         }
 
-        public Task DisconnectAsync()
+        public async Task DisconnectAsync()
         {
-            throw new NotImplementedException();
+            await DiceConnection.DisconnectAsync();
         }
 
         public async Task SendAsync(IGameCommand command)
@@ -77,7 +84,5 @@ namespace RaptoRCon.Games.Dice.Battlefield4
         }
 
         #endregion
-
-        
     }
 }

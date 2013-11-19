@@ -1,9 +1,4 @@
-﻿using AssertExLib;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Moq;
 using System.Threading.Tasks;
 using Xunit;
 using RaptoRCon.Tests;
@@ -57,6 +52,38 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
 
             var instance = new GameConnection(diceConnection);
             await instance.SendAsync(new GameCommand() { Command = "listPlayers all" });
+
+            diceConnectionMock.VerifyAll();
+        }
+
+        #endregion
+
+        #region ConnectAsync()
+
+        [Fact]
+        public async Task ConnectAsync_CallsIDiceConnectionConnectAsync()
+        {
+            var diceConnectionMock = new Mock<IDiceConnection>();
+            diceConnectionMock.Setup(x => x.ConnectAsync()).Returns(Task.FromResult<object>(null));
+
+            var gameConnection = new GameConnection(diceConnectionMock.Object);
+            await gameConnection.ConnectAsync();
+
+            diceConnectionMock.VerifyAll();
+        }
+
+        #endregion
+
+        #region DisconnectAsync()
+
+        [Fact]
+        public async Task DisconnectAsync_CallsIDiceConnectionDisconnectAsync()
+        {
+            var diceConnectionMock = new Mock<IDiceConnection>();
+            diceConnectionMock.Setup(x => x.DisconnectAsync()).Returns(Task.FromResult<object>(null));
+
+            var gameConnection = new GameConnection(diceConnectionMock.Object);
+            await gameConnection.DisconnectAsync();
 
             diceConnectionMock.VerifyAll();
         }

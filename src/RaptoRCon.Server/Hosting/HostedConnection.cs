@@ -36,7 +36,7 @@ namespace RaptoRCon.Server.Hosting
 
         public async Task ConnectAsync()
         {
-            await this.Connection.ConnectAsync(this.HostName, this.Port);
+            await this.Connection.ConnectAsync();
         }
     }
 }
