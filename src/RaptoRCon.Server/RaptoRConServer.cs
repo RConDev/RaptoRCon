@@ -60,7 +60,6 @@ namespace RaptoRCon.Server
             await Task.Factory.StartNew(() =>
             {
                 logger.Debug("Stopping Server");
-                //await webApiServer.CloseAsync();
                 webServer.Dispose();
                 logger.Debug("Server stopped");
             });

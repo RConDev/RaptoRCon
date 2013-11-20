@@ -1,10 +1,7 @@
 ﻿using RaptoRCon.Games;
-using RaptoRCon.Games.Dice;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using RaptoRCon.Shared.Models;
 
 namespace RaptoRCon.Server.Hosting
 {
@@ -32,11 +29,18 @@ namespace RaptoRCon.Server.Hosting
         /// Gets the underlying connection used for communication
         /// </summary>
         IGameConnection Connection { get; }
-
+        
         /// <summary>
         /// Establishes the underlying <see cref="IGameConnection"/> to the remote console
         /// </summary>
         /// <returns></returns>
         Task ConnectAsync();
+
+        /// <summary>
+        /// Releases the underlying <see cref="IGameConnection"/> to the remote console with the option to 
+        /// reonnect
+        /// </summary>
+        /// <returns></returns>
+        Task DisconnectAsync();
     }
 }

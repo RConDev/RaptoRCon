@@ -15,6 +15,7 @@ using System.Text;
 using System.Linq;
 using RaptoRCon.Games.Dice.Factories;
 using RaptoRCon.Games;
+using ConnectionState = RaptoRCon.Shared.Models.ConnectionState;
 
 namespace RaptoRCon.Server.Controllers
 {
@@ -30,6 +31,10 @@ namespace RaptoRCon.Server.Controllers
         public async Task<CommandResult> Post(Command command)
         {
             var connection = GetHostedConnection(command.ConnectionId);
+            if (connection.Connection.State == ConnectionState.NotConnected)
+            {
+                throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+            }
 
             var gameCommand = new GameCommand() { Command = command.CommandString };
 

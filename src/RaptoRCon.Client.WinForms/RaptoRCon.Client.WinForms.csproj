@@ -76,6 +76,8 @@
     <Compile Include="Packet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sdk\CommandsClient.cs" />
+    <Compile Include="Sdk\ConnectionClient.cs" />
     <Compile Include="Sdk\GamesClient.cs" />
     <Compile Include="ViewModelBase.cs" />
     <EmbeddedResource Include="MainForm.resx">

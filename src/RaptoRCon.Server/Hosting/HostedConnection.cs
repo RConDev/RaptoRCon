@@ -34,9 +34,23 @@ namespace RaptoRCon.Server.Hosting
             this.Connection = diceConnection;
         }
 
+        /// <summary>
+        /// Establishes the underlying <see cref="IGameConnection"/> to the remote console
+        /// </summary>
+        /// <returns></returns>
         public async Task ConnectAsync()
         {
-            await this.Connection.ConnectAsync();
+            await Connection.ConnectAsync();
+        }
+
+        /// <summary>
+        /// Releases the underlying <see cref="IGameConnection"/> to the remote console with the option to 
+        /// reonnect
+        /// </summary>
+        /// <returns></returns>
+        public async Task DisconnectAsync()
+        {
+            await Connection.DisconnectAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RaptoRCon.Shared.Models;
+﻿using RaptoRCon.Client.WinForms.Sdk;
+using RaptoRCon.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,26 +18,17 @@ namespace RaptoRCon.Client.WinForms
     /// </summary>
     public class ConnectionViewModel : ViewModelBase
     {
-        private object packetsLock = new object();
+        private readonly object packetsLock = new object();
         private ObservableCollection<Packet> packets;
         private Connection connection;
+        private string commandString;
+        private readonly CommandsClient commandsClient = new CommandsClient();
 
-        private ICommand sendCommand = new DelegateCommand(async (p) =>
-        {
-            var viewModel = p as ConnectionViewModel;
-            if (viewModel == null) return;
-
-            var command = new Command() { ConnectionId = viewModel.Id, CommandString = viewModel.CommandString };
-            var response = await viewModel.HttpClient.PostAsJsonAsync<Command>("command", command);
-
-            viewModel.Packets.Add(new Packet() { Content = viewModel.CommandString });
-            viewModel.CommandString = null;
-        });
+        #region Properties
 
         public Guid Id
         {
             get { return connection.Id; }
-
         }
 
         public string HostName
@@ -50,19 +42,32 @@ namespace RaptoRCon.Client.WinForms
             get { return connection.Port; }
         }
 
-        private string command;
-
-        public string CommandString
+        public ConnectionState State
         {
-            get { return command; }
+            get { return connection.State; }
+        }
+
+        public string CommandStringString
+        {
+            get { return commandString; }
             set
             {
-                command = value;
+                commandString = value;
                 OnPropertyChanged();
             }
         }
 
-        public ICommand SendCommand { get { return sendCommand; } }
+        public ObservableCollection<Packet> Packets
+        {
+            get { return packets; }
+            set
+            {
+                packets = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
 
         public ConnectionViewModel(Connection connection)
             : base()
@@ -79,15 +84,77 @@ namespace RaptoRCon.Client.WinForms
             OnPropertyChanged("Packets");
         }
 
-        public ObservableCollection<Packet> Packets
+
+        private void UpdateConnection(Connection connection)
         {
-            get { return packets; }
-            set
+            this.connection = connection;
+            OnPropertyChanged("Id");
+            OnPropertyChanged("HostName");
+            OnPropertyChanged("Port");
+            OnPropertyChanged("State");
+        }
+
+        #region Commands
+
+        public ICommand SendCommand
+        {
+            get
             {
-                packets = value;
-                OnPropertyChanged();
+                return new DelegateCommand(
+                    async (p) =>
+                    {
+                        var viewModel = p as ConnectionViewModel;
+                        if (viewModel == null) return;
+
+                        var command = new Command()
+                                      {
+                                          ConnectionId = viewModel.Id,
+                                          CommandString = viewModel.CommandStringString
+                                      };
+
+                        var commandResult = await commandsClient.SendAsync(command);
+                        viewModel.AddPacket(new Packet()
+                                            {
+                                                Content = viewModel.CommandStringString
+                                            });
+                        viewModel.CommandStringString = null;
+                    });
             }
         }
 
+        public ICommand DisconnectCommand
+        {
+            get
+            {
+                return new DelegateCommand(
+                    async p =>
+                    {
+                        var viewModel = p as ConnectionViewModel;
+                        if (viewModel == null) return;
+
+                        var connectionClient = new ConnectionClient();
+                        var updatedConnection = await connectionClient.Disconnect(viewModel.Id);
+                        viewModel.UpdateConnection(updatedConnection);
+                    });
+            }
+        }
+
+        public ICommand ConnectCommand
+        {
+            get
+            {
+                return new DelegateCommand(async p =>
+                {
+                    var viewModel = p as ConnectionViewModel;
+                    if (viewModel == null) return;
+
+                    var connectionClient = new ConnectionClient();
+                    var updatedConnection = await connectionClient.Connect(viewModel.Id);
+                    viewModel.UpdateConnection(updatedConnection);
+                });
+            }
+        }
+
+        #endregion
     }
 }

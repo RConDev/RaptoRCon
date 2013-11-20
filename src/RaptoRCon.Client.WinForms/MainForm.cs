@@ -73,5 +73,23 @@ namespace RaptoRCon.Client.WinForms
                 command.Execute(this.DataContext);
             }
         }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var currentConnection = connectionsBindingSource.Current as ConnectionViewModel;
+            if (currentConnection != null)
+            {
+                currentConnection.ConnectCommand.Execute(currentConnection);
+            }
+        }
+
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var currentConnection = connectionsBindingSource.Current as ConnectionViewModel;
+            if (currentConnection != null)
+            {
+                currentConnection.DisconnectCommand.Execute(currentConnection);
+            }
+        }
     }
 }

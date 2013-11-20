@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using RaptoRCon.Shared.Models;
 using RaptoRCon.Shared.Util;
 
 namespace RaptoRCon.Games.Dice.Battlefield4
@@ -27,11 +28,17 @@ namespace RaptoRCon.Games.Dice.Battlefield4
         public IDiceConnection DiceConnection { get; private set; }
 
         /// <summary>
+        /// Gets the curren state of the <see cref="IGameConnection"/>
+        /// </summary>
+        public ConnectionState State { get; private set; }
+
+        /// <summary>
         /// Creates a new <see cref="GameConnection"/> instance
         /// </summary>
         /// <param name="diceConnection"></param>
         public GameConnection(IDiceConnection diceConnection)
         {
+            this.State = ConnectionState.NotConnected;
             this.DiceConnection = diceConnection;
             diceConnection.PacketReceived +=
                 (sender, e) =>
@@ -45,11 +52,13 @@ namespace RaptoRCon.Games.Dice.Battlefield4
         public async Task ConnectAsync()
         {
             await DiceConnection.ConnectAsync();
+            State = ConnectionState.Connected;
         }
 
         public async Task DisconnectAsync()
         {
             await DiceConnection.DisconnectAsync();
+            State = ConnectionState.NotConnected;
         }
 
         public async Task SendAsync(IGameCommand command)

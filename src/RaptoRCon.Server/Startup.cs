@@ -13,8 +13,9 @@ namespace RaptoRCon.Server
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-            
+            config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            
             MefConfig.RegisterMef(config);
             
             app.UseWebApi(config);

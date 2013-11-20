@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Threading.Tasks;
+using RaptoRCon.Shared.Models;
 using Xunit;
 using RaptoRCon.Tests;
 
@@ -7,7 +8,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
 {
     public class GameConnectionTest
     {
-        #region Creator
+        #region Ctor
 
         [Fact]
         public void Ctor_IDiceConnectionMock_DiceConnectionIDiceConnectionMock()
@@ -15,6 +16,14 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
             var diceConnection = new Mock<IDiceConnection>().Object;
             var instance = new GameConnection(diceConnection);
             Assert.Equal(diceConnection, instance.DiceConnection);
+        }
+
+        [Fact]
+        public void Ctor_IDiceConnectionMock_StateNotConnected()
+        {
+            var diceConnection = new Mock<IDiceConnection>().Object;
+            var instance = new GameConnection(diceConnection);
+            Assert.Equal(ConnectionState.NotConnected, instance.State);
         }
 
         #endregion
@@ -72,6 +81,20 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
             diceConnectionMock.VerifyAll();
         }
 
+        [Fact]
+        public async Task ConnectAsync_StateConnected()
+        {
+            var diceConnectionMock = new Mock<IDiceConnection>();
+            diceConnectionMock.Setup(x => x.ConnectAsync()).Returns(Task.FromResult<object>(null));
+
+            var gameConnection = new GameConnection(diceConnectionMock.Object);
+            await gameConnection.ConnectAsync();
+
+            Assert.Equal(ConnectionState.Connected, gameConnection.State);
+
+            diceConnectionMock.VerifyAll();
+        }
+
         #endregion
 
         #region DisconnectAsync()
@@ -86,6 +109,16 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
             await gameConnection.DisconnectAsync();
 
             diceConnectionMock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task DisconnectAsync_StateNotConnected()
+        {
+            var diceConnectionMock = new Mock<IDiceConnection>();
+            var gameConnection = new GameConnection(diceConnectionMock.Object);
+            diceConnectionMock.Setup(x => x.DisconnectAsync()).Returns(Task.FromResult<object>(null));
+            await gameConnection.DisconnectAsync();
+            Assert.Equal(ConnectionState.NotConnected, gameConnection.State);
         }
 
         #endregion

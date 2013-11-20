@@ -33,12 +33,16 @@
             System.Windows.Forms.Label portLabel;
             System.Windows.Forms.Label commandLabel;
             System.Windows.Forms.Label gamesLabel;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsDataGridView = new System.Windows.Forms.DataGridView();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hostNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.portDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.connectionsMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gamesComboBox = new System.Windows.Forms.ComboBox();
@@ -66,6 +70,7 @@
             this.connectionsContainer.Panel2.SuspendLayout();
             this.connectionsContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsDataGridView)).BeginInit();
+            this.connectionsMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).BeginInit();
@@ -93,6 +98,7 @@
             // 
             // commandLabel
             // 
+            commandLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             commandLabel.AutoSize = true;
             commandLabel.Location = new System.Drawing.Point(14, 415);
             commandLabel.Name = "commandLabel";
@@ -162,9 +168,10 @@
             this.connectionsDataGridView.AutoGenerateColumns = false;
             this.connectionsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.connectionsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
             this.hostNameDataGridViewTextBoxColumn,
-            this.portDataGridViewTextBoxColumn});
+            this.portDataGridViewTextBoxColumn,
+            this.State});
+            this.connectionsDataGridView.ContextMenuStrip = this.connectionsMenuStrip;
             this.connectionsDataGridView.DataSource = this.connectionsBindingSource;
             this.connectionsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.connectionsDataGridView.Location = new System.Drawing.Point(0, 0);
@@ -172,19 +179,13 @@
             this.connectionsDataGridView.Size = new System.Drawing.Size(312, 293);
             this.connectionsDataGridView.TabIndex = 0;
             // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // hostNameDataGridViewTextBoxColumn
             // 
             this.hostNameDataGridViewTextBoxColumn.DataPropertyName = "HostName";
             this.hostNameDataGridViewTextBoxColumn.HeaderText = "HostName";
             this.hostNameDataGridViewTextBoxColumn.Name = "hostNameDataGridViewTextBoxColumn";
             this.hostNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hostNameDataGridViewTextBoxColumn.Width = 150;
             // 
             // portDataGridViewTextBoxColumn
             // 
@@ -192,6 +193,37 @@
             this.portDataGridViewTextBoxColumn.HeaderText = "Port";
             this.portDataGridViewTextBoxColumn.Name = "portDataGridViewTextBoxColumn";
             this.portDataGridViewTextBoxColumn.ReadOnly = true;
+            this.portDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // State
+            // 
+            this.State.DataPropertyName = "State";
+            this.State.HeaderText = "State";
+            this.State.Name = "State";
+            this.State.ReadOnly = true;
+            this.State.Width = 150;
+            // 
+            // connectionsMenuStrip
+            // 
+            this.connectionsMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToolStripMenuItem,
+            this.disconnectToolStripMenuItem});
+            this.connectionsMenuStrip.Name = "connectionsMenuStrip";
+            this.connectionsMenuStrip.Size = new System.Drawing.Size(153, 70);
+            // 
+            // connectToolStripMenuItem
+            // 
+            this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.connectToolStripMenuItem.Text = "Connect";
+            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            // 
+            // disconnectToolStripMenuItem
+            // 
+            this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
+            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.disconnectToolStripMenuItem.Text = "Disconnect";
+            this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
             // 
             // connectionsBindingSource
             // 
@@ -259,7 +291,8 @@
             // 
             // sendButton
             // 
-            this.sendButton.Location = new System.Drawing.Point(431, 410);
+            this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.sendButton.Location = new System.Drawing.Point(504, 410);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(106, 23);
             this.sendButton.TabIndex = 5;
@@ -269,29 +302,35 @@
             // 
             // commandTextBox
             // 
-            this.commandTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.connectionsBindingSource, "CommandString", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.commandTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.commandTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.connectionsBindingSource, "CommandStringString", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.commandTextBox.Location = new System.Drawing.Point(104, 412);
             this.commandTextBox.Name = "commandTextBox";
-            this.commandTextBox.Size = new System.Drawing.Size(321, 20);
+            this.commandTextBox.Size = new System.Drawing.Size(394, 20);
             this.commandTextBox.TabIndex = 2;
             // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.contentDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.packetsBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(-1, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(623, 366);
+            this.dataGridView1.Size = new System.Drawing.Size(616, 392);
             this.dataGridView1.TabIndex = 0;
             // 
             // contentDataGridViewTextBoxColumn
             // 
             this.contentDataGridViewTextBoxColumn.DataPropertyName = "Content";
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.contentDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.contentDataGridViewTextBoxColumn.HeaderText = "Content";
             this.contentDataGridViewTextBoxColumn.Name = "contentDataGridViewTextBoxColumn";
             this.contentDataGridViewTextBoxColumn.Width = 500;
@@ -327,6 +366,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.connectionsContainer)).EndInit();
             this.connectionsContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.connectionsDataGridView)).EndInit();
+            this.connectionsMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).EndInit();
@@ -348,16 +388,19 @@
         private System.Windows.Forms.Button addConnectionButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource packetsBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.TextBox commandTextBox;
         private System.Windows.Forms.Button removeButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
         private System.Windows.Forms.ComboBox gamesComboBox;
         private System.Windows.Forms.BindingSource gamesBindingSource;
+        private System.Windows.Forms.ContextMenuStrip connectionsMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
 
     }
 }

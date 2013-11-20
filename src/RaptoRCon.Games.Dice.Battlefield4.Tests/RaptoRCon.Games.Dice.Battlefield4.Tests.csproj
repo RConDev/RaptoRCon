@@ -70,6 +70,10 @@
       <Project>{8b32417e-a506-4bc6-834a-8077dcea9d8b}</Project>
       <Name>RaptoRCon.Games</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RaptoRCon.Shared\RaptoRCon.Shared.csproj">
+      <Project>{D0D98DBC-DD03-42EE-AA80-DACB72FF76F9}</Project>
+      <Name>RaptoRCon.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RaptoRCon.Tests\RaptoRCon.Tests.csproj">
       <Project>{ba1ae40f-032b-4b59-ad21-228112d5be5a}</Project>
       <Name>RaptoRCon.Tests</Name>

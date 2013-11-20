@@ -47,6 +47,7 @@
     <Compile Include="Models\CommandResult.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\ConnectionCreated.cs" />
+    <Compile Include="Models\ConnectionState.cs" />
     <Compile Include="Models\ExceptionMessage.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

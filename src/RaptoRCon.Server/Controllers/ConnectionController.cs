@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Web.Http;
-using RaptoRCon.Server.Config;
 using RaptoRCon.Shared.Models;
-using RaptoRCon.Sockets;
 using System.ComponentModel.Composition;
 using RaptoRCon.Server.Hosting;
-using RaptoRCon.Games.Dice.Factories;
-using Microsoft.AspNet.SignalR.Client;
 using Connection = RaptoRCon.Shared.Models.Connection;
 using RaptoRCon.Shared.Commands;
 using RaptoRCon.Games;
@@ -44,7 +39,19 @@ namespace RaptoRCon.Server.Controllers
         /// <returns></returns>
         public async Task<IEnumerable<Connection>> Get()
         {
-            return await Task.Factory.StartNew(() => this.ConnectionHost.Get().Select(x => new Connection() { Id = x.Id, HostName = x.HostName, Port = x.Port }));
+            return await Task.Factory.StartNew(
+                () =>
+                {
+                    var connections = ConnectionHost.Get();
+                    return connections.Select(
+                        x => new Connection()
+                             {
+                                 Id = x.Id,
+                                 HostName = x.HostName,
+                                 Port = x.Port,
+                                 State = x.Connection.State
+                             });
+                });
         }
 
         [HttpPost]
@@ -56,7 +63,7 @@ namespace RaptoRCon.Server.Controllers
                 if (game != null)
                 {
                     var gameConnection = await game.ConnectionFactory.CreateAsync(new GameConnectionInfo() { HostName = createConnection.HostName, Port = createConnection.Port });
-                    
+
                     var hostedConnection = new HostedConnection(createConnection.HostName, createConnection.Port, gameConnection);
                     gameConnection.GameDataReceived += (sender, e) => MessageHubProxy.Invoke("SendMessage", hostedConnection.Id, e.GameData.DataString);
                     this.ConnectionHost.Add(hostedConnection);
@@ -66,7 +73,8 @@ namespace RaptoRCon.Server.Controllers
                     {
                         Id = hostedConnection.Id,
                         HostName = createConnection.HostName,
-                        Port = createConnection.Port
+                        Port = createConnection.Port,
+                        State = hostedConnection.Connection.State
                     };
 
                     return new ConnectionCreated(hostedConnection.Id, connection);
@@ -96,6 +104,36 @@ namespace RaptoRCon.Server.Controllers
                 var hostedConnection = ConnectionHost.Get(id);
                 return ConnectionHost.Remove(hostedConnection);
             });
+        }
+
+        [HttpGet]
+        [Route("api/connection/{connectionId}/disconnect")]
+        public async Task<Connection> Disconnect(Guid connectionId)
+        {
+            var hostedConnection = this.ConnectionHost.Get(connectionId);
+            await hostedConnection.DisconnectAsync();
+            return new Connection
+                   {
+                       Id = hostedConnection.Id,
+                       HostName = hostedConnection.HostName,
+                       Port = hostedConnection.Port,
+                       State = hostedConnection.Connection.State
+                   };
+        }
+
+        [HttpGet]
+        [Route("api/connection/{connectionId}/connect")]
+        public async Task<Connection> Connect(Guid connectionId)
+        {
+            var hostedConnection = this.ConnectionHost.Get(connectionId);
+            await hostedConnection.ConnectAsync();
+            return new Connection
+                   {
+                       Id = hostedConnection.Id,
+                       HostName = hostedConnection.HostName,
+                       Port = hostedConnection.Port,
+                       State = hostedConnection.Connection.State
+                   };
         }
     }
 }
