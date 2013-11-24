@@ -3,13 +3,10 @@ using RaptoRCon.Client.WinForms.Sdk;
 using RaptoRCon.Shared.Commands;
 using RaptoRCon.Shared.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Connection = RaptoRCon.Shared.Models.Connection;
 
 namespace RaptoRCon.Client.WinForms
 {
@@ -19,6 +16,15 @@ namespace RaptoRCon.Client.WinForms
         private int port;
         private readonly ObservableCollection<ConnectionViewModel> connections;
         private readonly GamesClient gamesClient = new GamesClient();
+
+        private ObservableCollection<Game> games;
+        private string password;
+        private static readonly ConnectionClient connectionsClient;
+
+        public ObservableCollection<ConnectionViewModel> Connections
+        {
+            get { return connections; }
+        }
 
         public string HostName
         {
@@ -40,13 +46,18 @@ namespace RaptoRCon.Client.WinForms
             }
         }
 
-        public ConnectionViewModel CurrentConnection { get; set; }
-
-        public ObservableCollection<ConnectionViewModel> Connections
+        public string Password
         {
-            get { return connections; }
+            get { return password; }
+            set
+            {
+                password = value;
+                OnPropertyChanged();
+            }
         }
 
+        public ConnectionViewModel CurrentConnection { get; set; }
+        
         public MainFormViewModel()
         {
             this.connections = new ObservableCollection<ConnectionViewModel>();
@@ -54,7 +65,7 @@ namespace RaptoRCon.Client.WinForms
             InitializeHub();
         }
 
-        private async Task Initialize()
+        private async void Initialize()
         {
             await GetConnectionsAsync(this);
             await GetGamesAsync(this);
@@ -124,19 +135,19 @@ namespace RaptoRCon.Client.WinForms
             {
                 GameId = viewModel.CurrentGameId.Value,
                 HostName = viewModel.HostName,
-                Port = viewModel.Port
+                Port = viewModel.Port,
+                Password = viewModel.Password
             };
 
-            var response = await viewModel.HttpClient.PostAsJsonAsync("connection", createConnection);
-            response.EnsureSuccessStatusCode();
-
-            var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();
+            var connectionCreated = await connectionsClient.CreateAsync(createConnection);
             viewModel.Context.Post(state => ((MainFormViewModel)state).AddConnection(new ConnectionViewModel(connectionCreated.Connection)), viewModel);
 
             viewModel.CurrentGameId = null;
             viewModel.HostName = null;
             viewModel.Port = 0;
         }
+
+        
 
         private void AddConnection(ConnectionViewModel connectionViewModel)
         {
@@ -174,9 +185,7 @@ namespace RaptoRCon.Client.WinForms
 
         public HubConnection HubConnection { get; set; }
 
-        private ObservableCollection<Game> games;
-        private static ConnectionClient connectionsClient;
-
+        
         static MainFormViewModel()
         {
             connectionsClient = new ConnectionClient();

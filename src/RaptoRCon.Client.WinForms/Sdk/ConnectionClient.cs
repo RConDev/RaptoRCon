@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using RaptoRCon.Shared.Commands;
 using RaptoRCon.Shared.Models;
 
 namespace RaptoRCon.Client.WinForms.Sdk
@@ -17,36 +16,49 @@ namespace RaptoRCon.Client.WinForms.Sdk
             this.HttpClient = new HttpClient() {BaseAddress = new Uri("http://localhost:10505/api/connection/")};
         }
 
+        public async Task<ConnectionCreated> CreateAsync(CreateConnectionCommand createConnectionCommand)
+        {
+            var response = await HttpClient.PostAsJsonAsync("connection", createConnectionCommand);
+            response.EnsureSuccessStatusCode();
+
+            var connectionCreated = await response.Content.ReadAsAsync<ConnectionCreated>();
+            return connectionCreated;
+        }
+
         public async Task<IEnumerable<Connection>> GetAllAsync()
         {
             var response = await HttpClient.GetAsync(string.Empty);
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsAsync<IEnumerable<Connection>>();
+            var connections = await response.Content.ReadAsAsync<IEnumerable<Connection>>();
+            return connections;
         }
 
-        public async Task<Connection> Get(Guid id)
+        public async Task<Connection> GetAsync(Guid id)
         {
             var response = await HttpClient.GetAsync(id.ToString());
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsAsync<Connection>();
+            var connection = await response.Content.ReadAsAsync<Connection>();
+            return connection;
         }
 
-        public async Task<Connection> Disconnect(Guid id)
+        public async Task<Connection> DisconnectAsync(Guid id)
         {
             var response = await HttpClient.GetAsync(string.Format("{0}/disconnect", id));
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsAsync<Connection>();
+            var connection = await response.Content.ReadAsAsync<Connection>();
+            return connection;
         }
 
-        public async Task<Connection> Connect(Guid id)
+        public async Task<Connection> ConnectAsync(Guid id)
         {
             var response = await HttpClient.GetAsync(string.Format("{0}/connect", id));
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsAsync<Connection>();
+            var connection = await response.Content.ReadAsAsync<Connection>();
+            return connection;
         }
     }
 }

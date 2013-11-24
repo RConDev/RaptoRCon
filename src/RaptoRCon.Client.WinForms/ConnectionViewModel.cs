@@ -133,7 +133,7 @@ namespace RaptoRCon.Client.WinForms
                         if (viewModel == null) return;
 
                         var connectionClient = new ConnectionClient();
-                        var updatedConnection = await connectionClient.Disconnect(viewModel.Id);
+                        var updatedConnection = await connectionClient.DisconnectAsync(viewModel.Id);
                         viewModel.UpdateConnection(updatedConnection);
                     });
             }
@@ -149,7 +149,7 @@ namespace RaptoRCon.Client.WinForms
                     if (viewModel == null) return;
 
                     var connectionClient = new ConnectionClient();
-                    var updatedConnection = await connectionClient.Connect(viewModel.Id);
+                    var updatedConnection = await connectionClient.ConnectAsync(viewModel.Id);
                     viewModel.UpdateConnection(updatedConnection);
                 });
             }

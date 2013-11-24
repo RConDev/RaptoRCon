@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RaptoRCon.Games
+﻿namespace RaptoRCon.Games
 {
     public interface IGameConnectionInfo
     {
         string HostName { get; }
 
         int Port { get; }
+
+        string Password { get; }
     }
 }

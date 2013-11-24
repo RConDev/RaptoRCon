@@ -42,7 +42,7 @@ namespace RaptoRCon.Client.WinForms
         private void addConnectionButton_Click(object sender, EventArgs e)
         {
             var command = DataContext.AddConnectionCommand;
-            if (command != null && command.CanExecute(null))
+            if (command != null && command.CanExecute(this.dataContext))
             {
                 command.Execute(this.DataContext);
             }

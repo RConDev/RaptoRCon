@@ -61,33 +61,46 @@ namespace RaptoRCon.Games.Dice.Factories
         [Fact]
         public void Create_HostNameNull_ThrowsArgumentNullException()
         {
-            AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123));
+            AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123, "myPassword"));
         }
 
         [Fact]
         public void Create_HostNameNull_ArgumentNullExceptionParamNameHostname()
-        {   
-            var exception = AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123));
+        {
+            var exception = AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync(null, 123, "myPassword"));
             Assert.Equal("hostname", exception.ParamName);
         }
 
         [Fact]
         public void Create_PortNegative_ThrowsArgumentOutOfRangeException()
         {
-            AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1));
+            AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1, "myPassword"));
         }
 
         [Fact]
         public void Create_PortNegative_ThrowsArgumentOutOfRangeExceptionParamNamePort()
         {
-            var exception = AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1));
+            var exception = AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", -1, "myPassword"));
             Assert.Equal("port", exception.ParamName);
         }
 
         [Fact]
         public void Create_PortZero_ThrowsArgumentOutOfRangeException()
         {
-            AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", 0));
+            AssertEx.TaskThrows<ArgumentOutOfRangeException>(() => connectionFactory.CreateAsync("localhost", 0, "myPassword"));
+        }
+
+        [Fact]
+        public void Create_PasswordNull_ThrowsArgumentNullException()
+        {
+            AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync("localhost", 12345, null));
+        }
+
+        [Fact]
+        public void Create_PasswordNull_ThrowsArgumentNullExceptionParamNamePassword()
+        {
+            var exception = AssertEx.TaskThrows<ArgumentNullException>(() => connectionFactory.CreateAsync("localhost", 12345, null));
+            Assert.Equal("password", exception.ParamName);
         }
 
         [Fact]
@@ -100,11 +113,26 @@ namespace RaptoRCon.Games.Dice.Factories
                     It.Is<string>(x => x == "localhost"), 
                     It.Is<int>(x => x == 11000)))
                 .ReturnsAsync(socket);
+
+            var connection = await connectionFactory.CreateAsync("localhost", 11000, "myPassword");
             
-            var connection = await connectionFactory.CreateAsync("localhost", 11000);
-            socketFactoryMock.VerifyAll();
             Assert.Equal(socket, connection.SocketClient);
-            
+            socketFactoryMock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task CreateAsync_PasswordMyPassword_ReturnsDiceConnectionPasswordMyPassword()
+        {
+            var socketMock = new Mock<ISocketClient>();
+            var socket = socketMock.Object;
+            socketFactoryMock
+                .Setup(m => m.CreateAsync(
+                    It.Is<string>(x => x == "localhost"),
+                    It.Is<int>(x => x == 11000)))
+                .ReturnsAsync(socket);
+
+            var connection = await connectionFactory.CreateAsync("localhost", 11000, "myPassword");
+            Assert.Equal("myPassword", connection.Password);
         }
 
         #endregion

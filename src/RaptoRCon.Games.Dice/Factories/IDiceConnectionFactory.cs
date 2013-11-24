@@ -19,7 +19,8 @@ namespace RaptoRCon.Games.Dice.Factories
         /// </summary>
         /// <param name="hostname"></param>
         /// <param name="port"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        Task<IDiceConnection> CreateAsync(string hostname, int port);
+        Task<IDiceConnection> CreateAsync(string hostname, int port, string password);
     }
 }

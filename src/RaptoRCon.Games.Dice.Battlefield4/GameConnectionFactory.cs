@@ -16,7 +16,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4
 
         public async Task<IGameConnection> CreateAsync(IGameConnectionInfo connectionInfo)
         {
-            var diceConnection = await DiceConnectionFactory.CreateAsync(connectionInfo.HostName, connectionInfo.Port);
+            var diceConnection = await DiceConnectionFactory.CreateAsync(connectionInfo.HostName, connectionInfo.Port, connectionInfo.Password);
             return new GameConnection(diceConnection);
         }
 

@@ -62,7 +62,13 @@ namespace RaptoRCon.Server.Controllers
                 var game = await GamesContext.GetInstance().GetAsync(createConnection.GameId);
                 if (game != null)
                 {
-                    var gameConnection = await game.ConnectionFactory.CreateAsync(new GameConnectionInfo() { HostName = createConnection.HostName, Port = createConnection.Port });
+                    var gameConnectionInfo = new GameConnectionInfo
+                                             {
+                                                 HostName = createConnection.HostName,
+                                                 Port = createConnection.Port,
+                                                 Password = createConnection.Password,
+                                             };
+                    var gameConnection = await game.ConnectionFactory.CreateAsync(gameConnectionInfo);
 
                     var hostedConnection = new HostedConnection(createConnection.HostName, createConnection.Port, gameConnection);
                     gameConnection.GameDataReceived += (sender, e) => MessageHubProxy.Invoke("SendMessage", hostedConnection.Id, e.GameData.DataString);

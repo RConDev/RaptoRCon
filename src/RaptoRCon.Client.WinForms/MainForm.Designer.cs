@@ -33,7 +33,8 @@
             System.Windows.Forms.Label portLabel;
             System.Windows.Forms.Label commandLabel;
             System.Windows.Forms.Label gamesLabel;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.Label passwordLabel;
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsDataGridView = new System.Windows.Forms.DataGridView();
@@ -57,10 +58,12 @@
             this.contentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.packetsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.passwordTextBox = new System.Windows.Forms.TextBox();
             hostNameLabel = new System.Windows.Forms.Label();
             portLabel = new System.Windows.Forms.Label();
             commandLabel = new System.Windows.Forms.Label();
             gamesLabel = new System.Windows.Forms.Label();
+            passwordLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
@@ -100,7 +103,7 @@
             // 
             commandLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             commandLabel.AutoSize = true;
-            commandLabel.Location = new System.Drawing.Point(14, 415);
+            commandLabel.Location = new System.Drawing.Point(14, 480);
             commandLabel.Name = "commandLabel";
             commandLabel.Size = new System.Drawing.Size(84, 13);
             commandLabel.TabIndex = 1;
@@ -132,7 +135,7 @@
             this.mainContainer.Panel2.Controls.Add(commandLabel);
             this.mainContainer.Panel2.Controls.Add(this.commandTextBox);
             this.mainContainer.Panel2.Controls.Add(this.dataGridView1);
-            this.mainContainer.Size = new System.Drawing.Size(938, 457);
+            this.mainContainer.Size = new System.Drawing.Size(938, 522);
             this.mainContainer.SplitterDistance = 312;
             this.mainContainer.TabIndex = 0;
             // 
@@ -151,6 +154,8 @@
             // connectionsContainer.Panel2
             // 
             this.connectionsContainer.Panel2.AutoScroll = true;
+            this.connectionsContainer.Panel2.Controls.Add(passwordLabel);
+            this.connectionsContainer.Panel2.Controls.Add(this.passwordTextBox);
             this.connectionsContainer.Panel2.Controls.Add(gamesLabel);
             this.connectionsContainer.Panel2.Controls.Add(this.gamesComboBox);
             this.connectionsContainer.Panel2.Controls.Add(this.removeButton);
@@ -159,8 +164,8 @@
             this.connectionsContainer.Panel2.Controls.Add(this.portTextBox);
             this.connectionsContainer.Panel2.Controls.Add(hostNameLabel);
             this.connectionsContainer.Panel2.Controls.Add(this.hostNameTextBox);
-            this.connectionsContainer.Size = new System.Drawing.Size(312, 457);
-            this.connectionsContainer.SplitterDistance = 293;
+            this.connectionsContainer.Size = new System.Drawing.Size(312, 522);
+            this.connectionsContainer.SplitterDistance = 334;
             this.connectionsContainer.TabIndex = 0;
             // 
             // connectionsDataGridView
@@ -176,7 +181,7 @@
             this.connectionsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.connectionsDataGridView.Location = new System.Drawing.Point(0, 0);
             this.connectionsDataGridView.Name = "connectionsDataGridView";
-            this.connectionsDataGridView.Size = new System.Drawing.Size(312, 293);
+            this.connectionsDataGridView.Size = new System.Drawing.Size(312, 334);
             this.connectionsDataGridView.TabIndex = 0;
             // 
             // hostNameDataGridViewTextBoxColumn
@@ -209,19 +214,19 @@
             this.connectToolStripMenuItem,
             this.disconnectToolStripMenuItem});
             this.connectionsMenuStrip.Name = "connectionsMenuStrip";
-            this.connectionsMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.connectionsMenuStrip.Size = new System.Drawing.Size(134, 48);
             // 
             // connectToolStripMenuItem
             // 
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.connectToolStripMenuItem.Text = "Connect";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
             // 
             // disconnectToolStripMenuItem
             // 
             this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.disconnectToolStripMenuItem.Text = "Disconnect";
             this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
             // 
@@ -244,7 +249,7 @@
             this.gamesComboBox.FormattingEnabled = true;
             this.gamesComboBox.Location = new System.Drawing.Point(81, 29);
             this.gamesComboBox.Name = "gamesComboBox";
-            this.gamesComboBox.Size = new System.Drawing.Size(228, 21);
+            this.gamesComboBox.Size = new System.Drawing.Size(226, 21);
             this.gamesComboBox.TabIndex = 6;
             this.gamesComboBox.ValueMember = "Id";
             // 
@@ -255,7 +260,7 @@
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(247, 82);
+            this.removeButton.Location = new System.Drawing.Point(245, 134);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(62, 23);
             this.removeButton.TabIndex = 5;
@@ -265,7 +270,7 @@
             // 
             // addConnectionButton
             // 
-            this.addConnectionButton.Location = new System.Drawing.Point(187, 82);
+            this.addConnectionButton.Location = new System.Drawing.Point(185, 134);
             this.addConnectionButton.Name = "addConnectionButton";
             this.addConnectionButton.Size = new System.Drawing.Size(54, 23);
             this.addConnectionButton.TabIndex = 4;
@@ -278,7 +283,7 @@
             this.portTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Port", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.portTextBox.Location = new System.Drawing.Point(81, 82);
             this.portTextBox.Name = "portTextBox";
-            this.portTextBox.Size = new System.Drawing.Size(100, 20);
+            this.portTextBox.Size = new System.Drawing.Size(226, 20);
             this.portTextBox.TabIndex = 3;
             // 
             // hostNameTextBox
@@ -286,13 +291,13 @@
             this.hostNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "HostName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.hostNameTextBox.Location = new System.Drawing.Point(81, 56);
             this.hostNameTextBox.Name = "hostNameTextBox";
-            this.hostNameTextBox.Size = new System.Drawing.Size(228, 20);
+            this.hostNameTextBox.Size = new System.Drawing.Size(226, 20);
             this.hostNameTextBox.TabIndex = 1;
             // 
             // sendButton
             // 
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.sendButton.Location = new System.Drawing.Point(504, 410);
+            this.sendButton.Location = new System.Drawing.Point(504, 475);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(106, 23);
             this.sendButton.TabIndex = 5;
@@ -304,7 +309,7 @@
             // 
             this.commandTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.commandTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.connectionsBindingSource, "CommandStringString", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.commandTextBox.Location = new System.Drawing.Point(104, 412);
+            this.commandTextBox.Location = new System.Drawing.Point(104, 477);
             this.commandTextBox.Name = "commandTextBox";
             this.commandTextBox.Size = new System.Drawing.Size(394, 20);
             this.commandTextBox.TabIndex = 2;
@@ -323,14 +328,14 @@
             this.dataGridView1.DataSource = this.packetsBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(616, 392);
+            this.dataGridView1.Size = new System.Drawing.Size(616, 457);
             this.dataGridView1.TabIndex = 0;
             // 
             // contentDataGridViewTextBoxColumn
             // 
             this.contentDataGridViewTextBoxColumn.DataPropertyName = "Content";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.contentDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.contentDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.contentDataGridViewTextBoxColumn.HeaderText = "Content";
             this.contentDataGridViewTextBoxColumn.Name = "contentDataGridViewTextBoxColumn";
             this.contentDataGridViewTextBoxColumn.Width = 500;
@@ -347,11 +352,29 @@
             this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
             this.dataGridViewButtonColumn1.ReadOnly = true;
             // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            passwordLabel.Location = new System.Drawing.Point(12, 111);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new System.Drawing.Size(56, 13);
+            passwordLabel.TabIndex = 8;
+            passwordLabel.Text = "Password:";
+            // 
+            // passwordTextBox
+            // 
+            this.passwordTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Password", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.passwordTextBox.Location = new System.Drawing.Point(81, 108);
+            this.passwordTextBox.Name = "passwordTextBox";
+            this.passwordTextBox.Size = new System.Drawing.Size(226, 20);
+            this.passwordTextBox.TabIndex = 9;
+            this.passwordTextBox.UseSystemPasswordChar = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(938, 457);
+            this.ClientSize = new System.Drawing.Size(938, 522);
             this.Controls.Add(this.mainContainer);
             this.Name = "MainForm";
             this.Text = "RaptoRCon";
@@ -401,6 +424,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn State;
         private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.TextBox passwordTextBox;
 
     }
 }

@@ -46,8 +46,9 @@ namespace RaptoRCon.Games.Dice.Factories
         /// </summary>
         /// <param name="hostname"></param>
         /// <param name="port"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<IDiceConnection> CreateAsync(string hostname, int port)
+        public async Task<IDiceConnection> CreateAsync(string hostname, int port, string password)
         {
             #region Contracts
 
@@ -61,10 +62,15 @@ namespace RaptoRCon.Games.Dice.Factories
                 throw new ArgumentOutOfRangeException("port");
             }
 
+            if (password == null)
+            {
+                throw new ArgumentNullException("password");
+            }
+
             #endregion Contracts
 
             var socketClient = await SocketClientFactory.CreateAsync(hostname, port);
-            var connection = new DiceConnection(hostname, port, socketClient);
+            var connection = new DiceConnection(hostname, port, password, socketClient);
 
             return connection;
         }

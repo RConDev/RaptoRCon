@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RaptoRCon.Sockets;
 
@@ -14,6 +11,11 @@ namespace RaptoRCon.Games.Dice
     public interface IDiceConnection
     {
         /// <summary>
+        /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface
+        /// </summary>
+        event EventHandler<DicePacketEventArgs> PacketReceived;
+
+        /// <summary>
         /// Gets the name / ip address of the remote host the remote console is running on
         /// </summary>
         string HostName { get; }
@@ -22,16 +24,16 @@ namespace RaptoRCon.Games.Dice
         /// Gets the port number the remote console listens on for new connections
         /// </summary>
         int Port { get; }
-
-        /// <summary>
-        /// This event is invoked, when a <see cref="IDicePacket"/> is received from the RCon interface
-        /// </summary>
-        event EventHandler<DicePacketEventArgs> PacketReceived;
-
+        
         /// <summary>
         /// Gets the underlying <see cref="ISocket"/> used to communicate with the RCon interface
         /// </summary>
         ISocketClient SocketClient { get; }
+
+        /// <summary>
+        /// Gets the Admin's password to gain admin's priviledges
+        /// </summary>
+        string Password { get; }
 
         /// <summary>
         /// Establishes the connection to the remote host asynchronously
