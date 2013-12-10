@@ -53,6 +53,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4
         {
             await DiceConnection.ConnectAsync();
             State = ConnectionState.Connected;
+            await DiceConnection.AuthenticateAsync();
         }
 
         public async Task DisconnectAsync()
@@ -70,7 +71,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4
             var packet = new DicePacket(new DicePacketSequence(packetSequenceId, PacketType.Request, Origin.Client), commandStringWords);
             await this.DiceConnection.SendAsync(packet);
 
-            var eventArgs = new GameDataEventArgs(new GameData() { DataString = packet.ToString() });
+            var eventArgs = new GameDataEventArgs(new GameData { DataString = packet.ToString() });
             this.OnGameDataSent(eventArgs);
         }
 

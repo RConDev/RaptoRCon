@@ -35,6 +35,7 @@ namespace RaptoRCon.Sockets
         /// Sends a content to the remote host
         /// </summary>
         /// <param name="socketData"></param>
+        /// <returns>the number of bytes send to the remote host</returns>
         Task<int> SendAsync(ISocketData socketData);
 
         Task DisconnectAsync(bool reuseSocket);

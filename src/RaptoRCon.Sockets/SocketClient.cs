@@ -220,8 +220,8 @@ namespace RaptoRCon.Sockets
         {
             logger.DebugFormat("Trying to disconnect");
             await Task.Factory.FromAsync(
-                (callback, state) => Socket.BeginDisconnect(reuseSocket, callback, Socket),
-                Socket.EndDisconnect,
+                (callback, state) => ((ISocket)state).BeginDisconnect(reuseSocket, callback, state),
+                ias => ((ISocket)ias.AsyncState).EndDisconnect(ias),
                 Socket);
             logger.DebugFormat("Successfully disconnected from remote host. Socket can be reused.");
         }

@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Common.Logging;
+using RaptoRCon.Games.Dice.Commands;
+using RaptoRCon.Games.Dice.Utils;
 using RaptoRCon.Sockets;
 using RaptoRCon.Games.Dice.Factories;
 using RaptoRCon.Shared.Util;
@@ -105,7 +109,7 @@ namespace RaptoRCon.Games.Dice
         public virtual async Task<int> SendAsync(IDicePacket packet)
         {
             logger.DebugFormat("Sending Packet '{0}'", packet);
-            return await this.SocketClient.SendAsync(new SocketData(packet.ToBytes()));
+            return await SocketClient.SendAsync(new SocketData(packet.ToBytes()));
         }
 
         /// <summary>
@@ -121,15 +125,45 @@ namespace RaptoRCon.Games.Dice
             }
         }
 
+        /// <summary>
+        /// Authenticates the current connection with the password delivered
+        /// </summary>
+        public async Task AuthenticateAsync()
+        {
+            using (var commandInterface = GetCommandInterface())
+            {
+                var saltHexString =
+                    new HexString(
+                        (await commandInterface.ExecuteAsync(new LoginHashedCommand())).Packet.Words.Skip(1)
+                            .FirstOrDefault()
+                            .Content);
+
+                var passwordHash = HashUtil.GeneratePasswordHash(saltHexString, Password);
+                var response = await commandInterface.ExecuteAsync(new LoginHashedCommand(passwordHash));
+
+                if (response.Packet.Words.First().Content != "OK")
+                {
+                    throw new AuthenticationException("Authentication failed");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a new <see cref="IDiceCommandInterface"/> instance implementing <see cref="IDisposable"/>
+        /// </summary>
+        /// <returns></returns>
+        public IDiceCommandInterface GetCommandInterface()
+        {
+            return new DiceCommandInterface(this);
+        }
+
         public void UpdateSequenceId(uint newSequenceId)
         {
             lock (sequenceIdLock)
             {
-                this.sequenceId = newSequenceId;
+                sequenceId = newSequenceId;
             }
         }
-
-        #region Event Handler
 
         private async void SocketOnDataReceived(object sender, SocketDataReceivedEventArgs socketDataReceivedEventArgs)
         {
@@ -141,16 +175,14 @@ namespace RaptoRCon.Games.Dice
 
             var packetFactory = new DicePacketFactory();
             var packets = packetFactory.FromBytes(socketDataReceivedEventArgs.DataReceived);
-            var maxSequenceId = this.sequenceId;
+            var maxSequenceId = sequenceId;
             foreach (var packet in packets)
             {
                 maxSequenceId = packet.Sequence.Id > maxSequenceId ? packet.Sequence.Id : maxSequenceId;
                 await packetReceivedEventHandler.InvokeAllAsync(this, new DicePacketEventArgs(packet));
             }
 
-            this.UpdateSequenceId(maxSequenceId);
+            UpdateSequenceId(maxSequenceId);
         }
-
-        #endregion
-    }
+   }
 }

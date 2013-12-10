@@ -32,15 +32,15 @@
         /// <returns></returns>
         public IEnumerable<IDiceWord> ToWords()
         {
-            string[] parts = this.commandString.Split(SplitChar.ToCharArray(),
-                                                      StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = commandString.Split(SplitChar.ToCharArray(),
+                StringSplitOptions.RemoveEmptyEntries);
 
-            return this.EnsureQuoted(parts).Select(x => new DiceWord(x));
+            return EnsureQuoted(parts).Select(x => new DiceWord(x));
         }
 
         private IEnumerable<string> EnsureQuoted(IEnumerable<string> parts)
         {
-            if (!this.commandString.Contains(Quote))
+            if (!commandString.Contains(Quote))
             {
                 return parts;
             }
@@ -48,7 +48,7 @@
             List<string> partsList = parts.ToList();
             var resultParts = new List<string>();
             var currentPart = new StringBuilder();
-            foreach (string part in partsList)
+            foreach (var part in partsList)
             {
                 if (part.StartsWith(Quote))
                 {

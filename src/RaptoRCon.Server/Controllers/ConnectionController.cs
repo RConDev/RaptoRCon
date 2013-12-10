@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.AspNet.SignalR.Client;
 using RaptoRCon.Shared.Models;
 using System.ComponentModel.Composition;
 using RaptoRCon.Server.Hosting;
@@ -71,7 +72,11 @@ namespace RaptoRCon.Server.Controllers
                     var gameConnection = await game.ConnectionFactory.CreateAsync(gameConnectionInfo);
 
                     var hostedConnection = new HostedConnection(createConnection.HostName, createConnection.Port, gameConnection);
-                    gameConnection.GameDataReceived += (sender, e) => MessageHubProxy.Invoke("SendMessage", hostedConnection.Id, e.GameData.DataString);
+                    gameConnection.GameDataReceived += (sender, e) =>
+                                                       {
+                                                           MessageHubProxy.Invoke("SendMessage",
+                                                               hostedConnection.Id, e.GameData.DataString);
+                                                       };
                     this.ConnectionHost.Add(hostedConnection);
                     await hostedConnection.ConnectAsync();
 

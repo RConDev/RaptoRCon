@@ -74,6 +74,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
         {
             var diceConnectionMock = new Mock<IDiceConnection>();
             diceConnectionMock.Setup(x => x.ConnectAsync()).Returns(Task.FromResult<object>(null));
+            diceConnectionMock.Setup(x => x.AuthenticateAsync()).Returns(Task.FromResult<object>(null));
 
             var gameConnection = new GameConnection(diceConnectionMock.Object);
             await gameConnection.ConnectAsync();
@@ -86,6 +87,7 @@ namespace RaptoRCon.Games.Dice.Battlefield4.Tests
         {
             var diceConnectionMock = new Mock<IDiceConnection>();
             diceConnectionMock.Setup(x => x.ConnectAsync()).Returns(Task.FromResult<object>(null));
+            diceConnectionMock.Setup(x => x.AuthenticateAsync()).Returns(Task.FromResult<object>(null));
 
             var gameConnection = new GameConnection(diceConnectionMock.Object);
             await gameConnection.ConnectAsync();

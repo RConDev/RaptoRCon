@@ -61,5 +61,16 @@ namespace RaptoRCon.Games.Dice
         /// </summary>
         /// <returns></returns>
         uint GetNextSequenceId();
+
+        /// <summary>
+        /// Authenticates the current connection with the password delivered
+        /// </summary>
+        Task AuthenticateAsync();
+
+        /// <summary>
+        /// Gets a new <see cref="IDiceCommandInterface"/> instance implementing <see cref="IDisposable"/>
+        /// </summary>
+        /// <returns></returns>
+        IDiceCommandInterface GetCommandInterface();
     }
 }

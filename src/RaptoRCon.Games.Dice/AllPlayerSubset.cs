@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RaptoRCon.Games.Dice
+﻿namespace RaptoRCon.Games.Dice
 {
     public class AllPlayerSubset : PlayerSubset
     {
+        /// <summary>
+        /// Creates a new <see cref="AllPlayerSubset"/> instance
+        /// </summary>
         public AllPlayerSubset()
             : base(PlayerSubsetType.All)
         {
