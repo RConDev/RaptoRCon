@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice.Factories
 {
@@ -17,12 +18,7 @@ namespace RaptoRCon.Games.Dice.Factories
         /// <returns>The extracted <see cref="IDiceWord"/> instance</returns>
         public IDiceWord FromBytes(IEnumerable<byte> bytes)
         {
-            #region Contracts
-            if (bytes == null)
-            {
-                throw new ArgumentNullException("bytes");
-            }
-            #endregion
+            Guard.That(() => bytes).IsNotNull();
 
             var bytesToExtract = bytes.ToArray();
             var wordLength = BitConverter.ToUInt32(bytesToExtract.Take(4).ToArray(), 0);

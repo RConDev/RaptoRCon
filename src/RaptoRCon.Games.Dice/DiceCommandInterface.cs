@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using RaptoRCon.Games.Dice.Commands;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -26,14 +27,7 @@ namespace RaptoRCon.Games.Dice
         /// <param name="connection"></param>
         public DiceCommandInterface(IDiceConnection connection)
         {
-            #region Contracts
-
-            if (connection == null)
-            {
-                throw new ArgumentNullException("connection");
-            }
-
-            #endregion
+            Guard.That(() => connection).IsNotNull();
 
             Connection = connection;
         }
@@ -45,14 +39,7 @@ namespace RaptoRCon.Games.Dice
         /// <returns><see cref="IDiceCommandResponse"/> to the command executed</returns>
         public async Task<IDiceCommandResponse> ExecuteAsync(IDiceCommand command)
         {
-            #region Contracts
-
-            if (command == null)
-            {
-                throw new ArgumentNullException("command");
-            }
-
-            #endregion
+            Guard.That(() => command).IsNotNull();
 
             // Cleanup before execution
             response = null;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -11,16 +12,9 @@ namespace RaptoRCon.Games.Dice
         public GuidPlayerId(DiceGuid guid)
             : base(IdType.Guid)
         {
-            #region Contracts
+            Guard.That(() => guid).IsNotNull();
 
-            if (guid == null)
-            {
-                throw new ArgumentNullException("guid");
-            }
-
-            #endregion
-
-            this.Guid = guid;
+            Guid = guid;
         }
 
         public override IEnumerable<IDiceWord> ToWords()

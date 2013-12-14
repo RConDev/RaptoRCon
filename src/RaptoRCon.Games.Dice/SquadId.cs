@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -22,7 +23,7 @@ namespace RaptoRCon.Games.Dice
         /// <summary>
         /// Gets the sign, if the current squad id is no-squad
         /// </summary>
-        public bool IsNoSquad { get { return this.Value == 0; } }
+        public bool IsNoSquad { get { return Value == 0; } }
 
         /// <summary>
         /// Creates a new <see cref="SquadId"/> instance
@@ -30,14 +31,9 @@ namespace RaptoRCon.Games.Dice
         /// <param name="squadId"></param>
         public SquadId(string squadId)
         {
-            #region Contracts
-
-            if (squadId == null)
-            {
-                throw new ArgumentNullException("squadId");
-            }
-
-            var intValue = 0;
+            Guard.That(() => squadId).IsNotNull();
+            
+            int intValue;
             if (!Int32.TryParse(squadId, out intValue))
             {
                 throw new ArgumentOutOfRangeException("squadId");
@@ -48,14 +44,12 @@ namespace RaptoRCon.Games.Dice
                 throw new ArgumentOutOfRangeException("squadId");
             }
 
-            #endregion
-
-            this.Value = intValue;
+            Value = intValue;
         }
 
         public IEnumerable<IDiceWord> ToWords()
         {
-            yield return new DiceWord(Convert.ToString(this.Value));
+            yield return new DiceWord(Convert.ToString(Value));
         }
     }
 }

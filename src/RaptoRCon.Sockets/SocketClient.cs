@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Common.Logging;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Sockets
 {
@@ -49,13 +50,8 @@ namespace RaptoRCon.Sockets
         /// </summary>
         public SocketClient(ISocket socket)
         {
-            #region Contracts
-            if (socket == null)
-            {
-                throw new ArgumentNullException();
-            }
-            #endregion
-
+            Guard.That(() => socket).IsNotNull();
+            
             logger.Trace("Creating new instance");
             BufferSize = DefaultBufferSize;
             this.Socket = socket;

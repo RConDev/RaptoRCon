@@ -1,4 +1,5 @@
 ﻿using System;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -18,12 +19,7 @@ namespace RaptoRCon.Games.Dice
         /// <param name="packet"></param>
         public DicePacketEventArgs(IDicePacket packet)
         {
-            #region Contracts
-            if (packet == null)
-            {
-                throw new ArgumentNullException("packet");
-            }
-            #endregion
+            Guard.That(() => packet).IsNotNull();
 
             Packet = packet;
         }

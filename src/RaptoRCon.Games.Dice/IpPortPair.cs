@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -14,18 +15,9 @@ namespace RaptoRCon.Games.Dice
 
         public IpPortPair(IPAddress ipAddress, UInt16 port)
         {
-            #region Contracts
-            if (ipAddress == null)
-            {
-                throw new ArgumentNullException("ipAddress");
-            }
-
-            if (port == 0)
-            {
-                throw new ArgumentOutOfRangeException("port");
-            }
-            #endregion
-
+            Guard.That(() => ipAddress).IsNotNull();
+            Guard.That(() => port).IsGreaterThan(Convert.ToUInt16(0));
+            
             this.ipAddress = ipAddress;
             this.port = port;
         }

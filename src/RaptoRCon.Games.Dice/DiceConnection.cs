@@ -8,6 +8,7 @@ using RaptoRCon.Games.Dice.Utils;
 using RaptoRCon.Sockets;
 using RaptoRCon.Games.Dice.Factories;
 using RaptoRCon.Shared.Util;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -56,20 +57,9 @@ namespace RaptoRCon.Games.Dice
         {
             logger.TraceFormat("Creating new {0} instance", GetType());
             
-            #region Contracts
-            if (hostname == null)
-            {
-                throw new ArgumentNullException("hostname");
-            }
-            if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
-            if (socketClient == null)
-            {
-                throw new ArgumentNullException("socketClient");
-            }
-            #endregion
+            Guard.That(() => hostname).IsNotNull();
+            Guard.That(() => password).IsNotNull();
+            Guard.That(() => socketClient).IsNotNull();
 
             HostName = hostname;
             Port = port;

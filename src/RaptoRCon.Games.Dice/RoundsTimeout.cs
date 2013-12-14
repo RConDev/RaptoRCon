@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -13,16 +12,9 @@ namespace RaptoRCon.Games.Dice
         public RoundsTimeout(string rounds)
             :base(TimeoutType.Rounds)
         {
-            #region Contracts
+            Guard.That(() => rounds).IsNotNull();
 
-            if (rounds == null)
-            {
-                throw new ArgumentNullException("rounds");
-            }
-
-            #endregion
-
-            this.Rounds = Convert.ToUInt32(rounds);
+            Rounds = Convert.ToUInt32(rounds);
         }
         
         public override IEnumerable<IDiceWord> ToWords()

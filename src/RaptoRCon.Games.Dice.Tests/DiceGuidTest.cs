@@ -22,13 +22,13 @@ namespace RaptoRCon.Games.Dice.Tests
         [Fact]
         public void Ctor_MyWrongGuid_ThrowsArgumentOutOfRangeException() 
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DiceGuid("MyWrongGuid"));
+            Assert.Throws<ArgumentException>(() => new DiceGuid("MyWrongGuid"));
         }
 
         [Fact]
         public void Ctor_EB_5E58A522B9BF4E7DADB5212623C3B721_ArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DiceGuid("EB_5E58A522B9BF4E7DADB5212623C3B721"));
+            Assert.Throws<ArgumentException>(() => new DiceGuid("EB_5E58A522B9BF4E7DADB5212623C3B721"));
         }
 
         [Fact]

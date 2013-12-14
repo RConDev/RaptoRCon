@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice.Commands
 {
@@ -34,14 +35,7 @@ namespace RaptoRCon.Games.Dice.Commands
         /// <param name="passwordHash"></param>
         public LoginHashedCommand(HexString passwordHash)
         {
-            #region Contracts
-
-            if (passwordHash == null)
-            {
-                throw new ArgumentNullException("passwordHash");
-            }
-
-            #endregion
+            Guard.That(() => passwordHash).IsNotNull();
 
             PasswordHash = passwordHash;
         }

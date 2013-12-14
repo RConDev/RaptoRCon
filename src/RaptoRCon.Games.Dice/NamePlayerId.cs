@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -18,14 +19,9 @@ namespace RaptoRCon.Games.Dice
         public NamePlayerId(PlayerName playerName)
             :base(IdType.Name)
         {
-            #region Contracts
-            if (playerName == null)
-            {
-                throw new ArgumentNullException("playerName");
-            }
-            #endregion
+            Guard.That(() => playerName).IsNotNull();
 
-            this.Name = playerName;
+            Name = playerName;
         }
 
         public override IEnumerable<IDiceWord> ToWords()

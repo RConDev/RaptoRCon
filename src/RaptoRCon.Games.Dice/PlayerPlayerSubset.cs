@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -13,16 +14,9 @@ namespace RaptoRCon.Games.Dice
         public PlayerPlayerSubset(PlayerName playerName)
             : base(PlayerSubsetType.Player)
         {
-            #region Contracts
-
-            if (playerName == null)
-            {
-                throw new ArgumentNullException("playerName");
-            }
-
-            #endregion
-
-            this.PlayerName = playerName;
+            Guard.That(() => playerName).IsNotNull();
+            
+            PlayerName = playerName;
         }
 
         public override IEnumerable<IDiceWord> ToWords()

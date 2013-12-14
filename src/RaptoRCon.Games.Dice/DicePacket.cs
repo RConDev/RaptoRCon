@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -19,18 +20,9 @@ namespace RaptoRCon.Games.Dice
         /// <param name="words"></param>
         public DicePacket(IDicePacketSequence sequence, IEnumerable<IDiceWord> words)
         {
-            #region Contracts
-            if (sequence == null)
-            {
-                throw new ArgumentNullException("sequence");
-            }
-
-            if (words == null)
-            {
-                throw new ArgumentNullException("words");
-            }
-            #endregion
-
+            Guard.That(() => sequence).IsNotNull();
+            Guard.That(() => words).IsNotNull();
+            
             Sequence = sequence;
             this.words = words.ToList();
         }

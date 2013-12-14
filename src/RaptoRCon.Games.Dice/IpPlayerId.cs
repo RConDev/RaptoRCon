@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -12,14 +13,7 @@ namespace RaptoRCon.Games.Dice
         public IpPlayerId(IPAddress ip)
             : base(IdType.Ip)
         {
-            #region Contracts
-
-            if (ip == null)
-            {
-                throw new ArgumentNullException("ip");
-            }
-
-            #endregion
+            Guard.That(() => ip).IsNotNull();
 
             Ip = ip;
         }

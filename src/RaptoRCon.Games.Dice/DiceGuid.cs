@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -22,26 +23,9 @@ namespace RaptoRCon.Games.Dice
         /// <exception cref="ArgumentOutOfRangeException">If the <paramref name="guid"/> is not exactly 35 characters long.</exception>
         public DiceGuid(string guid)
         {
-            #region Contracts
+            Guard.That(() => guid).IsNotNull().Length(35).StartsWith("EA_");
 
-            if (guid == null) 
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (guid.Length != 35)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            if (!guid.StartsWith("EA_"))
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            #endregion
-
-            this.Value = guid;
+            Value = guid;
         }
 
         public IEnumerable<IDiceWord> ToWords()

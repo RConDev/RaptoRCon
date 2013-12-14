@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Text;
 using System.Web.Http.Dependencies;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Server.Config
 {
@@ -34,10 +35,7 @@ namespace RaptoRCon.Server.Config
         /// <returns>Service implementation or null.</returns>
         public object GetService(Type serviceType)
         {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException("serviceType");
-            }
+            Guard.That(() => serviceType).IsNotNull();
 
             var name = AttributedModelServices.GetContractName(serviceType);
             var export = container.GetExportedValueOrDefault<object>(name);
@@ -53,10 +51,7 @@ namespace RaptoRCon.Server.Config
         /// <returns>Service implementations.</returns>
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException("serviceType");
-            }
+            Guard.That(() => serviceType).IsNotNull();
 
             var exports = container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
             return exports;

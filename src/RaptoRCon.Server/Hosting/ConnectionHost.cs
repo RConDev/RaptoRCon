@@ -1,19 +1,14 @@
-﻿using RaptoRCon.Games.Dice;
-using RaptoRCon.Server.Hosting.Exceptions;
-using RaptoRCon.Sockets;
-using System;
+﻿using RaptoRCon.Server.Hosting.Exceptions;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaptoRCon.Server.Hosting
 {
     [Export(typeof(IConnectionHost))]
     public class ConnectionHost : IConnectionHost
     {
-        private IList<IHostedConnection> connections = new List<IHostedConnection>();
+        private readonly ICollection<IHostedConnection> connections = new List<IHostedConnection>();
 
         /// <summary>
         /// Gets all <see cref="IHostedConnection"/> instances hosted within the <see cref="ConnectionHost"/>
@@ -21,7 +16,7 @@ namespace RaptoRCon.Server.Hosting
         /// <returns></returns>
         public IEnumerable<IHostedConnection> Get()
         {
-            return connections.AsEnumerable<IHostedConnection>();
+            return connections.AsEnumerable();
         }
 
         public void Add(IHostedConnection hostedConnection)

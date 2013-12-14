@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Sockets
 {
@@ -23,12 +24,7 @@ namespace RaptoRCon.Sockets
         /// <param name="dataReceived"></param>
         public SocketDataReceivedEventArgs(IEnumerable<byte> dataReceived)
         {
-            #region Contracts 
-            if (dataReceived == null)
-            {
-                throw new ArgumentNullException("dataReceived");
-            }
-            #endregion
+            Guard.That(() => dataReceived).IsNotNull();
 
             DataReceived = dataReceived;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -16,12 +17,7 @@ namespace RaptoRCon.Games.Dice
         /// <param name="content"></param>
         public DiceWord(string content)
         {
-            #region Contracts
-            if (content == null)
-            {
-                throw new ArgumentNullException("content");
-            }
-            #endregion
+            Guard.That(() => content).IsNotNull();
 
             Content = content;
         }

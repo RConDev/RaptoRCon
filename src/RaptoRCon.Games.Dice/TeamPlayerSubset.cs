@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -12,16 +10,9 @@ namespace RaptoRCon.Games.Dice
 
         public TeamPlayerSubset(TeamId teamId) : base(PlayerSubsetType.Team)
         {
-            #region Contracts
+            Guard.That(() => teamId).IsNotNull();
 
-            if (teamId == null)
-            {
-                throw new ArgumentNullException("teamId");
-            }
-
-            #endregion
-
-            this.TeamId = teamId;
+            TeamId = teamId;
         }
 
         public override IEnumerable<IDiceWord> ToWords()

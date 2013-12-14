@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -25,16 +26,8 @@ namespace RaptoRCon.Games.Dice
         /// <exception cref="ArgumentNullException">If the <paramref name="playerName"/> provided is NULL.</exception>
         public PlayerName(string playerName)
         {
-            #region Contracts
-
-            if (playerName == null)
-            {
-                throw new ArgumentNullException("playerName");
-            }
-
-            #endregion
-
-            this.Value = playerName;
+            Guard.That(() => playerName).IsNotNull();
+            Value = playerName;
         }
 
         public IEnumerable<IDiceWord> ToWords()

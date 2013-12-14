@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice.Factories
 {
@@ -15,8 +16,6 @@ namespace RaptoRCon.Games.Dice.Factories
 
         private static readonly IDiceWordFactory diceWordFactory = new DiceWordFactory();
 
-
-
         /// <summary>
         /// Creates a new <see cref="IDicePacket"/> instances based on <see cref="byte"/>s
         /// </summary>
@@ -25,15 +24,8 @@ namespace RaptoRCon.Games.Dice.Factories
         /// <exception cref="ArgumentNullException">When </exception>
         public IEnumerable<IDicePacket> FromBytes(IEnumerable<byte> bytes)
         {
-            #region Contracts
-
-            if (bytes == null)
-            {
-                throw new ArgumentNullException("bytes");
-            }
-
-            #endregion
-
+            Guard.That(() => bytes).IsNotNull();
+         
             lock (extractLock)
             {
                 return ExtractFromBytes(bytes);

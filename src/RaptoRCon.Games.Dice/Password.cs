@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -29,13 +30,8 @@ namespace RaptoRCon.Games.Dice
         /// <exception cref="ArgumentOutOfRangeException">If the <paramref name="password"/> contains invalid characters.</exception>
         public Password(string password)
         {
-            #region Contracts
-
-            if (password == null)
-            {
-                throw new ArgumentNullException();
-            }
-
+            Guard.That(() => password).IsNotNull();
+            
             if (password.Length > 16)
             {
                 throw new ArgumentOutOfRangeException();
@@ -46,9 +42,7 @@ namespace RaptoRCon.Games.Dice
                 throw new ArgumentOutOfRangeException();
             }
 
-            #endregion
-
-            this.Value = password;
+            Value = password;
         }
 
         /// <summary>

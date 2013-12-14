@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using RaptoRCon.Sockets;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice.Factories
 {
@@ -24,14 +25,7 @@ namespace RaptoRCon.Games.Dice.Factories
         /// <param name="socketClientFactory"></param>
         public DiceConnectionFactory(ISocketClientFactory socketClientFactory)
         {
-            #region Contracts
-
-            if (socketClientFactory == null)
-            {
-                throw new ArgumentNullException("socketClientFactory");
-            }
-
-            #endregion Contracts
+            Guard.That(() => socketClientFactory).IsNotNull();
 
             SocketClientFactory = socketClientFactory;
         }
@@ -50,24 +44,9 @@ namespace RaptoRCon.Games.Dice.Factories
         /// <returns></returns>
         public async Task<IDiceConnection> CreateAsync(string hostname, int port, string password)
         {
-            #region Contracts
-
-            if (hostname == null)
-            {
-                throw new ArgumentNullException("hostname");
-            }
-
-            if (port <= 0)
-            {
-                throw new ArgumentOutOfRangeException("port");
-            }
-
-            if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
-
-            #endregion Contracts
+            Guard.That(() => hostname).IsNotNull();
+            Guard.That(() => port).IsGreaterThan(0);
+            Guard.That(() => password).IsNotNull();
 
             var socketClient = await SocketClientFactory.CreateAsync(hostname, port);
             var connection = new DiceConnection(hostname, port, password, socketClient);

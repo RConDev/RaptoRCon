@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -29,14 +30,9 @@ namespace RaptoRCon.Games.Dice
         /// <exception cref="ArgumentNullException">If the <paramref name="teamId"/> provided is NULL.</exception>
         public TeamId(string teamId)
         {
-            #region Contracts
+            Guard.That(() => teamId).IsNotNull();
 
-            if (teamId == null)
-            {
-                throw new ArgumentNullException("teamId");
-            }
-
-            var intValue = 0;
+            int intValue;
             if (!Int32.TryParse(teamId, out intValue))
             {
                 throw new ArgumentOutOfRangeException("teamId");
@@ -47,9 +43,7 @@ namespace RaptoRCon.Games.Dice
                 throw new ArgumentOutOfRangeException("teamId");
             }
 
-            #endregion
-
-            this.Value = intValue;
+            Value = intValue;
         }
 
         /// <summary>

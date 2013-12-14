@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using RaptoRCon.Games.Dice.Properties;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice.Factories
 {
@@ -22,21 +23,9 @@ namespace RaptoRCon.Games.Dice.Factories
         /// <exception cref="ArgumentOutOfRangeException">When the <param name="bytes" />-Collection is not at the length of 4.</exception>
         public IDicePacketSequence FromBytes(IEnumerable<byte> bytes)
         {
-            #region Contracts
+            Guard.That(() => bytes).IsNotNull().Length(4);
 
-            if (bytes == null)
-            {
-                throw new ArgumentNullException("bytes");
-            }
-
-            var bytesArray = bytes.ToArray();
-            if (bytesArray.Length != 4)
-            {
-                throw new ArgumentOutOfRangeException("bytes", bytesArray.Length, Resources.EXC_MSG_UINT_BYTES_LENGTH);
-            }
-
-            #endregion
-
+            byte[] bytesArray = bytes.ToArray();
             var id = GetIdFromBytes(bytesArray);
             var type = GetTypeFromBytes(bytesArray);
             var origin = GetOriginFromBytes(bytesArray);

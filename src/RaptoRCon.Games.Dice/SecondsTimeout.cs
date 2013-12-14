@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -22,16 +23,9 @@ namespace RaptoRCon.Games.Dice
         public SecondsTimeout(string seconds)
             : base(TimeoutType.Seconds)
         {
-            #region Contracts
-
-            if (seconds == null)
-            {
-                throw new ArgumentNullException("seconds");
-            }
-
-            #endregion
-
-            this.Seconds = Convert.ToUInt32(seconds);
+            Guard.That(() => seconds).IsNotNull();
+            
+            Seconds = Convert.ToUInt32(seconds);
         }
 
         public override IEnumerable<IDiceWord> ToWords()
@@ -41,7 +35,7 @@ namespace RaptoRCon.Games.Dice
 
         private IEnumerable<IDiceWord> SecondsToWords()
         {
-            yield return new DiceWord(Convert.ToString(this.Seconds));
+            yield return new DiceWord(Convert.ToString(Seconds));
         }
     }
 }

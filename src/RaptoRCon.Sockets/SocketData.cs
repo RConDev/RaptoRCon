@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Sockets
 {
@@ -19,12 +20,7 @@ namespace RaptoRCon.Sockets
         /// <param name="data"></param>
         public SocketData(IEnumerable<byte> data)
         {
-            #region Contracts
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-            #endregion
+            Guard.That(() => data).IsNotNull();
 
             Data = data;
         }

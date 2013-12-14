@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Seterlund.CodeGuard;
 
 namespace RaptoRCon.Games.Dice
 {
@@ -29,29 +28,18 @@ namespace RaptoRCon.Games.Dice
         public SquadPlayerSubset(TeamId teamId, SquadId squadId)
             : base(PlayerSubsetType.Squad)
         {
-            #region Contracts
+            Guard.That(() => teamId).IsNotNull();
+            Guard.That(() => squadId).IsNotNull();
 
-            if (teamId == null)
-            {
-                throw new ArgumentNullException("teamId");
-            }
-
-            if (squadId == null)
-            {
-                throw new ArgumentNullException("squadId");
-            }
-
-            #endregion
-
-            this.TeamId = teamId;
-            this.SquadId = squadId;
+            TeamId = teamId;
+            SquadId = squadId;
         }
 
         public override IEnumerable<IDiceWord> ToWords()
         {
             return base.ToWords()
-                .Concat(this.TeamId.ToWords())
-                .Concat(this.SquadId.ToWords());
+                .Concat(TeamId.ToWords())
+                .Concat(SquadId.ToWords());
         }
     }
 }
