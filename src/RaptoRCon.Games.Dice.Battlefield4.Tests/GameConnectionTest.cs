@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using RaptoRCon.Shared.Models;
 using Xunit;
-using RaptoRCon.Tests;
 
 namespace RaptoRCon.Games.Dice.Battlefield4.Tests
 {

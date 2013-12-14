@@ -36,9 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AssertEx.1.0.0\lib\net45\AssertExLib.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.1.1311.615, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+    <Reference Include="Moq, Version=4.2.1312.1323, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Moq.4.1.1311.0615\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.2.1312.1323\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,7 +56,6 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="MoqExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

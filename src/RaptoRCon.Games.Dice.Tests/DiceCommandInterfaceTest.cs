@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AssertExLib;
 using Moq;
 using RaptoRCon.Games.Dice.Commands;
-using RaptoRCon.Tests;
 using Xunit;
 
 namespace RaptoRCon.Games.Dice.Tests
