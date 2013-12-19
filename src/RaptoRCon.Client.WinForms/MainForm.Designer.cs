@@ -33,8 +33,8 @@
             System.Windows.Forms.Label portLabel;
             System.Windows.Forms.Label commandLabel;
             System.Windows.Forms.Label gamesLabel;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.Label passwordLabel;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsContainer = new System.Windows.Forms.SplitContainer();
             this.connectionsDataGridView = new System.Windows.Forms.DataGridView();
@@ -46,6 +46,7 @@
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.gamesComboBox = new System.Windows.Forms.ComboBox();
             this.gamesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.removeButton = new System.Windows.Forms.Button();
@@ -54,11 +55,10 @@
             this.hostNameTextBox = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
             this.commandTextBox = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.contentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.consoleGridView = new System.Windows.Forms.DataGridView();
             this.packetsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.contentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             hostNameLabel = new System.Windows.Forms.Label();
             portLabel = new System.Windows.Forms.Label();
             commandLabel = new System.Windows.Forms.Label();
@@ -77,7 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.consoleGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.packetsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,6 +118,15 @@
             gamesLabel.TabIndex = 7;
             gamesLabel.Text = "Game:";
             // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            passwordLabel.Location = new System.Drawing.Point(12, 111);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new System.Drawing.Size(56, 13);
+            passwordLabel.TabIndex = 8;
+            passwordLabel.Text = "Password:";
+            // 
             // mainContainer
             // 
             this.mainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -134,7 +143,7 @@
             this.mainContainer.Panel2.Controls.Add(this.sendButton);
             this.mainContainer.Panel2.Controls.Add(commandLabel);
             this.mainContainer.Panel2.Controls.Add(this.commandTextBox);
-            this.mainContainer.Panel2.Controls.Add(this.dataGridView1);
+            this.mainContainer.Panel2.Controls.Add(this.consoleGridView);
             this.mainContainer.Size = new System.Drawing.Size(938, 522);
             this.mainContainer.SplitterDistance = 312;
             this.mainContainer.TabIndex = 0;
@@ -240,6 +249,15 @@
             // 
             this.mainFormViewModelBindingSource.DataSource = typeof(RaptoRCon.Client.WinForms.MainFormViewModel);
             // 
+            // passwordTextBox
+            // 
+            this.passwordTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Password", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.passwordTextBox.Location = new System.Drawing.Point(81, 108);
+            this.passwordTextBox.Name = "passwordTextBox";
+            this.passwordTextBox.Size = new System.Drawing.Size(226, 20);
+            this.passwordTextBox.TabIndex = 9;
+            this.passwordTextBox.UseSystemPasswordChar = true;
+            // 
             // gamesComboBox
             // 
             this.gamesComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.mainFormViewModelBindingSource, "CurrentGameId", true));
@@ -314,31 +332,24 @@
             this.commandTextBox.Size = new System.Drawing.Size(394, 20);
             this.commandTextBox.TabIndex = 2;
             // 
-            // dataGridView1
+            // consoleGridView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.consoleGridView.AllowUserToAddRows = false;
+            this.consoleGridView.AllowUserToDeleteRows = false;
+            this.consoleGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.consoleGridView.AutoGenerateColumns = false;
+            this.consoleGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.consoleGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.consoleGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.consoleGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.contentDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.packetsBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(616, 457);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // contentDataGridViewTextBoxColumn
-            // 
-            this.contentDataGridViewTextBoxColumn.DataPropertyName = "Content";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.contentDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.contentDataGridViewTextBoxColumn.HeaderText = "Content";
-            this.contentDataGridViewTextBoxColumn.Name = "contentDataGridViewTextBoxColumn";
-            this.contentDataGridViewTextBoxColumn.Width = 500;
+            this.consoleGridView.DataSource = this.packetsBindingSource;
+            this.consoleGridView.Location = new System.Drawing.Point(3, 3);
+            this.consoleGridView.Name = "consoleGridView";
+            this.consoleGridView.Size = new System.Drawing.Size(616, 457);
+            this.consoleGridView.TabIndex = 0;
             // 
             // packetsBindingSource
             // 
@@ -352,23 +363,14 @@
             this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
             this.dataGridViewButtonColumn1.ReadOnly = true;
             // 
-            // passwordLabel
+            // contentDataGridViewTextBoxColumn
             // 
-            passwordLabel.AutoSize = true;
-            passwordLabel.Location = new System.Drawing.Point(12, 111);
-            passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new System.Drawing.Size(56, 13);
-            passwordLabel.TabIndex = 8;
-            passwordLabel.Text = "Password:";
-            // 
-            // passwordTextBox
-            // 
-            this.passwordTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.mainFormViewModelBindingSource, "Password", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.passwordTextBox.Location = new System.Drawing.Point(81, 108);
-            this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(226, 20);
-            this.passwordTextBox.TabIndex = 9;
-            this.passwordTextBox.UseSystemPasswordChar = true;
+            this.contentDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.contentDataGridViewTextBoxColumn.DataPropertyName = "Content";
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.contentDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.contentDataGridViewTextBoxColumn.HeaderText = "Content";
+            this.contentDataGridViewTextBoxColumn.Name = "contentDataGridViewTextBoxColumn";
             // 
             // MainForm
             // 
@@ -393,7 +395,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.connectionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormViewModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gamesBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.consoleGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.packetsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -409,7 +411,7 @@
         private System.Windows.Forms.TextBox portTextBox;
         private System.Windows.Forms.TextBox hostNameTextBox;
         private System.Windows.Forms.Button addConnectionButton;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView consoleGridView;
         private System.Windows.Forms.BindingSource packetsBindingSource;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.TextBox commandTextBox;
@@ -423,8 +425,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn portDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn State;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
         private System.Windows.Forms.TextBox passwordTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
 
     }
 }
